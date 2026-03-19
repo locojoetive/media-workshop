@@ -12,6 +12,8 @@ public enum PlayerActionType
     Interact
 }
 
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(MovementInfluenceController))]
 public class PlayerController : MonoBehaviour
 {
     PlayerInputController playerInput => GameManager.Instance.PlayerInputController;
@@ -30,8 +32,6 @@ public class PlayerController : MonoBehaviour
 
     [Header("Ground Check Settings")]
     public LayerMask groundLayer;
-    public LayerMask wallLayer;
-    public LayerMask hazardLayer;
 
     public Transform groundCheck;
     public Transform wallCheck;
@@ -40,16 +40,13 @@ public class PlayerController : MonoBehaviour
     [Header("Self-Retrieved References")]
     public Rigidbody2D _rigidbody;
     public RendererController _renderer;
-    public Vector2 _velocity;
+    public MovementInfluenceController movementInfluenceController;
 
     [Header("Debugging")]
-    public bool _isGrounded;
-    public bool _isJumping;
-    public bool _jumpSpeedLow;
-    public bool _isOnWall;
-    public float _bounceForce;
-    public bool isBouncing;
-    public bool isStunned;
+    public bool isGrounded;
+    public bool isJumping;
+    public bool jumpSpeedLow;
+    public bool isOnWall;
     public bool isInvincible;
     public bool isDead;
     private bool wasInputJumpPressedInLastFrame = false;
@@ -59,12 +56,14 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
+        movementInfluenceController = GetComponent<MovementInfluenceController>();
+
         _renderer = GetComponentInChildren<RendererController>();
     }
 
     private void Update()
     {
-        if (isDead || isStunned)
+        if (isDead || movementInfluenceController.isStunned)
         {
             return;
         }
@@ -81,16 +80,19 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        _isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, groundLayer) != null;
-        _isOnWall = Physics2D.OverlapCircle(wallCheck.position, checkRadius, wallLayer) != null;
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, groundLayer) != null;
+        isOnWall = Physics2D.OverlapCircle(wallCheck.position, checkRadius, groundLayer) != null;
     }
 
     private void HandleMovement()
     {
         var currentMoveSpeed = playerInput.leftStickDirection.x * moveSpeed;
-        var currentSprintSpeed = playerInput.rightTriggerValue * (sprintSpeed - moveSpeed);
+        var currentSprintSpeed = playerInput.leftStickDirection.x * playerInput.rightTriggerValue * (sprintSpeed - moveSpeed);
         var totalMoveSpeed = currentMoveSpeed + Mathf.Sign(currentMoveSpeed) * currentSprintSpeed;
-        _rigidbody.linearVelocity = new Vector2(totalMoveSpeed, _rigidbody.linearVelocity.y);
+        var movementInfluence = movementInfluenceController.movementInfluence;
+        var horizontalVelocity = totalMoveSpeed * movementInfluence + _rigidbody.linearVelocity.x * (1f - movementInfluence);
+
+        _rigidbody.linearVelocity = new Vector2(horizontalVelocity, _rigidbody.linearVelocity.y);
         if (currentMoveSpeed > 0)
         {
             _renderer.FlipX(false);
@@ -104,31 +106,27 @@ public class PlayerController : MonoBehaviour
     private void HandleJump()
     {
         var inputJump = playerInput.buttonSouthPressed;
-        _jumpSpeedLow = Mathf.Abs(_rigidbody.linearVelocity.y) <= 0.5f;
-        if (_isJumping && _jumpSpeedLow)
+        jumpSpeedLow = Mathf.Abs(_rigidbody.linearVelocity.y) <= 0.5f;
+        if (isJumping && jumpSpeedLow)
         {
-            _isJumping = false;
+            isJumping = false;
         }
-        else if (!_isJumping && _isGrounded && inputJump && !wasInputJumpPressedInLastFrame)
+        else if (!isJumping && isGrounded && inputJump && !wasInputJumpPressedInLastFrame)
         {
             var force = jumpForce;
-            if (isBouncing)
-            {
-                force += _bounceForce;
-            }
             _rigidbody.AddForce(Vector2.up * force, ForceMode2D.Impulse);
-            _isJumping = true;
+            isJumping = true;
         }    
         wasInputJumpPressedInLastFrame = inputJump;
     }
 
-    private IEnumerator StunCoroutine()
+    private IEnumerator StunAndInvincibleCoroutine()
     {
-        isStunned = true;
+        movementInfluenceController.Stun();
         isInvincible = true;
 
-        yield return new WaitForSeconds(stunDuration);
-        isStunned = false;
+        yield return new WaitForSeconds(movementInfluenceController.stunDuration);
+        movementInfluenceController.Unstun();
 
         yield return new WaitForSeconds(invincibilityDuration - stunDuration);
         isInvincible = false;
@@ -142,7 +140,7 @@ public class PlayerController : MonoBehaviour
         }
         hitPoints--;
         onTakeDamage?.Invoke(hitPoints);
-        StartCoroutine(StunCoroutine());
+        StartCoroutine(StunAndInvincibleCoroutine());
 
         // Animate
         _renderer.FlashRed(invincibilityDuration);
@@ -164,12 +162,12 @@ public class PlayerController : MonoBehaviour
     {
         if (groundCheck != null)
         {
-            Gizmos.color = _isGrounded ? Color.green : Color.red;
+            Gizmos.color = isGrounded ? Color.green : Color.red;
             Gizmos.DrawWireSphere(groundCheck.position, checkRadius);
         }
         if (wallCheck != null)
         {
-            Gizmos.color = _isOnWall ? Color.green : Color.red;
+            Gizmos.color = isOnWall ? Color.green : Color.red;
             Gizmos.DrawWireSphere(wallCheck.position, checkRadius);
         }
     }
@@ -177,17 +175,5 @@ public class PlayerController : MonoBehaviour
     private bool PlayerCan(PlayerActionType actionType)
     {
         return playerActions.Contains(actionType);
-    }
-
-
-    internal void GiveBounce(float bounceForce)
-    {
-        _bounceForce = bounceForce;
-        isBouncing = true;
-    }
-
-    internal void RetrieveBounce()
-    {
-        isBouncing = false;
     }
 }

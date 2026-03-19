@@ -73,7 +73,6 @@ public class LoadSceneManager : MonoBehaviour
 
     private IEnumerator FadeInCoroutine(float duration)
     {
-        Debug.Log("Starting fade in...");
         float elapsedTime = 0f;
         Color originalColor = backdrop.color;
 

@@ -1,133 +1,93 @@
-using System;
 using System.Collections;
+using Mono.Cecil.Cil;
 using UnityEngine;
 
 public class TrampolineController : MonoBehaviour
 {   
     [Header("Bounce Settings")]
-    public float bounceForce = 10f;
-    public float pressDuration = 0.5f;
+    public float upBounceForce = 10f;
+    public float horizontalBounceForce = 5f;
     public float releaseDuration = 0.1f;
-    public Vector2 maxScaleFactor = new Vector2(1.2f, 1.2f);
-    public Vector2 minScaleFactor = new Vector2(0.8f, 0.5f);
+    public float maxScale = 1.2f;
+    public float fadeMovementDuration = 1f;
 
     [Header("Debugging")]
     public Vector2 originalScale;
-    public Vector2 originalPosition;
-    public bool isBouncing;
+    private Coroutine bounceCoroutine;
     public bool isResetting;
-    public Coroutine bounceCoroutine;
 
     private void Start()
     {
         originalScale = transform.localScale;
     }
 
-    private void OnTriggerEnter2D(Collider2D collider)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        var playerController = collider.gameObject.GetComponent<PlayerController>();
-        if (playerController != null && !isBouncing && !isResetting)
+        if (!collision.gameObject.TryGetComponent<Rigidbody2D>(out var rigidbody))
         {
-            isBouncing = true;
-            bounceCoroutine = StartCoroutine(Bounce(playerController));
+            return;
         }
-    }
 
-    private void OnTriggerExit2D(Collider2D collider)
-    {
-        var playerController = collider.gameObject.GetComponent<PlayerController>();
-        if (playerController != null && isBouncing)
+        // Apply bounce force
+        var normal = -collision.GetContact(0).normal;
+        var bounceDirection = new Vector2(
+            normal.x,
+            normal.y < 0 ? 0f : normal.y
+        ).normalized;
+        rigidbody.linearVelocity = 1f / (rigidbody.mass * rigidbody.mass) * new Vector2(
+            bounceDirection.x * horizontalBounceForce,
+            bounceDirection.y * upBounceForce
+        );
+        rigidbody.linearVelocity = Vector2.ClampMagnitude(rigidbody.linearVelocity, upBounceForce);
+
+        // Fade movement based on horizontal bounce force
+        var horizontalImpact = AnimationHelper.EaseInQubic(Mathf.Abs(bounceDirection.x));
+        Debug.DrawRay(
+            collision.GetContact(0).point,
+            bounceDirection,
+            Color.red, 1f
+        );
+        if (collision.gameObject.TryGetComponent<MovementInfluenceController>(out var movementInfluenceController))
         {
-            isResetting = true;
-            isBouncing = false;
+            movementInfluenceController.FadeMovementForBounceDuration(fadeMovementDuration, horizontalImpact);
+        }
+        
+        // Animate
+        if (bounceCoroutine != null)
+        {
             StopCoroutine(bounceCoroutine);
-            StartCoroutine(ResetTrampoline(playerController));
+            transform.localScale = originalScale;
         }
+        bounceCoroutine = StartCoroutine(Bounce());
     }
 
-    private IEnumerator ResetTrampoline(PlayerController playerController)
+    private IEnumerator Bounce()
     {
-        var maxScaleX = maxScaleFactor.x * originalScale.x;
-        var maxScaleY = maxScaleFactor.y * originalScale.y;
-        var minScaleX = minScaleFactor.x * originalScale.x;
-        var minScaleY = minScaleFactor.y * originalScale.y;
-
-        float requiredReleaseDuration = releaseDuration * (1f - (transform.localScale.y - minScaleY) / (maxScaleY - minScaleY));
+        var requiredReleaseDuration = releaseDuration * (1f - (transform.localScale.y - 1f) / (maxScale - 1f));
         var halfReleaseDuration = requiredReleaseDuration / 2f;
         var elapsedTime = 0f;
         
-        // Expand up phase
+        // Expand phase
         while (elapsedTime < halfReleaseDuration)
         {
             float factor = elapsedTime / halfReleaseDuration;
-
-            float scaleY = Mathf.Lerp(minScaleY, maxScaleY, factor);
-            float scaleX = Mathf.Lerp(originalScale.x, minScaleX, factor);
-            transform.localScale = new Vector3(scaleX, scaleY, 1f);
-
-            float positionOffsetY = (originalScale.y - scaleY) / 2f;
-            originalPosition.x = transform.position.x;
-            transform.position = originalPosition - new Vector2(0f, positionOffsetY);
-
+            float scale = Mathf.Lerp(1f, maxScale, factor);
+            transform.localScale = new Vector3(scale, scale, 1f);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-        // Return to normal phase
+        
+        // Return phase
         elapsedTime = 0f;
         while (elapsedTime < halfReleaseDuration)
         {
             float factor = elapsedTime / halfReleaseDuration;
-
-            float scaleY = Mathf.Lerp(originalScale.y * maxScaleY, originalScale.y, factor);
-            float scaleX = Mathf.Lerp(minScaleX, originalScale.x, factor);
-            transform.localScale = new Vector3(scaleX, scaleY, 1f);
-
-            float positionOffsetY = (originalScale.y - scaleY) / 2f;
-            originalPosition.x = transform.position.x;
-            transform.position = originalPosition - new Vector2(0f, positionOffsetY);
-            
+            float scale = Mathf.Lerp(originalScale.y * maxScale, originalScale.y, factor);
+            transform.localScale = new Vector3(scale, scale, 1f);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
         
         transform.localScale = new Vector3(originalScale.x, originalScale.y, 1f);
-        transform.position = originalPosition;
-        
-        playerController.RetrieveBounce();
-        isBouncing = false;
-        isResetting = false;
-    }
-
-    private IEnumerator Bounce(PlayerController playerController)
-    {
-        var maxScaleX = maxScaleFactor.x * originalScale.x;
-        var minScaleY = minScaleFactor.y * originalScale.y;
-        originalPosition = transform.position;
-
-        float elapsedTime = 0f;
-        // Compress phase
-        while (elapsedTime < pressDuration)
-        {
-            float factor = elapsedTime / pressDuration;
-
-            float scaleY = Mathf.Lerp(originalScale.y, minScaleY, factor);
-            float scaleX = Mathf.Lerp(originalScale.x, maxScaleX, factor);
-            transform.localScale = new Vector3(scaleX, scaleY, 1f);
-
-            float positionOffsetY = (originalScale.y - scaleY) / 2f;
-            originalPosition.x = transform.position.x;
-            transform.position = originalPosition - new Vector2(0f, positionOffsetY);
-
-            float bounce = bounceForce * EaseInQubic(factor);
-            playerController.GiveBounce(bounce);
-
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-    }
-
-    private static float EaseInQubic(float t)
-    {
-        return t * t * t;
     }
 }

@@ -1,11 +1,15 @@
+using System;
+using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(MovementInfluenceController))]
 public class BoxoController : MonoBehaviour
 {
     [Header("References")]
     public Transform groundCheck;
     public Transform groundCheckAhead;
     public Transform wallCheckAhead;
+    public MovementInfluenceController movementInfluenceController;
 
     [Header("Settings")]
     public float speed = 5f;
@@ -22,6 +26,7 @@ public class BoxoController : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        movementInfluenceController = GetComponent<MovementInfluenceController>();
         _renderer = GetComponentInChildren<RendererController>();
     }
 
@@ -34,11 +39,10 @@ public class BoxoController : MonoBehaviour
 
     private void Update()
     {
-        if (isGrounded)
-        {
-            var moveSpeed = speed * Mathf.Sign(_renderer.transform.localScale.x);
-            rb.linearVelocity = new Vector2(moveSpeed, rb.linearVelocity.y);
-        }
+        var moveSpeed = speed * Mathf.Sign(_renderer.transform.localScale.x);
+        var movementInfluence = movementInfluenceController.movementInfluence;
+        var horizontalVelocity = moveSpeed * movementInfluence + rb.linearVelocity.x * (1f - movementInfluence);
+        rb.linearVelocity = new Vector2(horizontalVelocity, rb.linearVelocity.y);
 
         if (isGrounded && (!isGroundAhead || isWallAhead))
         {
