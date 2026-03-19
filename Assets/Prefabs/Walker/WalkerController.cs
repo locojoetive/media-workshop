@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(MovementInfluenceController))]
@@ -23,13 +24,11 @@ public class WalkerController : MonoBehaviour
     public bool isGroundAhead;
     public bool isStaying;
     public Rigidbody2D rb;
-    public RendererController _renderer;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         movementInfluenceController = GetComponent<MovementInfluenceController>();
-        _renderer = GetComponentInChildren<RendererController>();
     }
 
     private void FixedUpdate()
@@ -42,7 +41,7 @@ public class WalkerController : MonoBehaviour
         {
             return;
         }
-        var moveSpeed = speed * Mathf.Sign(_renderer.transform.localScale.x);
+        var moveSpeed = speed * Mathf.Sign(transform.localScale.x);
         var movementInfluence = movementInfluenceController.movementInfluence;
         var horizontalVelocity = moveSpeed * movementInfluence + rb.linearVelocity.x * (1f - movementInfluence);
         rb.linearVelocity = new Vector2(horizontalVelocity, rb.linearVelocity.y);
@@ -64,7 +63,7 @@ public class WalkerController : MonoBehaviour
             }
             else
             {
-                _renderer.FlipX();
+                FlipX();
                 isStaying = false;
             }
         }
@@ -72,6 +71,15 @@ public class WalkerController : MonoBehaviour
         {
             isStaying = false;
         }
+    }
+
+    private void FlipX()
+    {
+        transform.localScale = new Vector3(
+            -transform.localScale.x,
+            transform.localScale.y,
+            transform.localScale.z
+        );
     }
 
     private void OnDrawGizmosSelected()

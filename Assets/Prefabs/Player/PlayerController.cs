@@ -87,12 +87,6 @@ public class PlayerController : MonoBehaviour
     private void HandleMovement()
     {
         var currentMoveSpeed = playerInput.leftStickDirection.x * moveSpeed;
-        var currentSprintSpeed = playerInput.leftStickDirection.x * playerInput.rightTriggerValue * (sprintSpeed - moveSpeed);
-        var totalMoveSpeed = currentMoveSpeed + Mathf.Sign(currentMoveSpeed) * currentSprintSpeed;
-        var movementInfluence = movementInfluenceController.movementInfluence;
-        var horizontalVelocity = totalMoveSpeed * movementInfluence + _rigidbody.linearVelocity.x * (1f - movementInfluence);
-
-        _rigidbody.linearVelocity = new Vector2(horizontalVelocity, _rigidbody.linearVelocity.y);
         if (currentMoveSpeed > 0)
         {
             _renderer.FlipX(false);
@@ -101,6 +95,18 @@ public class PlayerController : MonoBehaviour
         {
             _renderer.FlipX(true);
         }
+        
+        if (isOnWall)
+        {
+            return;
+        }
+        
+        var currentSprintSpeed = playerInput.leftStickDirection.x * playerInput.rightTriggerValue * (sprintSpeed - moveSpeed);
+        var totalMoveSpeed = currentMoveSpeed + Mathf.Sign(currentMoveSpeed) * currentSprintSpeed;
+        var movementInfluence = movementInfluenceController.movementInfluence;
+        var horizontalVelocity = totalMoveSpeed * movementInfluence + _rigidbody.linearVelocity.x * (1f - movementInfluence);
+
+        _rigidbody.linearVelocity = new Vector2(horizontalVelocity, _rigidbody.linearVelocity.y);
     }
     
     private void HandleJump()
