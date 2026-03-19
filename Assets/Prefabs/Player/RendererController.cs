@@ -5,6 +5,7 @@ using UnityEngine;
 public class RendererController : MonoBehaviour
 {
     private SpriteRenderer spriteRenderer;
+
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -34,5 +35,10 @@ public class RendererController : MonoBehaviour
     internal void FlipX(bool flip)
     {
         transform.localScale = new Vector3(flip ? -1 : 1, 1, 1);
+    }
+
+    internal void FlipX()
+    {
+        transform.localScale = new Vector3(transform.localScale.x * -1, 1, 1);
     }
 }
