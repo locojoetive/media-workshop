@@ -16,7 +16,7 @@ public class LoadSceneManager : MonoBehaviour
 
     private void Update()
     {
-        if (playerInput.selectPressed && !isLoadingScene)
+        if (playerInput.selectPressed)
         {
             ReloadCurrentScene();
         }
@@ -40,6 +40,10 @@ public class LoadSceneManager : MonoBehaviour
 
     public void LoadScene(int sceneIndex)
     {
+        if (isLoadingScene)
+        {
+            return;
+        }
         isLoadingScene = true;
         StartCoroutine(FadeOutAndLoadSceneCoroutine(1f, sceneIndex));
     }

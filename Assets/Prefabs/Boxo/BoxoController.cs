@@ -25,12 +25,15 @@ public class BoxoController : MonoBehaviour
         _renderer = GetComponentInChildren<RendererController>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundDistance, groundMask);
         isGroundAhead = Physics2D.OverlapCircle(groundCheckAhead.position, groundDistance, groundMask);
         isWallAhead = Physics2D.OverlapCircle(wallCheckAhead.position, groundDistance, groundMask);
+    }
 
+    private void Update()
+    {
         if (isGrounded)
         {
             var moveSpeed = speed * Mathf.Sign(_renderer.transform.localScale.x);
@@ -51,5 +54,14 @@ public class BoxoController : MonoBehaviour
         Gizmos.DrawWireSphere(groundCheckAhead.position, groundDistance);
         Gizmos.color = isWallAhead ? Color.green : Color.red;
         Gizmos.DrawWireSphere(wallCheckAhead.position, groundDistance);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        var playerController = collision.gameObject.GetComponent<PlayerController>();
+        if (playerController != null)
+        {
+            playerController.TakeDamage(collision.GetContact(0).normal);
+        }
     }
 }

@@ -52,7 +52,7 @@ public class PlayerController : MonoBehaviour
     public bool isStunned;
     public bool isInvincible;
     public bool isDead;
-
+    private bool wasInputJumpPressedInLastFrame = false;
     public Action<int> onTakeDamage;
 
 
@@ -68,6 +68,7 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
+
         if (PlayerCan(PlayerActionType.Move))
         {
             HandleMovement();
@@ -80,13 +81,8 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        _isGrounded = IsGrounded();
-        _isOnWall = IsOnWall();
-    }
-
-    private bool PlayerCan(PlayerActionType actionType)
-    {
-        return playerActions.Contains(actionType);
+        _isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, groundLayer) != null;
+        _isOnWall = Physics2D.OverlapCircle(wallCheck.position, checkRadius, wallLayer) != null;
     }
 
     private void HandleMovement()
@@ -105,7 +101,6 @@ public class PlayerController : MonoBehaviour
         }
     }
     
-    private bool wasInputJumpPressedInLastFrame = false;
     private void HandleJump()
     {
         var inputJump = playerInput.buttonSouthPressed;
@@ -127,51 +122,11 @@ public class PlayerController : MonoBehaviour
         wasInputJumpPressedInLastFrame = inputJump;
     }
 
-    private bool IsGrounded()
-    {
-        return Physics2D.OverlapCircle(groundCheck.position, checkRadius, groundLayer) != null;
-    }
-
-    private bool IsOnWall()
-    {
-        return Physics2D.OverlapCircle(wallCheck.position, checkRadius, wallLayer) != null;
-    }
-
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        if (isInvincible)
-        {
-            return;
-        }
-
-        var isHazardous = (hazardLayer & (1 << collision.gameObject.layer)) != 0;
-        if (isHazardous)
-        {
-            TakeDamage();
-            var collisionNormal = collision.GetContact(0).normal;
-            Knockback(collisionNormal);
-            _renderer.FlashRed(invincibilityDuration);
-            if (hitPoints <= 0)
-            {
-                isDead = true;
-                GameManager.Instance.LoadSceneManager.ReloadCurrentScene();
-            }
-        }
-    }
-
-    private void Knockback(Vector2 collisionNormal)
+    private IEnumerator StunCoroutine()
     {
         isStunned = true;
         isInvincible = true;
-        StartCoroutine(StunCoroutine());
-        var horizontalDirection = Vector2.right * 0.2f *(_renderer.transform.localScale.x > 0 ? -1 : 1);
-        var verticalDirection = Vector2.up * collisionNormal.y;
-        var knockbackDirection = (horizontalDirection + verticalDirection).normalized;
-        _rigidbody.linearVelocity = knockbackDirection * knockbackForce;
-    }
 
-    private IEnumerator StunCoroutine()
-    {
         yield return new WaitForSeconds(stunDuration);
         isStunned = false;
 
@@ -179,10 +134,30 @@ public class PlayerController : MonoBehaviour
         isInvincible = false;
     }
 
-    private void TakeDamage()
+    public void TakeDamage(Vector2 collisionNormal)
     {
+        if (isInvincible || isDead)
+        {
+            return;
+        }
         hitPoints--;
         onTakeDamage?.Invoke(hitPoints);
+        StartCoroutine(StunCoroutine());
+
+        // Animate
+        _renderer.FlashRed(invincibilityDuration);
+
+        // Knockback
+        Debug.Log($"Applying knockback with normal {collisionNormal.normalized}");
+        var knockbackDirection = -collisionNormal.normalized - _renderer.facingDirection * Vector2.right;
+        _rigidbody.linearVelocity = knockbackDirection.normalized * knockbackForce;
+
+        // Kill
+        if (hitPoints <= 0)
+        {
+            isDead = true;
+            GameManager.Instance.LoadSceneManager.ReloadCurrentScene();
+        }
     }
 
     private void OnDrawGizmosSelected()
@@ -198,6 +173,12 @@ public class PlayerController : MonoBehaviour
             Gizmos.DrawWireSphere(wallCheck.position, checkRadius);
         }
     }
+
+    private bool PlayerCan(PlayerActionType actionType)
+    {
+        return playerActions.Contains(actionType);
+    }
+
 
     internal void GiveBounce(float bounceForce)
     {

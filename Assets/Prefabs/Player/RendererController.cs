@@ -5,6 +5,7 @@ using UnityEngine;
 public class RendererController : MonoBehaviour
 {
     private SpriteRenderer spriteRenderer;
+    public float facingDirection => transform.localScale.x;
 
     private void Awake()
     {
