@@ -23,8 +23,9 @@ public class TrampolineController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!collision.gameObject.TryGetComponent<Rigidbody2D>(out var rigidbody))
-        {
+        if (!collision.gameObject.TryGetComponent<Rigidbody2D>(out var rigidbody)
+            || rigidbody.bodyType != RigidbodyType2D.Dynamic
+        ) {
             return;
         }
 
