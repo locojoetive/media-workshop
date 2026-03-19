@@ -1,9 +1,7 @@
-using System;
-using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(MovementInfluenceController))]
-public class BoxoController : MonoBehaviour
+public class WalkerController : MonoBehaviour
 {
     [Header("References")]
     public Transform groundCheck;
@@ -13,6 +11,9 @@ public class BoxoController : MonoBehaviour
 
     [Header("Settings")]
     public float speed = 5f;
+    public float stayDuration = 0.5f;
+    public float stayTime = 0f;
+    
     public float groundDistance = 0.2f;
     public LayerMask groundMask;
 
@@ -20,6 +21,7 @@ public class BoxoController : MonoBehaviour
     public bool isGrounded;
     public bool isWallAhead;
     public bool isGroundAhead;
+    public bool isStaying;
     public Rigidbody2D rb;
     public RendererController _renderer;
 
@@ -35,18 +37,40 @@ public class BoxoController : MonoBehaviour
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundDistance, groundMask);
         isGroundAhead = Physics2D.OverlapCircle(groundCheckAhead.position, groundDistance, groundMask);
         isWallAhead = Physics2D.OverlapCircle(wallCheckAhead.position, groundDistance, groundMask);
-    }
 
-    private void Update()
-    {
+        if (isStaying || (!isGrounded && isWallAhead))
+        {
+            return;
+        }
         var moveSpeed = speed * Mathf.Sign(_renderer.transform.localScale.x);
         var movementInfluence = movementInfluenceController.movementInfluence;
         var horizontalVelocity = moveSpeed * movementInfluence + rb.linearVelocity.x * (1f - movementInfluence);
         rb.linearVelocity = new Vector2(horizontalVelocity, rb.linearVelocity.y);
+    }
 
+    private void Update()
+    {   
         if (isGrounded && (!isGroundAhead || isWallAhead))
         {
-            _renderer.FlipX();
+            if (!isStaying)
+            {
+                rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
+                isStaying = true;
+                stayTime = 0f;
+            }
+            else if (isStaying && stayTime < stayDuration)
+            {
+                stayTime += Time.deltaTime;
+            }
+            else
+            {
+                _renderer.FlipX();
+                isStaying = false;
+            }
+        }
+        else
+        {
+            isStaying = false;
         }
     }
 

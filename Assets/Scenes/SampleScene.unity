@@ -2741,19 +2741,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5599710551475151741, guid: 66a8fbefd83395a4c9dcbbd076dc39f1, type: 3}
       propertyPath: m_Name
-      value: Boxo
-      objectReference: {fileID: 0}
-    - target: {fileID: 5599710551475151741, guid: 66a8fbefd83395a4c9dcbbd076dc39f1, type: 3}
-      propertyPath: m_IsActive
-      value: 1
+      value: Walker
       objectReference: {fileID: 0}
     - target: {fileID: 7435879941752486191, guid: 66a8fbefd83395a4c9dcbbd076dc39f1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3
+      value: 9.25
       objectReference: {fileID: 0}
     - target: {fileID: 7435879941752486191, guid: 66a8fbefd83395a4c9dcbbd076dc39f1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.5
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7435879941752486191, guid: 66a8fbefd83395a4c9dcbbd076dc39f1, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2843,6 +2839,10 @@ PrefabInstance:
     - target: {fileID: 7994973531800451977, guid: 5bcf7e4fb16567748b77a719641ecd92, type: 3}
       propertyPath: m_Name
       value: Razor
+      objectReference: {fileID: 0}
+    - target: {fileID: 7994973531800451977, guid: 5bcf7e4fb16567748b77a719641ecd92, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
