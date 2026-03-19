@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour
     public bool isBouncing;
     public bool isStunned;
     public bool isInvincible;
-    
+    public bool isDead;
 
     public Action<int> onTakeDamage;
 
@@ -64,7 +64,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (isStunned)
+        if (isDead || isStunned)
         {
             return;
         }
@@ -153,7 +153,8 @@ public class PlayerController : MonoBehaviour
             _renderer.FlashRed(invincibilityDuration);
             if (hitPoints <= 0)
             {
-                // Handle player death (e.g., respawn, game over screen)
+                isDead = true;
+                GameManager.Instance.LoadSceneManager.ReloadCurrentScene();
             }
         }
     }
