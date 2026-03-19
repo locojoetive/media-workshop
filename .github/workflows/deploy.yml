@@ -26,16 +26,6 @@ jobs:
     strategy:
       fail-fast: false
     steps:
-      - name: 🧹 Free up disk space (pre-clean)
-        run: |
-          echo "Before cleanup:"
-          df -h
-          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /usr/local/share/boost
-          sudo apt-get clean
-          docker system prune -af || true
-          echo "After cleanup:"
-          df -h
-
       - name: Checkout code
         uses: actions/checkout@v3
 
