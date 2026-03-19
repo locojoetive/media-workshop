@@ -59,7 +59,7 @@ jobs:
           echo "------------------------------------------------------------------------"
           echo "Package WebGL build into current-build.zip"
           echo "------------------------------------------------------------------------"
-          cd work/$PROJECT_NAME/$PROJECT_NAME/build/WebGL/WebGL
+          cd work/$PROJECT_NAME/$PROJECT_NAME/build/WebGL
           zip -r ~/current-build.zip .
 
           echo "------------------------------------------------------------------------"
