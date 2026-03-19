@@ -1,0 +1,78 @@
+name: Build, and Deploy via GameCI and Butler
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+
+jobs:
+  checkLicense:
+    name: Check for the Unity license ☑️
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fail - No license ☠️
+        if: ${{ !startsWith(env.UNITY_LICENSE, '<') }}
+        run: exit 1
+
+
+  buildWebGL:
+    name: Build for WebGL 🖥️ and Deploy to Itch.io 🚀
+    runs-on: ubuntu-latest
+    needs: [checkLicense]
+    strategy:
+      fail-fast: false
+    steps:
+      - name: 🧹 Free up disk space (pre-clean)
+        run: |
+          echo "Before cleanup:"
+          df -h
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /usr/local/share/boost
+          sudo apt-get clean
+          docker system prune -af || true
+          echo "After cleanup:"
+          df -h
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: 🏗️ Build Unity project (WebGL)
+        uses: game-ci/unity-builder@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          targetPlatform: WebGL
+          unityVersion: 6000.3.10f1
+
+      - name: 🚀 Install Butler, zip the build and push it to itch.io
+        shell: bash
+        env:
+          BUTLER_GAME_ID: ${{ secrets.BUTLER_GAME_ID }}
+          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+          PROJECT_NAME: ${{ secrets.PROJECT_NAME }}
+          BUTLER_USER_NAME: ${{ secrets.BUTLER_USER_NAME }}
+          GITHUB_REF: ${{ github.ref }}
+        run: |
+          echo "------------------------------------------------------------------------"
+          echo "Download Butler and unzip butler"
+          echo "------------------------------------------------------------------------"
+          cd ~
+          curl -L -o butler.zip https://broth.itch.zone/butler/linux-amd64/LATEST/archive/default
+          unzip butler.zip
+          chmod +x butler
+
+          echo "------------------------------------------------------------------------"
+          echo "Package WebGL build into current-build.zip"
+          echo "------------------------------------------------------------------------"
+          cd work/$PROJECT_NAME/$PROJECT_NAME/build/WebGL/WebGL
+          zip -r ~/current-build.zip .
+
+          echo "------------------------------------------------------------------------"
+          echo "Pushing current build to itch.io to project $BUTLER_USER_NAME/$TARGET"
+          echo "------------------------------------------------------------------------"
+          ~/butler push ~/current-build.zip $BUTLER_USER_NAME/$BUTLER_GAME_ID:html5
