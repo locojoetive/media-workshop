@@ -44,7 +44,6 @@ jobs:
         env:
           BUTLER_GAME_ID: ${{ secrets.BUTLER_GAME_ID }}
           BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
-          PROJECT_NAME: ${{ secrets.PROJECT_NAME }}
           BUTLER_USER_NAME: ${{ secrets.BUTLER_USER_NAME }}
           GITHUB_REF: ${{ github.ref }}
         run: |
@@ -59,10 +58,10 @@ jobs:
           echo "------------------------------------------------------------------------"
           echo "Package WebGL build into current-build.zip"
           echo "------------------------------------------------------------------------"
-          cd work/$PROJECT_NAME/$PROJECT_NAME/build/WebGL
+          cd $GITHUB_WORKSPACE/build/WebGL
           zip -r ~/current-build.zip .
 
           echo "------------------------------------------------------------------------"
-          echo "Pushing current build to itch.io to project $BUTLER_USER_NAME/$TARGET"
+          echo "Pushing current build to itch.io to project $BUTLER_USER_NAME/$BUTLER_GAME_ID"
           echo "------------------------------------------------------------------------"
           ~/butler push ~/current-build.zip $BUTLER_USER_NAME/$BUTLER_GAME_ID:html5
