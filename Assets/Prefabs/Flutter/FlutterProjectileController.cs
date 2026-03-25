@@ -1,21 +1,16 @@
 using System;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
-public class WalkerSpitterProjectileController : MonoBehaviour
+public class FlutterProjectileController : MonoBehaviour
 {
     public bool isDestroyed = false;
     private Rigidbody2D rb;
-
-    private void Awake()
+    
+    internal void Initialize(float projectileSpeed)
     {
         rb = GetComponent<Rigidbody2D>();
-    }
-
-    internal void Initialize(Vector3 projectileShootDirection)
-    {
-        Debug.DrawRay(transform.position, projectileShootDirection, Color.blue, 5f);
-        rb.linearVelocity = projectileShootDirection;
+        rb.linearVelocity = Vector3.down * projectileSpeed;
+        Debug.DrawRay(transform.position, rb.linearVelocity, Color.blue, 5f);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -29,7 +24,6 @@ public class WalkerSpitterProjectileController : MonoBehaviour
         {
             return;
         }
-        
         if (!collision.collider.TryGetComponent<PlayerController>(out var playerController))
         {
             isDestroyed = true;
@@ -40,4 +34,5 @@ public class WalkerSpitterProjectileController : MonoBehaviour
         playerController.TakeDamage(collision.GetContact(0).normal);
         Destroy(gameObject, 1f);
     }
+
 }

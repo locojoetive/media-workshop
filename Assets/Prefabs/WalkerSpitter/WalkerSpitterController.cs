@@ -1,16 +1,7 @@
-using System;
 using UnityEngine;
 
-public enum AttackStateType
-{
-    Idle,
-    CoolDown,
-    Anticipation,
-    Attack,
-    Recovery
-}
-
 [RequireComponent(typeof(MovementInfluenceController))]
+[RequireComponent(typeof(Rigidbody2D))]
 public class WalkerSpitterController : MonoBehaviour
 {
     [Header("References")]
@@ -43,6 +34,15 @@ public class WalkerSpitterController : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
+    private void Start()
+    {
+        attack.onIdle = OnIdle;
+        attack.onCoolDown = OnCoolDown;
+        attack.onAnticipation = OnAnticipation;
+        attack.onAttack = OnAttack;
+        attack.onRecovery = OnRecovery;
+    }
+
     private void FixedUpdate()
     {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundDistance, groundMask);
@@ -66,9 +66,8 @@ public class WalkerSpitterController : MonoBehaviour
 
     private void Update()
     {   
-        
         HandleAttack();
-        if (attackState != AttackStateType.Idle)
+        if (attack.state != AttackStateType.Idle)
         {
             return;
         }
@@ -100,35 +99,25 @@ public class WalkerSpitterController : MonoBehaviour
     public GameObject projectilePrefab;
     public Transform projectileSpawnPoint;
     public float projectileSpeed = 5f;
-    public AttackStateType attackState;
-    public float coolDownDuration = 1f;
-    public float coolDownTime = 0f;
-    public float anticipationDuration = 0.5f;
-    public float anticipationTime = 0f;
-    public float attackDuration = 1f;
-    public float attackTime = 0f;
-    public float recoveryDuration = 0.5f;
-    public float recoveryTime = 0f;
+    public AttackState attack;
+    public float attackRange = 12f;
+
     private void HandleAttack()
     {
         if (!playerDetectorController.isPlayerDetected)
         {
             // end attack if player is lost
-            if (attackState != AttackStateType.Idle)
+            if (attack.state != AttackStateType.Idle)
             {
-                attackState = AttackStateType.Idle;
-                coolDownTime = 0f;
-                anticipationTime = 0f;
-                attackTime = 0f;
-                recoveryTime = 0f;
+                attack.EnterAttackState();
                 spriteRenderer.color = Color.white;
             }
             return;
         }
         // initialize attack when player is detected for the first time
-        else if (attackState == AttackStateType.Idle)
+        else if (attack.state == AttackStateType.Idle)
         {
-            attackState = AttackStateType.CoolDown;
+            attack.EnterAttackState();
             spriteRenderer.color = Color.blue;
         }
 
@@ -141,61 +130,48 @@ public class WalkerSpitterController : MonoBehaviour
             FlipX();
         }
         projectileSpawnPoint.position = transform.position + playerDirection;
+        
+        var distance = Vector3.Distance(playerDetectorController.target.position, transform.position);
+        attack.canAttack = distance < attackRange;
+        attack.Update(Time.deltaTime);
+    }
 
-        switch (attackState)
-        {
-            case AttackStateType.CoolDown:
-                if (coolDownTime < coolDownDuration)
-                {
-                    coolDownTime += Time.deltaTime;
-                    return;
-                }
-                spriteRenderer.color = Color.yellow;
-                attackState = AttackStateType.Anticipation;
-                coolDownTime = 0f;
-                break;
-            case AttackStateType.Anticipation:
-                if (anticipationTime < anticipationDuration)
-                {
-                    anticipationTime += Time.deltaTime;
-                    return;
-                }
-                spriteRenderer.color = Color.red;
-                attackState = AttackStateType.Attack;
-                anticipationTime = 0f;
-                break;
-            case AttackStateType.Attack:
-                if (attackTime < attackDuration)
-                {
-                    attackTime += Time.deltaTime;
-                    return;
-                }
-                var projectile = Instantiate(
-                    projectilePrefab,
-                    projectileSpawnPoint.position,
-                    projectileSpawnPoint.rotation
-                ).GetComponent<WalkerSpitterProjectileController>();
-                projectile.Initialize(
-                    playerDetectorController.target.position,
-                    projectileSpeed
-                );
-                spriteRenderer.color = Color.green;
-                attackState = AttackStateType.Recovery;
-                attackTime = 0f;
-                break;
-            case AttackStateType.Recovery:
-                if (recoveryTime < recoveryDuration)
-                {
-                    recoveryTime += Time.deltaTime;
-                    return;
-                }
-                spriteRenderer.color = Color.blue;
-                attackState = AttackStateType.CoolDown;
-                recoveryTime = 0f;
-                break;
-            default:
-                break;
-        }
+    private void OnCoolDown()
+    {
+        spriteRenderer.color = Color.blue;
+    }
+
+    private void OnAnticipation()
+    {
+        spriteRenderer.color = Color.yellow;
+    }
+
+    private void OnAttack()
+    {
+        spriteRenderer.color = Color.red;
+        var projectile = Instantiate(
+            projectilePrefab,
+            projectileSpawnPoint.position,
+            projectileSpawnPoint.rotation
+        ).GetComponent<WalkerSpitterProjectileController>();
+        var projectileGravity = Physics2D.gravity.y * projectile.GetComponent<Rigidbody2D>().gravityScale;
+        var projectileShootDirection = MathHelper.CalculateProjectileDirection(
+            projectileSpawnPoint.position,
+            playerDetectorController.target.position,
+            projectileSpeed,
+            projectileGravity
+        );
+        projectile.Initialize(projectileShootDirection);
+    }
+
+    private void OnRecovery()
+    {
+        spriteRenderer.color = Color.green;
+    }
+
+    private void OnIdle()
+    {
+        spriteRenderer.color = Color.white;
     }
 
     private void FlipX()
