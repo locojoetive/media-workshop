@@ -29,26 +29,31 @@ public class TrampolineController : MonoBehaviour
         }
 
         // Apply bounce force
+        // var normal = -collision.GetContact(0).normal;
+        // var bounceDirection = new Vector2(
+        //     normal.x,
+        //     normal.y < 0 ? 0f : normal.y
+        // ).normalized;
+        // rigidbody.linearVelocity = 1f / (rigidbody.mass * rigidbody.mass) * new Vector2(
+        //     bounceDirection.x * horizontalBounceForce,
+        //     bounceDirection.y * upBounceForce
+        // );
+        // rigidbody.linearVelocity = Vector2.ClampMagnitude(rigidbody.linearVelocity, upBounceForce);
+        
+        
         var normal = -collision.GetContact(0).normal;
-        var bounceDirection = new Vector2(
-            normal.x,
-            normal.y < 0 ? 0f : normal.y
-        ).normalized;
-        rigidbody.linearVelocity = 1f / (rigidbody.mass * rigidbody.mass) * new Vector2(
-            bounceDirection.x * horizontalBounceForce,
-            bounceDirection.y * upBounceForce
-        );
-        rigidbody.linearVelocity = Vector2.ClampMagnitude(rigidbody.linearVelocity, upBounceForce);
+        var bounceDirection = normal.normalized;
+        rigidbody.linearVelocity = 1f / (rigidbody.mass * rigidbody.mass) * bounceDirection * upBounceForce;
 
-        // Fade movement based on horizontal bounce force
-        var horizontalImpact = AnimationHelper.EaseInQubic(Mathf.Abs(bounceDirection.x));
-        Debug.DrawRay(
-            collision.GetContact(0).point,
-            bounceDirection,
-            Color.red, 1f
-        );
         if (collision.gameObject.TryGetComponent<MovementInfluenceController>(out var movementInfluenceController))
         {
+            // Fade movement based on horizontal bounce force
+            var horizontalImpact = AnimationHelper.EaseInQubic(Mathf.Abs(bounceDirection.x));
+            Debug.DrawRay(
+                collision.GetContact(0).point,
+                bounceDirection,
+                Color.red, 1f
+            );
             movementInfluenceController.FadeMovementForBounceDuration(fadeMovementDuration, horizontalImpact);
         }
         

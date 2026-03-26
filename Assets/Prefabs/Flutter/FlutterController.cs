@@ -57,51 +57,16 @@ public class FlutterController : MonoBehaviour
     private void FixedUpdate()
     {
         isWallAhead = Physics2D.OverlapCircle(wallCheckAhead.position, wallDistance, wallMask);
-        var isPlayerDetected = playerDetectorController.isPlayerDetected;
 
         // horizontal movement
-        HandleHorizontalMovement(isPlayerDetected);
+        HandleHorizontalMovement();
 
         // vertical movement
-        HandleFlyState(isPlayerDetected);
-    }
-
-    private void HandleHorizontalMovement(bool isPlayerDetected)
-    {
-        var movementInfluence = movementInfluenceController.movementInfluence;
-        if (!isPlayerDetected)
-        {
-            var moveSpeed = speed * Mathf.Sign(transform.localScale.x);
-            var horizontalVelocity = patrolState == PatrolStateType.Moving && !isWallAhead
-                ? moveSpeed * movementInfluence + rb.linearVelocity.x * (1f - movementInfluence)
-                : 0f;
-            rb.linearVelocity = new Vector2(horizontalVelocity, rb.linearVelocity.y);
-        }
-        else
-        {
-            var moveDirection = playerDetectorController.target.position + Vector3.up * heightAbovePlayer - transform.position;
-            var moveSpeed = speed * Mathf.Sign(moveDirection.x) * Mathf.Clamp01(Mathf.Abs(moveDirection.x));
-            var horizontalVelocity = moveSpeed * movementInfluence + rb.linearVelocity.x * (1f - movementInfluence);
-            rb.linearVelocity = new Vector2(horizontalVelocity, rb.linearVelocity.y);
-            Debug.DrawRay(transform.position, moveDirection, Color.blue);
-            HandleAttack();
-        }
-
+        HandleFlyState();
     }
 
     private void Update()
     {
-        var isPlayerDetected = playerDetectorController.isPlayerDetected;
-        if (isPlayerDetected)
-        {
-            Debug.DrawLine(
-                playerDetectorController.target.position + heightAbovePlayer * Vector3.up,
-                playerDetectorController.target.position + heightAbovePlayer * Vector3.up + 10f * Vector3.right,
-                Color.green
-            );
-            return;
-        }
-        Debug.DrawLine(new Vector2(-10, originalHeight), new Vector2(10, originalHeight), Color.red);
         HandlePatrolMovement();
     }
 
@@ -115,7 +80,7 @@ public class FlutterController : MonoBehaviour
     }
     #endregion LifeCycle
 
-    #region Patrol
+    #region Patrol Time
     [Header("Patrol Settings")]
     public PatrolStateType patrolState;
     public float stayDuration = 0.5f;
@@ -149,11 +114,9 @@ public class FlutterController : MonoBehaviour
         }
     }
 
-    #endregion Patrol
+    #endregion Patrol Time
 
-
-    #region Horizontal Movement
-    
+    #region Movement
 
     [Header("Movement Settings")]
     public float speed = 5f;
@@ -165,17 +128,40 @@ public class FlutterController : MonoBehaviour
             transform.localScale.z
         );
     }
-    #endregion Horizontal Movement
 
-    #region Flying
+    private void HandleHorizontalMovement()
+    {
+        var isPlayerDetected = playerDetectorController.isPlayerDetected;
+        var movementInfluence = movementInfluenceController.movementInfluence;
+        if (!isPlayerDetected)
+        {
+            var moveSpeed = speed * Mathf.Sign(transform.localScale.x);
+            var horizontalVelocity = patrolState == PatrolStateType.Moving && !isWallAhead
+                ? moveSpeed * movementInfluence + rb.linearVelocity.x * (1f - movementInfluence)
+                : 0f;
+            rb.linearVelocity = new Vector2(horizontalVelocity, rb.linearVelocity.y);
+        }
+        else
+        {
+            var moveDirection = playerDetectorController.target.position + Vector3.up * heightAbovePlayer - transform.position;
+            var moveSpeed = speed * Mathf.Sign(moveDirection.x) * Mathf.Clamp01(Mathf.Abs(moveDirection.x));
+            var horizontalVelocity = moveSpeed * movementInfluence + rb.linearVelocity.x * (1f - movementInfluence);
+            rb.linearVelocity = new Vector2(horizontalVelocity, rb.linearVelocity.y);
+            Debug.DrawRay(transform.position, moveDirection, Color.blue);
+            HandleAttack();
+        }
+
+    }
     [Header("Fly Settings")]
     public FlyStateType flyState;
     float originalHeight = 0f;
     public float idleCatchFallForce = 10f;
     public float idleFlutterForce = 10f;
     public float idleMaximumFlutterSpeed = 10f;
-    private void HandleFlyState(bool isPlayerDetected)
+
+    private void HandleFlyState()
     {
+        var isPlayerDetected = playerDetectorController.isPlayerDetected;
         var targetHeight = isPlayerDetected
             ? playerDetectorController.target.position.y + heightAbovePlayer
             : originalHeight;
@@ -223,7 +209,7 @@ public class FlutterController : MonoBehaviour
         }
     }
     
-    #endregion Flying
+    #endregion Movement
 
     #region Attack
     [Header("Attack Settings")]
@@ -279,7 +265,7 @@ public class FlutterController : MonoBehaviour
             projectilePrefab,
             projectileSpawnPoint.position,
             projectileSpawnPoint.rotation
-        ).GetComponent<FlutterProjectileController>();
+        ).GetComponent<ProjectileController>();
         projectile.Initialize(projectileSpeed);
     }
 

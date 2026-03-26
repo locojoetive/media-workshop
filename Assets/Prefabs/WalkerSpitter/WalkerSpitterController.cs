@@ -153,7 +153,7 @@ public class WalkerSpitterController : MonoBehaviour
             projectilePrefab,
             projectileSpawnPoint.position,
             projectileSpawnPoint.rotation
-        ).GetComponent<WalkerSpitterProjectileController>();
+        ).GetComponent<ProjectileController>();
         var projectileGravity = Physics2D.gravity.y * projectile.GetComponent<Rigidbody2D>().gravityScale;
         var projectileShootDirection = MathHelper.CalculateProjectileDirection(
             projectileSpawnPoint.position,

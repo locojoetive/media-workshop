@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1687545336721620691}
   - component: {fileID: 2112294685113773140}
   - component: {fileID: 5939233297212508047}
-  - component: {fileID: 8966720465608555171}
+  - component: {fileID: 3541146483235105944}
   m_Layer: 9
   m_Name: WalkerSpitterProjectile
   m_TagString: Untagged
@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 4, y: 4, z: 1}
+  m_LocalScale: {x: -4, y: 4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -105,11 +105,11 @@ Rigidbody2D:
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 1
-  m_Mass: 0.50265485
+  m_UseAutoMass: 0
+  m_Mass: 0.2
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 0.25
+  m_GravityScale: 0.1
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -157,7 +157,7 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.1
---- !u!114 &8966720465608555171
+--- !u!114 &3541146483235105944
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -166,6 +166,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 1385509851013860191}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62f42bf38efe46646b2053056664c86b, type: 3}
+  m_Script: {fileID: 11500000, guid: 3153fe198870a8e4e98a749978879944, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WalkerSpitterProjectileController
+  m_EditorClassIdentifier: Assembly-CSharp::ProjectileController
+  isNeutralized: 0
+  causedDamage: 0

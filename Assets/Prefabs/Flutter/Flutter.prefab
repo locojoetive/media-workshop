@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2702495194868563657}
   - component: {fileID: 4696793947532094756}
   - component: {fileID: 5007915208263757641}
+  - component: {fileID: 5367777925080325331}
   m_Layer: 9
   m_Name: Flutter
   m_TagString: Untagged
@@ -210,7 +211,7 @@ MonoBehaviour:
   idleMaximumFlutterSpeed: 10
   projectilePrefab: {fileID: 276666393471253814, guid: dc6662c9ac63a5547aa2452b0603f9f6, type: 3}
   projectileSpawnPoint: {fileID: 1096544148463323343}
-  projectileSpeed: 5
+  projectileSpeed: 0
   playerDetectorController: {fileID: 7698889758225284192}
   heightAbovePlayer: 6
   attack:
@@ -228,6 +229,19 @@ MonoBehaviour:
   attackFlutterForce: 240
   attackMaximumFlutterSpeed: 3
   attackRange: 1
+--- !u!114 &5367777925080325331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 698958379842943143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b70792eb645ac1b409fe56218fef0399, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  health: 3
 --- !u!1 &3848977517033035700
 GameObject:
   m_ObjectHideFlags: 0
@@ -553,14 +567,6 @@ PrefabInstance:
     - target: {fileID: 276666393471253814, guid: dc6662c9ac63a5547aa2452b0603f9f6, type: 3}
       propertyPath: m_IsActive
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1585636487484743213, guid: dc6662c9ac63a5547aa2452b0603f9f6, type: 3}
-      propertyPath: m_Mass
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4446972553513394772, guid: dc6662c9ac63a5547aa2452b0603f9f6, type: 3}
-      propertyPath: m_LocalScale.x
-      value: -4
       objectReference: {fileID: 0}
     - target: {fileID: 4446972553513394772, guid: dc6662c9ac63a5547aa2452b0603f9f6, type: 3}
       propertyPath: m_LocalPosition.x

@@ -52,7 +52,6 @@ public class PlayerController : MonoBehaviour
     private bool wasInputJumpPressedInLastFrame = false;
     public Action<int> onTakeDamage;
 
-
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
@@ -75,6 +74,10 @@ public class PlayerController : MonoBehaviour
         if (PlayerCan(PlayerActionType.Jump))
         {
             HandleJump();
+        }
+        if (PlayerCan(PlayerActionType.Attack))
+        {
+            HandleAttack();
         }
     }
 
@@ -101,8 +104,10 @@ public class PlayerController : MonoBehaviour
             return;
         }
         
-        var currentSprintSpeed = playerInput.leftStickDirection.x * playerInput.rightTriggerValue * (sprintSpeed - moveSpeed);
-        var totalMoveSpeed = currentMoveSpeed + Mathf.Sign(currentMoveSpeed) * currentSprintSpeed;
+        var currentSprintSpeed = playerInput.leftStickDirection.x
+            * playerInput.rightTriggerValue
+            * (sprintSpeed - moveSpeed);
+        var totalMoveSpeed = currentMoveSpeed + currentSprintSpeed;
         var movementInfluence = movementInfluenceController.movementInfluence;
         var horizontalVelocity = totalMoveSpeed * movementInfluence + _rigidbody.linearVelocity.x * (1f - movementInfluence);
 
@@ -124,6 +129,45 @@ public class PlayerController : MonoBehaviour
             isJumping = true;
         }    
         wasInputJumpPressedInLastFrame = inputJump;
+    }
+
+    [Header("Attack")]
+    public BatController batController;
+    public bool wasAttackingInLastFrame;
+    public Vector2 lastAttackDirection;
+    public float minimumSnapVelocity = 100f;
+
+
+    private void HandleAttack()
+    {
+        if (batController.isHitting)
+        {
+            return;
+        }
+        var attackDirection = playerInput.rightStickDirection;
+        var isAttacking = attackDirection != Vector2.zero;
+
+        if (isAttacking && !wasAttackingInLastFrame)
+        {
+            batController.StartAim();
+        }
+        if (isAttacking && wasAttackingInLastFrame)
+        {
+            batController.Rotate(-lastAttackDirection);
+        }
+        else if (wasAttackingInLastFrame)
+        {
+            Debug.Log("HIT");
+            batController.Rotate(lastAttackDirection);
+            batController.Swing();
+        }
+        
+        if (isAttacking)
+        {
+            lastAttackDirection = attackDirection;
+        }
+        wasAttackingInLastFrame = isAttacking;
+        
     }
 
     private IEnumerator StunAndInvincibleCoroutine()
