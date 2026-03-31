@@ -63,7 +63,7 @@ public class RazorController : MonoBehaviour
         Gizmos.DrawWireSphere(wallCheckAhead.position, groundDistance);
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionStay2D(Collision2D collision)
     {
         var playerController = collision.gameObject.GetComponent<PlayerController>();
         if (playerController != null)

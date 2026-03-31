@@ -25,6 +25,9 @@ public class HUDHitPoints : MonoBehaviour
         {
             return;
         }
-        hitPointIcons[remainingHitPoints].HideIcon();
+        if (hitPointIcons.Count < remainingHitPoints)
+        {
+            hitPointIcons[remainingHitPoints].HideIcon();
+        }
     }
 }

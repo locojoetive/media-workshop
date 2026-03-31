@@ -1,22 +1,34 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(Collider2D))]
 public class BatController : MonoBehaviour
 {
-    public bool isHitting;
-    public bool isAiming;
-    public float force;
-    public float coolDownEndTime;
+    [Header("Settings")]
+    public float originalAttackForce;
+    public float swingDuration;
+    public float attackDuration;
     public float coolDownDuration;
+    public float aimScale = 1.2f;
+    public float swingScale = 2f;
 
-    public Quaternion originalRotation;
-    public Quaternion aimBaseRotation;
-    public Color originalColor;
+    [Header("Debug")]
+    public bool isSwinging;
+    public bool isAiming;
+    public float attackForce;
+    public float swingTime;
+    public float attackTime;
+    public float coolDownTime;
 
 
+    [Header("Self-Retrieved References")]
     public Collider2D col;
     public SpriteRenderer spriteRenderer;
+    public Quaternion originalRotation;
+    public Quaternion aimBaseRotation;
+    public Vector3 originalScale;
+    public Color originalColor;
 
 
     private void Awake()
@@ -24,64 +36,132 @@ public class BatController : MonoBehaviour
         col = GetComponent<Collider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         originalColor = spriteRenderer.color;
+        originalScale = transform.localScale;
     }
 
     void Start()
     {
         originalRotation = transform.rotation;
         aimBaseRotation = Quaternion.Euler(0, 0, 90f);
-        FadeOut();
+        
+        Color color = originalColor;
+        color.a = 0.8f;
+        spriteRenderer.color = color;
+        col.enabled = false;
+        transform.localScale = originalScale;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!isHitting)
+        if (!isSwinging)
         {
             return;
         }
         if (collision.gameObject.TryGetComponent<MovementInfluenceController>(out var movementInfluence))
         {
-            movementInfluence.FadeMovementForBounceDuration(1f, force);
+            movementInfluence.FadeMovementForBounceDuration(1f, attackForce);
         }
         if (collision.gameObject.TryGetComponent<Rigidbody2D>(out var rigidbody))
         {
-            var factor = (coolDownEndTime - Time.time) / coolDownDuration;
-            var hitForce = Mathf.Lerp(force, force / 2f, AnimationHelper.EaseInQubic(factor));
-            rigidbody.AddForce(transform.up * hitForce, ForceMode2D.Impulse);
+            rigidbody.AddForce(transform.up * attackForce, ForceMode2D.Impulse);
         }
     }
 
-    public void Rotate(Vector2 direction)
+    public void SetRotationFromDirection(Vector2 direction)
     {
-        transform.rotation = aimBaseRotation * Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
+        transform.rotation = transform.parent.rotation
+            * aimBaseRotation
+            * Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
     }
 
 
-    public void Swing()
+    public void Swing(Vector2 targetDirection)
     {
-        if (isHitting)
+        if (isSwinging)
         {
             return;
         }
+        isSwinging = true;
         isAiming = false;
-        isHitting = true;
-        coolDownEndTime = Time.time + coolDownDuration;
-        StartCoroutine(SwingCoroutine());
+        StartCoroutine(SwingCoroutine(targetDirection));
     }
-    private IEnumerator SwingCoroutine()
+    private IEnumerator SwingCoroutine(Vector2 targetDirection)
     {
-        yield return new WaitForSeconds(coolDownDuration);
-        isHitting = false;
-        transform.rotation = originalRotation;
-        FadeOut();
-    }
 
-    private void FadeOut()
-    {
-        Color color = originalColor;
-        color.a = 0.8f;
-        spriteRenderer.color = color;
-        col.enabled = false;
+        // Swinging
+        {
+            swingTime = 0f;
+            var sourceScale = originalScale * aimScale;
+            var targetScale = originalScale * swingScale;
+            var sourceRotation = transform.localRotation;
+            var targetRotation = sourceRotation * Quaternion.AngleAxis(180f, Vector3.right);
+
+            while (swingTime < swingDuration)
+            {
+                var factor = swingTime / swingDuration;
+
+                var currentAngle = factor * 180f;
+                var rotation = Quaternion.AngleAxis(currentAngle, Vector3.right);
+                transform.localRotation = sourceRotation * rotation;
+                var scale = Vector3.Lerp(sourceScale, targetScale, factor);
+                transform.localScale = scale;
+
+                attackForce = originalAttackForce * factor;
+
+                swingTime += Time.deltaTime;
+                yield return null;
+            }
+            transform.localRotation = targetRotation;
+            transform.localScale = targetScale;
+        }
+
+        // Hitting
+        {
+            attackTime = 0f;
+            attackForce = originalAttackForce;
+            while (attackTime < attackDuration)
+            {
+                var factor = attackTime / attackDuration;
+                attackForce = originalAttackForce * (1f - factor);
+                attackTime += Time.deltaTime;
+                yield return null;
+            }
+            attackForce = 0f;
+            col.enabled = false;
+        }
+
+
+        // Recover
+        {
+            coolDownTime = 0f;
+            var sourceRotation = transform.localRotation;
+            var targetRotation = originalRotation;
+            var sourceScale = transform.localScale;
+            var targetScale = originalScale;
+            var sourceColor = originalColor;
+            var targetColor = originalColor;
+            targetColor.a = 0.8f;
+            while (coolDownTime < coolDownDuration)
+            {
+                var factor = coolDownTime / coolDownDuration;
+
+                var rotation = Quaternion.Slerp(sourceRotation, targetRotation, factor);
+                transform.localRotation = rotation;
+                var scale = Vector3.Lerp(sourceScale, targetScale, factor);
+                transform.localScale = scale;
+                var color = Color.Lerp(sourceColor, targetColor, factor);
+                spriteRenderer.color = color;
+
+
+                coolDownTime += Time.deltaTime;
+                yield return null;
+            }
+            transform.rotation = originalRotation;
+            transform.localScale = originalScale;
+            spriteRenderer.color = originalColor;
+        }
+
+        isSwinging = false;
     }
 
     public void StartAim()
@@ -89,5 +169,6 @@ public class BatController : MonoBehaviour
         isAiming = true;
         spriteRenderer.color = originalColor;
         col.enabled = true;
+        transform.localScale = originalScale * aimScale;
     }
 }

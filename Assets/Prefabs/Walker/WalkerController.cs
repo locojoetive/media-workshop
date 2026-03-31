@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(MovementInfluenceController))]
@@ -71,6 +72,30 @@ public class WalkerController : MonoBehaviour
         {
             isStaying = false;
         }
+        HandleAnimation();
+    }
+
+    private void HandleAnimation()
+    {
+        
+        if (!movementInfluenceController.isStunned)
+        {
+            // horizontal
+            var velocityFactorX = Mathf.Abs(rb.linearVelocityX);
+            var horizontalMovementFactorY = MathHelper.Map(Mathf.Abs(velocityFactorX), 0f, 20f, 1f, 0.8f);
+            var horizontalMovementFactorX = 1f + 1f - horizontalMovementFactorY;
+
+            // vertical
+            var velocityFactorY = Mathf.Abs(rb.linearVelocity.y);
+            var verticalMovementFactorY = MathHelper.Map(velocityFactorY, 0f, 20f, 1f, 1.2f);
+            var verticalMovementFactorX = 1f + 1f - verticalMovementFactorY;
+
+            transform.localScale = new Vector3(
+                verticalMovementFactorX * horizontalMovementFactorX,
+                verticalMovementFactorY * horizontalMovementFactorY,
+                1f
+            );
+        }
     }
 
     private void FlipX()
@@ -92,7 +117,7 @@ public class WalkerController : MonoBehaviour
         Gizmos.DrawWireSphere(wallCheckAhead.position, groundDistance);
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionStay2D(Collision2D collision)
     {
         var playerController = collision.gameObject.GetComponent<PlayerController>();
         if (playerController != null)

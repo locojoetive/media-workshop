@@ -6,7 +6,6 @@ public class MovementInfluenceController : MonoBehaviour
 {
     [Range(0f, 1f)]
     public float movementInfluence = 1f;
-    public float stunDuration = 0.5f;
     public bool isStunned = false;
 
     private Coroutine fadeMovementCoroutine;

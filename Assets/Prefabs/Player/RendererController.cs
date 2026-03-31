@@ -5,7 +5,6 @@ using UnityEngine;
 public class RendererController : MonoBehaviour
 {
     private SpriteRenderer spriteRenderer;
-    public float facingDirection => transform.localScale.x;
 
     private void Awake()
     {
@@ -13,7 +12,7 @@ public class RendererController : MonoBehaviour
     }
 
     public float flashInterval = 0.166f;
-    internal void FlashRed(float duration)
+    internal void Flash(float duration)
     {
         StartCoroutine(FlashRedCoroutine(duration));
     }
@@ -21,25 +20,23 @@ public class RendererController : MonoBehaviour
     private IEnumerator FlashRedCoroutine(float duration)
     {
         float elapsedTime = 0f;
+        spriteRenderer.material.SetColor("_OverlayColor", Color.white);
         while (elapsedTime < duration)
         {
-            spriteRenderer.color = Color.red;
+            spriteRenderer.material.SetFloat("_FillAmount", 1f);
             yield return new WaitForSeconds(flashInterval);
             elapsedTime += flashInterval;
-            spriteRenderer.color = Color.white;
+            spriteRenderer.material.SetFloat("_FillAmount", 0f);
             yield return new WaitForSeconds(flashInterval);
             elapsedTime += flashInterval;
         }
         spriteRenderer.color = Color.white;
     }
 
-    internal void FlipX(bool flip)
+    internal void SetAlpha(float alpha)
     {
-        transform.localScale = new Vector3(flip ? -1 : 1, 1, 1);
-    }
-
-    internal void FlipX()
-    {
-        transform.localScale = new Vector3(transform.localScale.x * -1, 1, 1);
+        var color = spriteRenderer.material.color;
+        color.a = alpha;
+        spriteRenderer.material.color = color;
     }
 }

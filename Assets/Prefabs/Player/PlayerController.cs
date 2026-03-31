@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public enum PlayerActionType
@@ -41,8 +40,11 @@ public class PlayerController : MonoBehaviour
     public Rigidbody2D _rigidbody;
     public RendererController _renderer;
     public MovementInfluenceController movementInfluenceController;
+    public ParticleSystem particleSystem;
+
 
     [Header("Debugging")]
+    public int damagePerHit = 1;
     public bool isGrounded;
     public bool isJumping;
     public bool jumpSpeedLow;
@@ -58,6 +60,7 @@ public class PlayerController : MonoBehaviour
         movementInfluenceController = GetComponent<MovementInfluenceController>();
 
         _renderer = GetComponentInChildren<RendererController>();
+        particleSystem = GetComponentInChildren<ParticleSystem>();
     }
 
     private void Update()
@@ -79,6 +82,43 @@ public class PlayerController : MonoBehaviour
         {
             HandleAttack();
         }
+
+        HandleAnimation();
+    }
+
+    private void HandleAnimation()
+    {
+        if (!movementInfluenceController.isStunned)
+        {
+            var inputHorizontalMovement = playerInput.leftStickDirection.x;
+            var inputSprint = playerInput.rightTriggerValue;
+
+            // horizontal
+            var inputFactor = (Mathf.Abs(inputHorizontalMovement) + inputSprint) * 0.5f;
+            var horizontalMovementFactorY = MathHelper.Map(Mathf.Abs(inputFactor), 0f, 1f, 1f, 0.8f);
+            var horizontalMovementFactorX = 1f + 1f - horizontalMovementFactorY;
+
+            // vertical
+            var velocityFactor = Mathf.Abs(_rigidbody.linearVelocity.y);
+            var verticalMovementFactorY = MathHelper.Map(velocityFactor, 0f, 20f, 1f, 1.2f);
+            var verticalMovementFactorX = 1f + 1f - verticalMovementFactorY;
+
+            _renderer.transform.localScale = new Vector3(
+                verticalMovementFactorX * horizontalMovementFactorX,
+                verticalMovementFactorY * horizontalMovementFactorY,
+                1f
+            );
+        }
+
+
+        if (isGrounded && !particleSystem.isPlaying)
+        {
+            particleSystem.Play();
+        }
+        else if (!isGrounded && particleSystem.isPlaying)
+        {
+            particleSystem.Stop();
+        } 
     }
 
     private void FixedUpdate()
@@ -89,14 +129,16 @@ public class PlayerController : MonoBehaviour
 
     private void HandleMovement()
     {
-        var currentMoveSpeed = playerInput.leftStickDirection.x * moveSpeed;
+        var inputHorizontalMovement = playerInput.leftStickDirection.x;
+        var inputSprint = playerInput.rightTriggerValue;
+        var currentMoveSpeed = inputHorizontalMovement * moveSpeed;
         if (currentMoveSpeed > 0)
         {
-            _renderer.FlipX(false);
+            FlipX(false);
         }
         else if (currentMoveSpeed < 0)
         {
-            _renderer.FlipX(true);
+            FlipX(true);
         }
         
         if (isOnWall)
@@ -104,14 +146,19 @@ public class PlayerController : MonoBehaviour
             return;
         }
         
-        var currentSprintSpeed = playerInput.leftStickDirection.x
-            * playerInput.rightTriggerValue
+        var currentSprintSpeed = inputHorizontalMovement
+            * inputSprint
             * (sprintSpeed - moveSpeed);
         var totalMoveSpeed = currentMoveSpeed + currentSprintSpeed;
         var movementInfluence = movementInfluenceController.movementInfluence;
         var horizontalVelocity = totalMoveSpeed * movementInfluence + _rigidbody.linearVelocity.x * (1f - movementInfluence);
 
         _rigidbody.linearVelocity = new Vector2(horizontalVelocity, _rigidbody.linearVelocity.y);
+    }
+
+    private void FlipX(bool flip)
+    {
+        transform.localScale = new Vector3(flip ? -1 : 1, 1, 1);
     }
     
     private void HandleJump()
@@ -137,10 +184,9 @@ public class PlayerController : MonoBehaviour
     public Vector2 lastAttackDirection;
     public float minimumSnapVelocity = 100f;
 
-
     private void HandleAttack()
     {
-        if (batController.isHitting)
+        if (batController.isSwinging)
         {
             return;
         }
@@ -153,13 +199,12 @@ public class PlayerController : MonoBehaviour
         }
         if (isAttacking && wasAttackingInLastFrame)
         {
-            batController.Rotate(-lastAttackDirection);
+            batController.SetRotationFromDirection(-lastAttackDirection);
         }
         else if (wasAttackingInLastFrame)
         {
             Debug.Log("HIT");
-            batController.Rotate(lastAttackDirection);
-            batController.Swing();
+            batController.Swing(lastAttackDirection);
         }
         
         if (isAttacking)
@@ -175,10 +220,21 @@ public class PlayerController : MonoBehaviour
         movementInfluenceController.Stun();
         isInvincible = true;
 
-        yield return new WaitForSeconds(movementInfluenceController.stunDuration);
+        _renderer.Flash(stunDuration);
+        var elapsedTime = 0f;
+        while (elapsedTime < stunDuration)
+        {
+            var factor = 2f * Mathf.PI * (elapsedTime / stunDuration);
+            var scale = 0.75f - 0.25f * Mathf.Cos(factor);
+            _renderer.transform.localScale = new Vector3(scale, scale, 1f);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
         movementInfluenceController.Unstun();
 
+        _renderer.SetAlpha(0.5f);
         yield return new WaitForSeconds(invincibilityDuration - stunDuration);
+        _renderer.SetAlpha(1f);
         isInvincible = false;
     }
 
@@ -188,16 +244,13 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
-        hitPoints--;
+        hitPoints -= damagePerHit;
         onTakeDamage?.Invoke(hitPoints);
         StartCoroutine(StunAndInvincibleCoroutine());
 
-        // Animate
-        _renderer.FlashRed(invincibilityDuration);
-
         // Knockback
         Debug.Log($"Applying knockback with normal {collisionNormal.normalized}");
-        var knockbackDirection = -collisionNormal.normalized - _renderer.facingDirection * Vector2.right;
+        var knockbackDirection = -collisionNormal.normalized - Mathf.Sign(transform.localScale.x) * Vector2.right;
         _rigidbody.linearVelocity = knockbackDirection.normalized * knockbackForce;
 
         // Kill
