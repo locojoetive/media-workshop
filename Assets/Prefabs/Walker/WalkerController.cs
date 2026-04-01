@@ -77,25 +77,25 @@ public class WalkerController : MonoBehaviour
 
     private void HandleAnimation()
     {
-        
-        if (!movementInfluenceController.isStunned)
+        if (movementInfluenceController.isStunned)
         {
-            // horizontal
-            var velocityFactorX = Mathf.Abs(rb.linearVelocityX);
-            var horizontalMovementFactorY = MathHelper.Map(Mathf.Abs(velocityFactorX), 0f, 20f, 1f, 0.8f);
-            var horizontalMovementFactorX = 1f + 1f - horizontalMovementFactorY;
-
-            // vertical
-            var velocityFactorY = Mathf.Abs(rb.linearVelocity.y);
-            var verticalMovementFactorY = MathHelper.Map(velocityFactorY, 0f, 20f, 1f, 1.2f);
-            var verticalMovementFactorX = 1f + 1f - verticalMovementFactorY;
-
-            transform.localScale = new Vector3(
-                verticalMovementFactorX * horizontalMovementFactorX,
-                verticalMovementFactorY * horizontalMovementFactorY,
-                1f
-            );
+            return;
         }
+        // horizontal
+        var velocityFactorX = Mathf.Abs(rb.linearVelocityX);
+        var horizontalMovementFactorY = MathHelper.Map(Mathf.Abs(velocityFactorX), 0f, 20f, 1f, 0.8f);
+        var horizontalMovementFactorX = 1f + 1f - horizontalMovementFactorY;
+
+        // vertical
+        var velocityFactorY = Mathf.Abs(rb.linearVelocity.y);
+        var verticalMovementFactorY = MathHelper.Map(velocityFactorY, 0f, 20f, 1f, 1.2f);
+        var verticalMovementFactorX = 1f + 1f - verticalMovementFactorY;
+
+        transform.localScale = new Vector3(
+            verticalMovementFactorX * horizontalMovementFactorX,
+            verticalMovementFactorY * horizontalMovementFactorY,
+            1f
+        );
     }
 
     private void FlipX()

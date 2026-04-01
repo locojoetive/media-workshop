@@ -176,7 +176,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MovementInfluenceController
   movementInfluence: 1
-  stunDuration: 0.5
   isStunned: 0
 --- !u!114 &5007915208263757641
 MonoBehaviour:

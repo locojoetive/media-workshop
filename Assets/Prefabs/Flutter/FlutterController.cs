@@ -42,7 +42,6 @@ public class FlutterController : MonoBehaviour
         movementInfluenceController = GetComponent<MovementInfluenceController>();
     }
 
-
     private void Start()
     {
         originalHeight = transform.position.y;
@@ -52,7 +51,6 @@ public class FlutterController : MonoBehaviour
         attack.onAttack = OnAttack;
         attack.onRecovery = OnRecovery;
     }
-
 
     private void FixedUpdate()
     {
@@ -68,6 +66,7 @@ public class FlutterController : MonoBehaviour
     private void Update()
     {
         HandlePatrolMovement();
+        HandleAnimation();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -216,6 +215,7 @@ public class FlutterController : MonoBehaviour
     public GameObject projectilePrefab;
     public Transform projectileSpawnPoint;
     public float projectileSpeed = 5f;
+    public float recoilForce = 10f;
     public PlayerDetectorController playerDetectorController;
     public float heightAbovePlayer = 3f;
     public AttackState attack;
@@ -260,6 +260,7 @@ public class FlutterController : MonoBehaviour
 
     private void OnAttack()
     {
+        rb.AddForce(recoilForce * Vector3.up, ForceMode2D.Impulse);
         spriteRenderer.color = Color.red;
         var projectile = Instantiate(
             projectilePrefab,
@@ -280,4 +281,33 @@ public class FlutterController : MonoBehaviour
     }
     #endregion Attack
 
+
+    #region Animation
+    [Header("Animation Settings")]
+    public float maxVelocity = 20f;
+    public float minimumScale = 0.8f;
+    public float maximumScale = 1.2f;
+    private void HandleAnimation()
+    {
+        if (movementInfluenceController.isStunned)
+        {
+            return;
+        }
+        // horizontal
+        var velocityFactorX = Mathf.Abs(rb.linearVelocityX);
+        var horizontalMovementFactorY = MathHelper.Map(Mathf.Abs(velocityFactorX), 0f, maxVelocity, 1f, minimumScale);
+        var horizontalMovementFactorX = 1f + 1f - horizontalMovementFactorY;
+
+        // vertical
+        var velocityFactorY = Mathf.Abs(rb.linearVelocity.y);
+        var verticalMovementFactorY = MathHelper.Map(velocityFactorY, 0f, maxVelocity, 1f, maximumScale);
+        var verticalMovementFactorX = 1f + 1f - verticalMovementFactorY;
+
+        transform.localScale = new Vector3(
+            Mathf.Sign(transform.localScale.x) * verticalMovementFactorX * horizontalMovementFactorX,
+            verticalMovementFactorY * horizontalMovementFactorY,
+            1f
+        );
+    }
+    #endregion Animation
 }
