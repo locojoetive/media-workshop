@@ -1,26 +1,31 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
 public class MovementInfluenceController : MonoBehaviour
 {
-    [Range(0f, 1f)]
     public float movementInfluence = 1f;
+    public bool isFading = false;
     public bool isStunned = false;
 
-    private Coroutine fadeMovementCoroutine;
-    public void FadeMovementForBounceDuration(float duration, float horizontalImpact)
+    public Rigidbody2D rb;
+
+    private void Awake()
     {
-        if (fadeMovementCoroutine != null)
+        rb = GetComponent<Rigidbody2D>();
+    }
+    public void FadeMovementForDuration(float duration)
+    {
+        if (isFading)
         {
-            StopCoroutine(fadeMovementCoroutine);
+            return;
         }
-        fadeMovementCoroutine = StartCoroutine(FadeMovementForBounceDurationCoroutine(duration, horizontalImpact));
+        isFading = true;
+        StartCoroutine(FadeMovementForDurationCoroutine(duration));
     }
 
-    private IEnumerator FadeMovementForBounceDurationCoroutine(float duration, float horizontalImpact)
+    private IEnumerator FadeMovementForDurationCoroutine(float duration)
     {
-        var elapsedTime = duration * (1f - horizontalImpact);
+        var elapsedTime = 0f;
         while (elapsedTime < duration)
         {
             elapsedTime += Time.deltaTime;
@@ -29,6 +34,7 @@ public class MovementInfluenceController : MonoBehaviour
             yield return null;
         }
         movementInfluence = 1f;
+        isFading = false;
     }
 
     internal void Stun()
@@ -39,5 +45,15 @@ public class MovementInfluenceController : MonoBehaviour
     internal void Unstun()
     {
         isStunned = false;
+    }
+
+    public void SetForceToRigidbody(Vector2 force)
+    {
+        rb.linearVelocity = rb.linearVelocity * (1f - movementInfluence) + force * movementInfluence;
+    }
+
+    public Vector2 GetForcePlusLinearVelocity(Vector2 force)
+    {
+        return rb.linearVelocity + movementInfluence * force;
     }
 }

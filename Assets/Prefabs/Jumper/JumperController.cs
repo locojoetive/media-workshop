@@ -25,11 +25,15 @@ public class JumperController : MonoBehaviour
     public bool isGrounded;
     public bool isWallAhead;
     public Rigidbody2D rb;
+    public Collider2D col;
+    public SpriteRenderer spriteRenderer;
     public MovementInfluenceController movementInfluenceController;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        col = GetComponent<Collider2D>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         movementInfluenceController = GetComponent<MovementInfluenceController>();
     }
 
@@ -37,6 +41,13 @@ public class JumperController : MonoBehaviour
     {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundDistance, groundMask);
         isWallAhead = Physics2D.OverlapCircle(wallCheckAhead.position, groundDistance, groundMask);
+        
+        if (isWallAhead)
+        {
+            FlipX();
+            rb.linearVelocity = new Vector2(-rb.linearVelocity.x, rb.linearVelocity.y);
+        }
+
         if (!isGrounded)
         {
             return;
@@ -47,7 +58,6 @@ public class JumperController : MonoBehaviour
             idleTime += Time.deltaTime;
             return;
         }
-
         idleTime = 0f;
         var horizontalJumpDirection = Mathf.Sign(transform.localScale.x) * jumpLength;
         rb.linearVelocity = new Vector2(horizontalJumpDirection, jumpHeight);
@@ -55,11 +65,7 @@ public class JumperController : MonoBehaviour
 
     private void Update()
     {
-        if (!isGrounded && isWallAhead)
-        {
-            FlipX();
-            rb.linearVelocity = new Vector2(-rb.linearVelocity.x, rb.linearVelocity.y);
-        }
+        HandleAnimation();
     }
 
     private void FlipX()
@@ -87,4 +93,34 @@ public class JumperController : MonoBehaviour
             playerController.TakeDamage(collision.GetContact(0).normal);
         }
     }
+    
+
+    #region Animation
+    [Header("Animation Settings")]
+    public float maxVelocity = 20f;
+    public float minimumScale = 0.8f;
+    public float maximumScale = 1.2f;
+    private void HandleAnimation()
+    {
+        if (movementInfluenceController.isStunned)
+        {
+            return;
+        }
+        // horizontal
+        var velocityFactorX = Mathf.Abs(rb.linearVelocityX);
+        var horizontalMovementFactorY = MathHelper.Map(Mathf.Abs(velocityFactorX), 0f, maxVelocity, 1f, minimumScale);
+        var horizontalMovementFactorX = 1f + 1f - horizontalMovementFactorY;
+
+        // vertical
+        var velocityFactorY = Mathf.Abs(rb.linearVelocity.y);
+        var verticalMovementFactorY = MathHelper.Map(velocityFactorY, 0f, maxVelocity, 1f, maximumScale);
+        var verticalMovementFactorX = 1f + 1f - verticalMovementFactorY;
+
+        spriteRenderer.transform.localScale = new Vector3(
+            verticalMovementFactorX * horizontalMovementFactorX,
+            verticalMovementFactorY * horizontalMovementFactorY,
+            1f
+        );
+    }
+    #endregion Animation
 }

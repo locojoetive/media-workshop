@@ -16,7 +16,6 @@ public enum PatrolStateType
 }
 
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(MovementInfluenceController))]
 public class FlutterController : MonoBehaviour
 {
@@ -38,7 +37,7 @@ public class FlutterController : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         movementInfluenceController = GetComponent<MovementInfluenceController>();
     }
 
@@ -107,7 +106,7 @@ public class FlutterController : MonoBehaviour
                     return;
                 }
                 patrolState = PatrolStateType.Moving;
-                FlipX();
+                FlipX(-transform.localScale.x);
                 moveTime = 0f;
                 break;
         }
@@ -115,14 +114,15 @@ public class FlutterController : MonoBehaviour
 
     #endregion Patrol Time
 
-    #region Movement
+    #region Horizontal Movement
 
     [Header("Movement Settings")]
     public float speed = 5f;
-    private void FlipX()
+
+    private void FlipX(float direction)
     {
         transform.localScale = new Vector3(
-            -transform.localScale.x,
+            Mathf.Sign(direction) * Mathf.Abs(transform.localScale.x),
             transform.localScale.y,
             transform.localScale.z
         );
@@ -138,19 +138,25 @@ public class FlutterController : MonoBehaviour
             var horizontalVelocity = patrolState == PatrolStateType.Moving && !isWallAhead
                 ? moveSpeed * movementInfluence + rb.linearVelocity.x * (1f - movementInfluence)
                 : 0f;
-            rb.linearVelocity = new Vector2(horizontalVelocity, rb.linearVelocity.y);
+            movementInfluenceController.SetForceToRigidbody(new Vector2(horizontalVelocity, rb.linearVelocity.y));
         }
         else
         {
             var moveDirection = playerDetectorController.target.position + Vector3.up * heightAbovePlayer - transform.position;
+            if (Mathf.Sign(moveDirection.x) != Mathf.Sign(transform.localScale.x))
+            {
+                FlipX(Mathf.Sign(moveDirection.x));
+            }
             var moveSpeed = speed * Mathf.Sign(moveDirection.x) * Mathf.Clamp01(Mathf.Abs(moveDirection.x));
             var horizontalVelocity = moveSpeed * movementInfluence + rb.linearVelocity.x * (1f - movementInfluence);
-            rb.linearVelocity = new Vector2(horizontalVelocity, rb.linearVelocity.y);
+            movementInfluenceController.SetForceToRigidbody(new Vector2(horizontalVelocity, rb.linearVelocity.y));
             Debug.DrawRay(transform.position, moveDirection, Color.blue);
             HandleAttack();
         }
-
     }
+    #endregion Horizontal Movement
+    
+    #region Vertical Movement
     [Header("Fly Settings")]
     public FlyStateType flyState;
     float originalHeight = 0f;
@@ -182,24 +188,20 @@ public class FlutterController : MonoBehaviour
                 }
                 break;
             case FlyStateType.CatchingFall:
-                if (rb.linearVelocityY < 0f)
-                {
-                    rb.AddForce(targetCatchFallForce * Vector2.up, ForceMode2D.Force);
-                }
-                var maxCatchFallSpeed = Mathf.Min(rb.linearVelocityY, 0f);
-                rb.linearVelocity = new Vector2(rb.linearVelocity.x, maxCatchFallSpeed);
+                var catchFallforce = movementInfluenceController.GetForcePlusLinearVelocity(targetCatchFallForce * Vector2.up);
+                var maxCatchFallSpeed = Mathf.Min(catchFallforce.y, 0f);
+                Debug.Log(flyState);
+                movementInfluenceController.SetForceToRigidbody(new Vector2(rb.linearVelocity.x, maxCatchFallSpeed));
                 if (rb.linearVelocityY >= 0f)
                 {
                     flyState = FlyStateType.Fluttering;
                 }
                 break;
             case FlyStateType.Fluttering:
-                if (rb.linearVelocityY < targetMaximumFlutterSpeed)
-                {
-                    rb.AddForce(targetFlutterForce * Vector2.up, ForceMode2D.Force);
-                }
-                var maxFlutterSpeed = Mathf.Min(rb.linearVelocityY, targetMaximumFlutterSpeed);
-                rb.linearVelocity = new Vector2(rb.linearVelocity.x, maxFlutterSpeed);
+                var flutterforce = movementInfluenceController.GetForcePlusLinearVelocity(targetFlutterForce * Vector2.up);
+                var maxFlutterSpeed = Mathf.Min(flutterforce.y, targetMaximumFlutterSpeed);
+                Debug.Log(flyState);
+                movementInfluenceController.SetForceToRigidbody(new Vector2(rb.linearVelocity.x, maxFlutterSpeed));
                 if (rb.position.y > targetHeight || rb.linearVelocityY >= targetMaximumFlutterSpeed)
                 {
                     flyState = FlyStateType.Flying;
@@ -207,8 +209,8 @@ public class FlutterController : MonoBehaviour
                 break;
         }
     }
-    
-    #endregion Movement
+
+    #endregion Vertical Movement
 
     #region Attack
     [Header("Attack Settings")]
@@ -260,7 +262,8 @@ public class FlutterController : MonoBehaviour
 
     private void OnAttack()
     {
-        rb.AddForce(recoilForce * Vector3.up, ForceMode2D.Impulse);
+        movementInfluenceController.SetForceToRigidbody(new Vector2(0.75f *rb.linearVelocityX, recoilForce));
+        movementInfluenceController.FadeMovementForDuration(1f);
         spriteRenderer.color = Color.red;
         var projectile = Instantiate(
             projectilePrefab,
@@ -303,8 +306,8 @@ public class FlutterController : MonoBehaviour
         var verticalMovementFactorY = MathHelper.Map(velocityFactorY, 0f, maxVelocity, 1f, maximumScale);
         var verticalMovementFactorX = 1f + 1f - verticalMovementFactorY;
 
-        transform.localScale = new Vector3(
-            Mathf.Sign(transform.localScale.x) * verticalMovementFactorX * horizontalMovementFactorX,
+        spriteRenderer.transform.localScale = new Vector3(
+            verticalMovementFactorX * horizontalMovementFactorX,
             verticalMovementFactorY * horizontalMovementFactorY,
             1f
         );

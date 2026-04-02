@@ -238,8 +238,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MovementInfluenceController
   movementInfluence: 1
-  stunDuration: 0.5
+  isFading: 0
   isStunned: 0
+  rb: {fileID: 0}
 --- !u!114 &5771521046624510543
 MonoBehaviour:
   m_ObjectHideFlags: 0

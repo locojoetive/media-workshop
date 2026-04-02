@@ -54,7 +54,7 @@ public class TrampolineController : MonoBehaviour
                 bounceDirection,
                 Color.red, 1f
             );
-            movementInfluenceController.FadeMovementForBounceDuration(fadeMovementDuration, horizontalImpact);
+            movementInfluenceController.FadeMovementForDuration(fadeMovementDuration);
         }
         
         // Animate

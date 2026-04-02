@@ -59,7 +59,7 @@ public class BatController : MonoBehaviour
         }
         if (collision.gameObject.TryGetComponent<MovementInfluenceController>(out var movementInfluence))
         {
-            movementInfluence.FadeMovementForBounceDuration(1f, attackForce);
+            movementInfluence.FadeMovementForDuration(1f);
         }
         if (collision.gameObject.TryGetComponent<Rigidbody2D>(out var rigidbody))
         {
