@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -29,6 +30,7 @@ public class BatController : MonoBehaviour
     public Quaternion aimBaseRotation;
     public Vector3 originalScale;
     public Color originalColor;
+    public ParticleSystem particles;
 
 
     private void Awake()
@@ -37,6 +39,7 @@ public class BatController : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         originalColor = spriteRenderer.color;
         originalScale = transform.localScale;
+        particles.gameObject.SetActive(false);
     }
 
     void Start()
@@ -57,14 +60,37 @@ public class BatController : MonoBehaviour
         {
             return;
         }
-        if (collision.gameObject.TryGetComponent<RigidbodyController>(out var movementInfluence))
+        if (collision.gameObject.TryGetComponent<RigidbodyController>(out var rigidbodyController))
         {
-            movementInfluence.FadeMovementForDuration(1f);
+            rigidbodyController.SetVelocity(transform.up * attackForce);
+            rigidbodyController.FadeMovementForDuration(1f);;
+            PlayEffects(attackForce, collision.GetContact(0).point);
         }
-        if (collision.gameObject.TryGetComponent<Rigidbody2D>(out var rigidbody))
+        else if (collision.gameObject.TryGetComponent<Rigidbody2D>(out var rigidbody))
         {
-            rigidbody.AddForce(transform.up * attackForce, ForceMode2D.Impulse);
+            rigidbody.linearVelocity = transform.up * attackForce / rigidbody.mass;
+            PlayEffects(attackForce, collision.GetContact(0).point);
         }
+    }
+
+    private void PlayEffects(float attackForce, Vector2 point)
+    {
+        float particleScale = MathHelper.ClampAndMap(attackForce / originalAttackForce, 0f, 1f, 0f, 1.5f);
+        particles.transform.parent.position = point;
+        particles.transform.parent.localScale = Vector3.one * particleScale;
+        particles.transform.parent.up = -targetDirection;
+        particles.gameObject.SetActive(true);
+        particles.Play();
+        StartCoroutine(TurnOffParticlesCoroutine());
+
+        float shakeIntensity = MathHelper.ClampAndMap(attackForce / originalAttackForce, 0f, 1f, 0f, 0.5f);
+        ShakeCamera.Instance.Shake(shakeIntensity, -transform.up);
+    }
+
+    private IEnumerator TurnOffParticlesCoroutine()
+    {
+        yield return new WaitForSeconds(particles.main.duration);
+        particles.gameObject.SetActive(false);
     }
 
     public void SetRotationFromDirection(Vector2 direction)
@@ -74,7 +100,7 @@ public class BatController : MonoBehaviour
             * Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
     }
 
-
+    public Vector2 targetDirection;
     public void Swing(Vector2 targetDirection)
     {
         if (isSwinging)
@@ -83,9 +109,10 @@ public class BatController : MonoBehaviour
         }
         isSwinging = true;
         isAiming = false;
-        StartCoroutine(SwingCoroutine(targetDirection));
+        this.targetDirection = targetDirection;
+        StartCoroutine(SwingCoroutine());
     }
-    private IEnumerator SwingCoroutine(Vector2 targetDirection)
+    private IEnumerator SwingCoroutine()
     {
 
         // Swinging

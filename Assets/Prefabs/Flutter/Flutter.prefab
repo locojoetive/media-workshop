@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4696793947532094756}
   - component: {fileID: 5007915208263757641}
   - component: {fileID: 5367777925080325331}
+  - component: {fileID: 2648827192626316111}
   m_Layer: 9
   m_Name: Flutter
   m_TagString: Untagged
@@ -170,6 +171,7 @@ MonoBehaviour:
     recoveryTime: 0
     canAttack: 0
   attackRange: 1
+  animator: {fileID: 0}
   maxVelocity: 20
   minimumScale: 0.8
   maximumScale: 1.2
@@ -186,6 +188,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   health: 3
+--- !u!95 &2648827192626316111
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 698958379842943143}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9715be835a34b2642bf20fac3e5842ac, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1579933183457465723
 GameObject:
   m_ObjectHideFlags: 0
@@ -267,9 +291,9 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -3342901604985996823, guid: f2281d89971f52049b86b8d1fc0fa326, type: 3}
+  m_Sprite: {fileID: -795994123, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1, y: 1}
@@ -501,7 +525,7 @@ Transform:
   m_GameObject: {fileID: 8006907230852338266}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalPosition: {x: 0.25, y: -1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -605,11 +629,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4446972553513394772, guid: dc6662c9ac63a5547aa2452b0603f9f6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.25
+      value: 0.11758995
       objectReference: {fileID: 0}
     - target: {fileID: 4446972553513394772, guid: dc6662c9ac63a5547aa2452b0603f9f6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1
+      value: -1.8108406
       objectReference: {fileID: 0}
     - target: {fileID: 4446972553513394772, guid: dc6662c9ac63a5547aa2452b0603f9f6, type: 3}
       propertyPath: m_LocalPosition.z

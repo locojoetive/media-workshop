@@ -6,6 +6,9 @@ public enum MoveStateType
     JUMP
 }
 
+[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(RigidbodyController))]
+[RequireComponent(typeof(Collider2D))]
 public class JumperController : MonoBehaviour
 {
     [Header("References")]
@@ -27,12 +30,15 @@ public class JumperController : MonoBehaviour
     public Collider2D col;
     public SpriteRenderer spriteRenderer;
     public RigidbodyController rigidbodyController;
+    public Animator animator;
 
     private void Awake()
     {
         col = GetComponent<Collider2D>();
-        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         rigidbodyController = GetComponent<RigidbodyController>();
+        animator = GetComponent<Animator>();
+
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
 
     private void FixedUpdate()
@@ -65,6 +71,8 @@ public class JumperController : MonoBehaviour
     private void Update()
     {
         HandleAnimation();
+        animator.SetBool("IsGrounded", isGrounded);
+        animator.SetFloat("VerticalVelocity", rigidbodyController.LinearVelocityY);
     }
 
     private void FlipX()

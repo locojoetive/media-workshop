@@ -4,6 +4,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(RigidbodyController))]
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Animator))]
 public class WalkerSpitterController : MonoBehaviour
 {
     [Header("References")]
@@ -27,11 +28,13 @@ public class WalkerSpitterController : MonoBehaviour
     public bool isStaying;
     public SpriteRenderer spriteRenderer;
     public RigidbodyController rigidbodyController;
+    public Animator animator;
 
     private void Awake()
     {
         rigidbodyController = GetComponent<RigidbodyController>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
 
     private void Start()
@@ -56,10 +59,12 @@ public class WalkerSpitterController : MonoBehaviour
 
         if (isStaying || (!isGrounded && isWallAhead))
         {
+            animator.SetFloat("Speed", 0f);
             return;
         }
         var moveSpeed = speed * Mathf.Sign(transform.localScale.x);
         rigidbodyController.SetVelocityX(moveSpeed);
+        animator.SetFloat("Speed", Mathf.Abs(moveSpeed));
     }
 
     private void Update()
@@ -107,7 +112,6 @@ public class WalkerSpitterController : MonoBehaviour
             if (attack.state != AttackStateType.Idle)
             {
                 attack.EnterAttackState();
-                spriteRenderer.color = Color.white;
             }
             return;
         }
@@ -115,7 +119,6 @@ public class WalkerSpitterController : MonoBehaviour
         else if (attack.state == AttackStateType.Idle)
         {
             attack.EnterAttackState();
-            spriteRenderer.color = Color.blue;
         }
 
         // move spawn point
@@ -133,17 +136,15 @@ public class WalkerSpitterController : MonoBehaviour
 
     private void OnCoolDown()
     {
-        spriteRenderer.color = Color.blue;
     }
 
     private void OnAnticipation()
     {
-        spriteRenderer.color = Color.yellow;
+        animator.SetBool("Attack", true);
     }
 
     private void OnAttack()
     {
-        spriteRenderer.color = Color.red;
         var projectile = Instantiate(
             projectilePrefab,
             transform.position,
@@ -163,18 +164,17 @@ public class WalkerSpitterController : MonoBehaviour
     private IEnumerator IgnoreCollisionsTemporarily(ProjectileController projectile)
     {
         Physics2D.IgnoreCollision(projectile.GetComponent<Collider2D>(), GetComponent<Collider2D>());
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.3f);
         Physics2D.IgnoreCollision(projectile.GetComponent<Collider2D>(), GetComponent<Collider2D>(), false);
     }
 
     private void OnRecovery()
     {
-        spriteRenderer.color = Color.green;
+        animator.SetBool("Attack", false);
     }
 
     private void OnIdle()
     {
-        spriteRenderer.color = Color.white;
     }
 
     private void FlipX()

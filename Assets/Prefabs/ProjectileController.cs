@@ -29,6 +29,7 @@ public class ProjectileController : MonoBehaviour
     {
         Initialize();
         rb.linearVelocity = projectileShootDirection;
+        rb.angularVelocity = Random.Range(-200f, 200f);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

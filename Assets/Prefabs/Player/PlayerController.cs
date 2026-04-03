@@ -39,7 +39,8 @@ public class PlayerController : MonoBehaviour
     [Header("Self-Retrieved References")]
     public RendererController _renderer;
     public RigidbodyController rigidbodyController;
-    public ParticleSystem particleSystem;
+    public Animator animator;
+    public ParticleSystem particles;
 
 
     [Header("Debugging")]
@@ -56,9 +57,9 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         rigidbodyController = GetComponent<RigidbodyController>();
-
         _renderer = GetComponentInChildren<RendererController>();
-        particleSystem = GetComponentInChildren<ParticleSystem>();
+        particles = GetComponentInChildren<ParticleSystem>();
+        animator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -86,6 +87,8 @@ public class PlayerController : MonoBehaviour
 
     private void HandleAnimation()
     {
+        animator.SetFloat("Speed", Mathf.Abs(rigidbodyController.LinearVelocityX));
+
         if (!rigidbodyController.isStunned)
         {
             var inputHorizontalMovement = playerInput.leftStickDirection.x;
@@ -109,13 +112,13 @@ public class PlayerController : MonoBehaviour
         }
 
 
-        if (isGrounded && !particleSystem.isPlaying)
+        if (isGrounded && !particles.isPlaying)
         {
-            particleSystem.Play();
+            particles.Play();
         }
-        else if (!isGrounded && particleSystem.isPlaying)
+        else if (!isGrounded && particles.isPlaying)
         {
-            particleSystem.Stop();
+            particles.Stop();
         } 
     }
 
@@ -240,6 +243,7 @@ public class PlayerController : MonoBehaviour
         }
         hitPoints -= damagePerHit;
         onTakeDamage?.Invoke(hitPoints);
+        ShakeCamera.Instance.ShakeForDuration(0.5f, stunDuration);
         StartCoroutine(StunAndInvincibleCoroutine());
 
         // Knockback

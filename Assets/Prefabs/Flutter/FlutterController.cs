@@ -37,6 +37,7 @@ public class FlutterController : MonoBehaviour
     {
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         rigidbodyController = GetComponent<RigidbodyController>();
+        animator = GetComponent<Animator>();
     }
 
     private void Start()
@@ -229,7 +230,6 @@ public class FlutterController : MonoBehaviour
             if (attack.state != AttackStateType.Idle)
             {
                 attack.EnterAttackState();
-                spriteRenderer.color = Color.white;
             }
             return;
         }
@@ -237,7 +237,6 @@ public class FlutterController : MonoBehaviour
         else if (attack.state == AttackStateType.Idle)
         {
             attack.EnterAttackState();
-            spriteRenderer.color = Color.blue;
         }
         
         var distanceOnXAxis = Mathf.Abs(playerDetectorController.target.position.x - transform.position.x);
@@ -247,19 +246,16 @@ public class FlutterController : MonoBehaviour
 
     private void OnCoolDown()
     {
-        spriteRenderer.color = Color.blue;
     }
 
     private void OnAnticipation()
     {
-        spriteRenderer.color = Color.yellow;
     }
 
     private void OnAttack()
     {
         rigidbodyController.SetVelocity(new Vector2(0.75f * rigidbodyController.LinearVelocityX, recoilForce));
         rigidbodyController.FadeMovementForDuration(1f);
-        spriteRenderer.color = Color.red;
         var projectile = Instantiate(
             projectilePrefab,
             projectileSpawnPoint.position,
@@ -270,23 +266,23 @@ public class FlutterController : MonoBehaviour
 
     private void OnRecovery()
     {
-        spriteRenderer.color = Color.green;
     }
 
     private void OnIdle()
     {
-        spriteRenderer.color = Color.white;
     }
     #endregion Attack
 
 
     #region Animation
     [Header("Animation Settings")]
+    public Animator animator;
     public float maxVelocity = 20f;
     public float minimumScale = 0.8f;
     public float maximumScale = 1.2f;
     private void HandleAnimation()
     {
+        animator.SetFloat("VerticalVelocity", rigidbodyController.LinearVelocityY);
         if (rigidbodyController.isStunned)
         {
             return;
