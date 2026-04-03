@@ -17,7 +17,12 @@ public static class MathHelper
         gravity = Mathf.Abs(gravity);
         
         float v2 = projectileSpeed * projectileSpeed;
-        float horizontalDist = Mathf.Abs(dx);
+        float horizontalDist = Mathf.Abs(dx);        
+        // Handle case where target is directly above or below
+        if (Mathf.Approximately(horizontalDist, 0))
+        {
+            return Mathf.Sign(dy) * projectileSpeed * Vector2.up;
+        }
         float discriminant = v2 * v2 - gravity * (gravity * horizontalDist * horizontalDist + 2 * v2 * dy);
         
         if (discriminant < 0)
