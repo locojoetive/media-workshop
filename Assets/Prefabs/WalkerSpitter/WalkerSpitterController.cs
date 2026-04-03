@@ -163,9 +163,10 @@ public class WalkerSpitterController : MonoBehaviour
 
     private IEnumerator IgnoreCollisionsTemporarily(ProjectileController projectile)
     {
-        Physics2D.IgnoreCollision(projectile.GetComponent<Collider2D>(), GetComponent<Collider2D>());
-        yield return new WaitForSeconds(0.3f);
-        Physics2D.IgnoreCollision(projectile.GetComponent<Collider2D>(), GetComponent<Collider2D>(), false);
+        var projectileCollider = projectile.GetComponent<Collider2D>();
+        projectileCollider.enabled = false;
+        yield return new WaitForSeconds(0.2f);
+        projectileCollider.enabled = true;
     }
 
     private void OnRecovery()
