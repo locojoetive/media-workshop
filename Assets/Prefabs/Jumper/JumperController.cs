@@ -27,14 +27,14 @@ public class JumperController : MonoBehaviour
     public Rigidbody2D rb;
     public Collider2D col;
     public SpriteRenderer spriteRenderer;
-    public MovementInfluenceController movementInfluenceController;
+    public RigidbodyController movementInfluenceController;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        movementInfluenceController = GetComponent<MovementInfluenceController>();
+        movementInfluenceController = GetComponent<RigidbodyController>();
     }
 
     private void FixedUpdate()

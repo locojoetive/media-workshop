@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-[RequireComponent(typeof(MovementInfluenceController))]
+[RequireComponent(typeof(RigidbodyController))]
 [RequireComponent(typeof(Rigidbody2D))]
 public class WalkerController : MonoBehaviour
 {
@@ -9,7 +9,7 @@ public class WalkerController : MonoBehaviour
     public Transform groundCheck;
     public Transform groundCheckAhead;
     public Transform wallCheckAhead;
-    public MovementInfluenceController movementInfluenceController;
+    public RigidbodyController movementInfluenceController;
 
     [Header("Settings")]
     public float speed = 5f;
@@ -29,7 +29,7 @@ public class WalkerController : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        movementInfluenceController = GetComponent<MovementInfluenceController>();
+        movementInfluenceController = GetComponent<RigidbodyController>();
     }
 
     private void FixedUpdate()

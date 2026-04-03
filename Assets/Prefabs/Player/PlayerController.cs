@@ -12,7 +12,7 @@ public enum PlayerActionType
 }
 
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(MovementInfluenceController))]
+[RequireComponent(typeof(RigidbodyController))]
 public class PlayerController : MonoBehaviour
 {
     PlayerInputController playerInput => GameManager.Instance.PlayerInputController;
@@ -37,9 +37,8 @@ public class PlayerController : MonoBehaviour
     public float checkRadius = 0.2f;
 
     [Header("Self-Retrieved References")]
-    public Rigidbody2D _rigidbody;
     public RendererController _renderer;
-    public MovementInfluenceController movementInfluenceController;
+    public RigidbodyController rigidbodyController;
     public ParticleSystem particleSystem;
 
 
@@ -56,8 +55,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        _rigidbody = GetComponent<Rigidbody2D>();
-        movementInfluenceController = GetComponent<MovementInfluenceController>();
+        rigidbodyController = GetComponent<RigidbodyController>();
 
         _renderer = GetComponentInChildren<RendererController>();
         particleSystem = GetComponentInChildren<ParticleSystem>();
@@ -65,7 +63,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (isDead || movementInfluenceController.isStunned)
+        if (isDead || rigidbodyController.isStunned)
         {
             return;
         }
@@ -88,7 +86,7 @@ public class PlayerController : MonoBehaviour
 
     private void HandleAnimation()
     {
-        if (!movementInfluenceController.isStunned)
+        if (!rigidbodyController.isStunned)
         {
             var inputHorizontalMovement = playerInput.leftStickDirection.x;
             var inputSprint = playerInput.rightTriggerValue;
@@ -99,7 +97,7 @@ public class PlayerController : MonoBehaviour
             var horizontalMovementFactorX = 1f + 1f - horizontalMovementFactorY;
 
             // vertical
-            var velocityFactor = Mathf.Abs(_rigidbody.linearVelocity.y);
+            var velocityFactor = Mathf.Abs(rigidbodyController.LinearVelocityY);
             var verticalMovementFactorY = MathHelper.Map(velocityFactor, 0f, 20f, 1f, 1.2f);
             var verticalMovementFactorX = 1f + 1f - verticalMovementFactorY;
 
@@ -150,10 +148,10 @@ public class PlayerController : MonoBehaviour
             * inputSprint
             * (sprintSpeed - moveSpeed);
         var totalMoveSpeed = currentMoveSpeed + currentSprintSpeed;
-        var movementInfluence = movementInfluenceController.movementInfluence;
-        var horizontalVelocity = totalMoveSpeed * movementInfluence + _rigidbody.linearVelocity.x * (1f - movementInfluence);
+        var movementInfluence = rigidbodyController.movementInfluence;
+        var horizontalVelocity = totalMoveSpeed * movementInfluence + rigidbodyController.LinearVelocityX * (1f - movementInfluence);
 
-        _rigidbody.linearVelocity = new Vector2(horizontalVelocity, _rigidbody.linearVelocity.y);
+        rigidbodyController.SetVelocityX(horizontalVelocity);
     }
 
     private void FlipX(bool flip)
@@ -164,7 +162,7 @@ public class PlayerController : MonoBehaviour
     private void HandleJump()
     {
         var inputJump = playerInput.buttonSouthPressed;
-        jumpSpeedLow = Mathf.Abs(_rigidbody.linearVelocity.y) <= 0.5f;
+        jumpSpeedLow = Mathf.Abs(rigidbodyController.LinearVelocityY) <= 0.5f;
         if (isJumping && jumpSpeedLow)
         {
             isJumping = false;
@@ -172,7 +170,7 @@ public class PlayerController : MonoBehaviour
         else if (!isJumping && isGrounded && inputJump && !wasInputJumpPressedInLastFrame)
         {
             var force = jumpForce;
-            _rigidbody.AddForce(Vector2.up * force, ForceMode2D.Impulse);
+            rigidbodyController.SetVelocityY(force);
             isJumping = true;
         }    
         wasInputJumpPressedInLastFrame = inputJump;
@@ -217,7 +215,7 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator StunAndInvincibleCoroutine()
     {
-        movementInfluenceController.Stun();
+        rigidbodyController.Stun();
         isInvincible = true;
 
         _renderer.Flash(stunDuration);
@@ -230,7 +228,7 @@ public class PlayerController : MonoBehaviour
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-        movementInfluenceController.Unstun();
+        rigidbodyController.Unstun();
 
         _renderer.SetAlpha(0.5f);
         yield return new WaitForSeconds(invincibilityDuration - stunDuration);
@@ -251,7 +249,8 @@ public class PlayerController : MonoBehaviour
         // Knockback
         Debug.Log($"Applying knockback with normal {collisionNormal.normalized}");
         var knockbackDirection = -collisionNormal.normalized - Mathf.Sign(transform.localScale.x) * Vector2.right;
-        _rigidbody.linearVelocity = knockbackDirection.normalized * knockbackForce;
+        rigidbodyController.SetVelocityX(knockbackDirection.normalized.x * knockbackForce);
+        rigidbodyController.SetVelocityY(knockbackDirection.normalized.y * knockbackForce);
 
         // Kill
         if (hitPoints <= 0)

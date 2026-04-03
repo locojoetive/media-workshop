@@ -57,7 +57,7 @@ public class BatController : MonoBehaviour
         {
             return;
         }
-        if (collision.gameObject.TryGetComponent<MovementInfluenceController>(out var movementInfluence))
+        if (collision.gameObject.TryGetComponent<RigidbodyController>(out var movementInfluence))
         {
             movementInfluence.FadeMovementForDuration(1f);
         }

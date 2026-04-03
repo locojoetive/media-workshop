@@ -16,7 +16,7 @@ public enum PatrolStateType
 }
 
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(MovementInfluenceController))]
+[RequireComponent(typeof(RigidbodyController))]
 public class FlutterController : MonoBehaviour
 {
     
@@ -30,13 +30,13 @@ public class FlutterController : MonoBehaviour
 
     [Header("Debug")]
     public SpriteRenderer spriteRenderer;
-    public MovementInfluenceController rigidbodyController;
+    public RigidbodyController rigidbodyController;
 
     #region LifeCycle
     private void Awake()
     {
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        rigidbodyController = GetComponent<MovementInfluenceController>();
+        rigidbodyController = GetComponent<RigidbodyController>();
     }
 
     private void Start()

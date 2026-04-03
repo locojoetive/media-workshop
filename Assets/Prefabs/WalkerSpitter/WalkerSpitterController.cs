@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[RequireComponent(typeof(MovementInfluenceController))]
+[RequireComponent(typeof(RigidbodyController))]
 [RequireComponent(typeof(Rigidbody2D))]
 public class WalkerSpitterController : MonoBehaviour
 {
@@ -24,13 +24,13 @@ public class WalkerSpitterController : MonoBehaviour
     public bool isGroundAhead;
     public bool isStaying;
     public SpriteRenderer spriteRenderer;
-    public MovementInfluenceController movementInfluenceController;
+    public RigidbodyController movementInfluenceController;
     public Rigidbody2D rb;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        movementInfluenceController = GetComponent<MovementInfluenceController>();
+        movementInfluenceController = GetComponent<RigidbodyController>();
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 

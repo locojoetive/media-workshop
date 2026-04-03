@@ -45,7 +45,7 @@ public class TrampolineController : MonoBehaviour
         var bounceDirection = normal.normalized;
         rigidbody.linearVelocity = 1f / (rigidbody.mass * rigidbody.mass) * bounceDirection * upBounceForce;
 
-        if (collision.gameObject.TryGetComponent<MovementInfluenceController>(out var movementInfluenceController))
+        if (collision.gameObject.TryGetComponent<RigidbodyController>(out var movementInfluenceController))
         {
             // Fade movement based on horizontal bounce force
             var horizontalImpact = AnimationHelper.EaseInQubic(Mathf.Abs(bounceDirection.x));

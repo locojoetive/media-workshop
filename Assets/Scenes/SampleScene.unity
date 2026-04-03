@@ -2507,42 +2507,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 698958379842943143, guid: f72324e057d84b544a31dce9755d798f, type: 3}
       propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3848977517033035700, guid: f72324e057d84b544a31dce9755d798f, type: 3}
-      propertyPath: m_Name
-      value: Sensors
-      objectReference: {fileID: 0}
-    - target: {fileID: 4790485486016389159, guid: f72324e057d84b544a31dce9755d798f, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 1.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 4790485486016389159, guid: f72324e057d84b544a31dce9755d798f, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5007915208263757641, guid: f72324e057d84b544a31dce9755d798f, type: 3}
-      propertyPath: isWallAhead
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5007915208263757641, guid: f72324e057d84b544a31dce9755d798f, type: 3}
-      propertyPath: wallMask.m_Bits
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5007915208263757641, guid: f72324e057d84b544a31dce9755d798f, type: 3}
-      propertyPath: attackFlutterForce
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 5007915208263757641, guid: f72324e057d84b544a31dce9755d798f, type: 3}
-      propertyPath: idleMaximumFlutterForce
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5007915208263757641, guid: f72324e057d84b544a31dce9755d798f, type: 3}
-      propertyPath: attackMaximumFlutterForce
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 7812737851051581540, guid: f72324e057d84b544a31dce9755d798f, type: 3}
-      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8917236558903028293, guid: f72324e057d84b544a31dce9755d798f, type: 3}
@@ -2583,10 +2547,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8917236558903028293, guid: f72324e057d84b544a31dce9755d798f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8942744013025083205, guid: f72324e057d84b544a31dce9755d798f, type: 3}
-      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
