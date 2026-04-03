@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class MovementInfluenceController : MonoBehaviour
 {
     public float movementInfluence = 1f;
@@ -8,11 +10,32 @@ public class MovementInfluenceController : MonoBehaviour
     public bool isStunned = false;
 
     public Rigidbody2D rb;
+    public Vector2 Position => rb.position;
+    public float LinearVelocityX => rb.linearVelocity.x;
+    public float LinearVelocityY => rb.linearVelocity.y;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
     }
+
+    public void SetVelocity(Vector2 velocity)
+    {
+        rb.linearVelocity = rb.linearVelocity * (1f - movementInfluence) + velocity * movementInfluence;
+    }
+
+    public void SetVelocityX(float horizontalVelocity)
+    {
+        var speed = horizontalVelocity * movementInfluence + rb.linearVelocity.x * (1f - movementInfluence);
+        rb.linearVelocity = new Vector2(speed, rb.linearVelocity.y);
+    }
+    public void SetVelocityY(float verticalVelocity)
+    {
+        var speed = verticalVelocity * movementInfluence + rb.linearVelocity.y * (1f - movementInfluence);
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, speed);
+    }
+    
+
     public void FadeMovementForDuration(float duration)
     {
         if (isFading)
@@ -45,15 +68,5 @@ public class MovementInfluenceController : MonoBehaviour
     internal void Unstun()
     {
         isStunned = false;
-    }
-
-    public void SetForceToRigidbody(Vector2 force)
-    {
-        rb.linearVelocity = rb.linearVelocity * (1f - movementInfluence) + force * movementInfluence;
-    }
-
-    public Vector2 GetForcePlusLinearVelocity(Vector2 force)
-    {
-        return rb.linearVelocity + movementInfluence * force;
     }
 }

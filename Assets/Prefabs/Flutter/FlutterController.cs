@@ -29,16 +29,14 @@ public class FlutterController : MonoBehaviour
     public bool isWallAhead;
 
     [Header("Debug")]
-    public Rigidbody2D rb;
     public SpriteRenderer spriteRenderer;
-    public MovementInfluenceController movementInfluenceController;
+    public MovementInfluenceController rigidbodyController;
 
     #region LifeCycle
     private void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        movementInfluenceController = GetComponent<MovementInfluenceController>();
+        rigidbodyController = GetComponent<MovementInfluenceController>();
     }
 
     private void Start()
@@ -131,14 +129,13 @@ public class FlutterController : MonoBehaviour
     private void HandleHorizontalMovement()
     {
         var isPlayerDetected = playerDetectorController.isPlayerDetected;
-        var movementInfluence = movementInfluenceController.movementInfluence;
         if (!isPlayerDetected)
         {
             var moveSpeed = speed * Mathf.Sign(transform.localScale.x);
             var horizontalVelocity = patrolState == PatrolStateType.Moving && !isWallAhead
-                ? moveSpeed * movementInfluence + rb.linearVelocity.x * (1f - movementInfluence)
+                ? moveSpeed
                 : 0f;
-            movementInfluenceController.SetForceToRigidbody(new Vector2(horizontalVelocity, rb.linearVelocity.y));
+            rigidbodyController.SetVelocityX(horizontalVelocity);
         }
         else
         {
@@ -148,8 +145,8 @@ public class FlutterController : MonoBehaviour
                 FlipX(Mathf.Sign(moveDirection.x));
             }
             var moveSpeed = speed * Mathf.Sign(moveDirection.x) * Mathf.Clamp01(Mathf.Abs(moveDirection.x));
-            var horizontalVelocity = moveSpeed * movementInfluence + rb.linearVelocity.x * (1f - movementInfluence);
-            movementInfluenceController.SetForceToRigidbody(new Vector2(horizontalVelocity, rb.linearVelocity.y));
+            var horizontalVelocity = moveSpeed;
+            rigidbodyController.SetVelocityX(horizontalVelocity);
             Debug.DrawRay(transform.position, moveDirection, Color.blue);
             HandleAttack();
         }
@@ -161,8 +158,11 @@ public class FlutterController : MonoBehaviour
     public FlyStateType flyState;
     float originalHeight = 0f;
     public float idleCatchFallForce = 10f;
+    public float attackCatchFallForce = 10f;
     public float idleFlutterForce = 10f;
-    public float idleMaximumFlutterSpeed = 10f;
+    public float attackFlutterForce = 10f;
+    public float idleMaximumFlutterForce = 10f;
+    public float attackMaximumFlutterForce = 10f;
 
     private void HandleFlyState()
     {
@@ -177,32 +177,30 @@ public class FlutterController : MonoBehaviour
             ? attackFlutterForce
             : idleFlutterForce;
         var targetMaximumFlutterSpeed = isPlayerDetected
-            ? attackMaximumFlutterSpeed
-            : idleMaximumFlutterSpeed;
+            ? attackMaximumFlutterForce
+            : idleMaximumFlutterForce;
         switch (flyState)
         {
             case FlyStateType.Flying:
-                if (rb.position.y < targetHeight)
+                if (rigidbodyController.Position.y < targetHeight)
                 {
                     flyState = FlyStateType.CatchingFall;
                 }
                 break;
             case FlyStateType.CatchingFall:
-                var catchFallforce = movementInfluenceController.GetForcePlusLinearVelocity(targetCatchFallForce * Vector2.up);
-                var maxCatchFallSpeed = Mathf.Min(catchFallforce.y, 0f);
-                Debug.Log(flyState);
-                movementInfluenceController.SetForceToRigidbody(new Vector2(rb.linearVelocity.x, maxCatchFallSpeed));
-                if (rb.linearVelocityY >= 0f)
+                var catchFallforce = rigidbodyController.LinearVelocityY + targetCatchFallForce;
+                var maxCatchFallSpeed = Mathf.Min(catchFallforce, 0f);
+                rigidbodyController.SetVelocityY(maxCatchFallSpeed);
+                if (rigidbodyController.LinearVelocityY >= 0f)
                 {
                     flyState = FlyStateType.Fluttering;
                 }
                 break;
             case FlyStateType.Fluttering:
-                var flutterforce = movementInfluenceController.GetForcePlusLinearVelocity(targetFlutterForce * Vector2.up);
-                var maxFlutterSpeed = Mathf.Min(flutterforce.y, targetMaximumFlutterSpeed);
-                Debug.Log(flyState);
-                movementInfluenceController.SetForceToRigidbody(new Vector2(rb.linearVelocity.x, maxFlutterSpeed));
-                if (rb.position.y > targetHeight || rb.linearVelocityY >= targetMaximumFlutterSpeed)
+                var flutterforce = rigidbodyController.LinearVelocityY + targetFlutterForce;
+                var maxFlutterSpeed = Mathf.Min(flutterforce, targetMaximumFlutterSpeed);
+                rigidbodyController.SetVelocityY(maxFlutterSpeed);
+                if (rigidbodyController.Position.y > targetHeight || rigidbodyController.LinearVelocityY >= targetMaximumFlutterSpeed)
                 {
                     flyState = FlyStateType.Flying;
                 }
@@ -221,9 +219,6 @@ public class FlutterController : MonoBehaviour
     public PlayerDetectorController playerDetectorController;
     public float heightAbovePlayer = 3f;
     public AttackState attack;
-    public float attackCatchFallForce = 10f;
-    public float attackFlutterForce = 10f;
-    public float attackMaximumFlutterSpeed = 10f;
     public float attackRange = 1f;
     
     private void HandleAttack()
@@ -262,8 +257,8 @@ public class FlutterController : MonoBehaviour
 
     private void OnAttack()
     {
-        movementInfluenceController.SetForceToRigidbody(new Vector2(0.75f *rb.linearVelocityX, recoilForce));
-        movementInfluenceController.FadeMovementForDuration(1f);
+        rigidbodyController.SetVelocity(new Vector2(0.75f * rigidbodyController.LinearVelocityX, recoilForce));
+        rigidbodyController.FadeMovementForDuration(1f);
         spriteRenderer.color = Color.red;
         var projectile = Instantiate(
             projectilePrefab,
@@ -292,17 +287,17 @@ public class FlutterController : MonoBehaviour
     public float maximumScale = 1.2f;
     private void HandleAnimation()
     {
-        if (movementInfluenceController.isStunned)
+        if (rigidbodyController.isStunned)
         {
             return;
         }
         // horizontal
-        var velocityFactorX = Mathf.Abs(rb.linearVelocityX);
+        var velocityFactorX = Mathf.Abs(rigidbodyController.LinearVelocityX);
         var horizontalMovementFactorY = MathHelper.Map(Mathf.Abs(velocityFactorX), 0f, maxVelocity, 1f, minimumScale);
         var horizontalMovementFactorX = 1f + 1f - horizontalMovementFactorY;
 
         // vertical
-        var velocityFactorY = Mathf.Abs(rb.linearVelocity.y);
+        var velocityFactorY = Mathf.Abs(rigidbodyController.LinearVelocityY);
         var verticalMovementFactorY = MathHelper.Map(velocityFactorY, 0f, maxVelocity, 1f, maximumScale);
         var verticalMovementFactorX = 1f + 1f - verticalMovementFactorY;
 

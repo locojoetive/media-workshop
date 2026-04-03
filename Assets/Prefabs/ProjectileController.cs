@@ -70,7 +70,7 @@ public class ProjectileController : MonoBehaviour
         }
         isNeutralized = true;
         spriteRenderer.color = Color.green;
-        Destroy(gameObject, 1f);
+        Destroy(gameObject, 5f);
     }
 
     private IEnumerator DissolveCoroutine()

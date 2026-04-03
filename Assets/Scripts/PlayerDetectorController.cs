@@ -11,6 +11,11 @@ public class PlayerDetectorController : MonoBehaviour
     public bool isPlayerInReach;
     public Transform target;
 
+    private void Awake()
+    {
+        idleDetector.SetActive(true);
+        aggressiveDetector.SetActive(false);
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -65,7 +70,6 @@ public class PlayerDetectorController : MonoBehaviour
         {
             idleDetector.SetActive(false);
             aggressiveDetector.SetActive(true);
-            wasPlayerDetectedInLastFrame = true;
         }
         wasPlayerDetectedInLastFrame = isPlayerDetected;
     }

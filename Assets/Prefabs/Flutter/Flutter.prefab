@@ -136,11 +136,10 @@ MonoBehaviour:
   wallDistance: 0.2
   wallMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1
   isWallAhead: 0
-  rb: {fileID: 0}
   spriteRenderer: {fileID: 0}
-  movementInfluenceController: {fileID: 0}
+  rigidbodyController: {fileID: 0}
   patrolState: 0
   stayDuration: 1
   stayTime: 0
@@ -149,8 +148,11 @@ MonoBehaviour:
   speed: 5
   flyState: 0
   idleCatchFallForce: 2
+  attackCatchFallForce: 5
   idleFlutterForce: 5
-  idleMaximumFlutterSpeed: 5
+  attackFlutterForce: 8
+  idleMaximumFlutterForce: 5
+  attackMaximumFlutterForce: 8
   projectilePrefab: {fileID: 276666393471253814, guid: dc6662c9ac63a5547aa2452b0603f9f6, type: 3}
   projectileSpawnPoint: {fileID: 1096544148463323343}
   projectileSpeed: 0
@@ -168,9 +170,6 @@ MonoBehaviour:
     recoveryDuration: 0.5
     recoveryTime: 0
     canAttack: 0
-  attackCatchFallForce: 5
-  attackFlutterForce: 5
-  attackMaximumFlutterSpeed: 5
   attackRange: 1
   maxVelocity: 20
   minimumScale: 0.8
@@ -289,7 +288,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5419118271561507215}
   m_Layer: 9
-  m_Name: Detectors
+  m_Name: Sensors
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -426,7 +425,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2018156332090762676
 Transform:
   m_ObjectHideFlags: 0
@@ -607,7 +606,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4446972553513394772, guid: dc6662c9ac63a5547aa2452b0603f9f6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 1.25
       objectReference: {fileID: 0}
     - target: {fileID: 4446972553513394772, guid: dc6662c9ac63a5547aa2452b0603f9f6, type: 3}
       propertyPath: m_LocalPosition.y
