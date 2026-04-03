@@ -44,8 +44,9 @@ public static class MathHelper
         return new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * projectileSpeed;
     }
 
-    public static float Map(float value, float inMin, float inMax, float outMin, float outMax)
+    public static float ClampAndMap(float value, float inMin, float inMax, float outMin, float outMax)
     {
+        value = Mathf.Clamp(value, inMin, inMax);
         return (value - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
     }
 }

@@ -24,17 +24,15 @@ public class JumperController : MonoBehaviour
     [Header("Debug")]
     public bool isGrounded;
     public bool isWallAhead;
-    public Rigidbody2D rb;
     public Collider2D col;
     public SpriteRenderer spriteRenderer;
-    public RigidbodyController movementInfluenceController;
+    public RigidbodyController rigidbodyController;
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        movementInfluenceController = GetComponent<RigidbodyController>();
+        rigidbodyController = GetComponent<RigidbodyController>();
     }
 
     private void FixedUpdate()
@@ -45,7 +43,8 @@ public class JumperController : MonoBehaviour
         if (isWallAhead)
         {
             FlipX();
-            rb.linearVelocity = new Vector2(-rb.linearVelocity.x, rb.linearVelocity.y);
+            rigidbodyController.SetVelocityX(-rigidbodyController.LinearVelocityX);
+            return;
         }
 
         if (!isGrounded)
@@ -60,7 +59,7 @@ public class JumperController : MonoBehaviour
         }
         idleTime = 0f;
         var horizontalJumpDirection = Mathf.Sign(transform.localScale.x) * jumpLength;
-        rb.linearVelocity = new Vector2(horizontalJumpDirection, jumpHeight);
+        rigidbodyController.SetVelocity(new Vector2(horizontalJumpDirection, jumpHeight));
     }
 
     private void Update()
@@ -102,23 +101,23 @@ public class JumperController : MonoBehaviour
     public float maximumScale = 1.2f;
     private void HandleAnimation()
     {
-        if (movementInfluenceController.isStunned)
+        if (rigidbodyController.isStunned)
         {
             return;
         }
         // horizontal
-        var velocityFactorX = Mathf.Abs(rb.linearVelocityX);
-        var horizontalMovementFactorY = MathHelper.Map(Mathf.Abs(velocityFactorX), 0f, maxVelocity, 1f, minimumScale);
-        var horizontalMovementFactorX = 1f + 1f - horizontalMovementFactorY;
+        var velocityFactorX = Mathf.Abs(rigidbodyController.LinearVelocityX);
+        var horizontalMovementFactorOnScaleY = MathHelper.ClampAndMap(Mathf.Abs(velocityFactorX), 0f, maxVelocity, 1f, minimumScale);
+        var horizontalMovementFactorOnScaleX = 1f + 1f - horizontalMovementFactorOnScaleY;
 
         // vertical
-        var velocityFactorY = Mathf.Abs(rb.linearVelocity.y);
-        var verticalMovementFactorY = MathHelper.Map(velocityFactorY, 0f, maxVelocity, 1f, maximumScale);
-        var verticalMovementFactorX = 1f + 1f - verticalMovementFactorY;
+        var velocityFactorY = Mathf.Abs(rigidbodyController.LinearVelocityY);
+        var verticalMovementFactorOnScaleY = MathHelper.ClampAndMap(velocityFactorY, 0f, maxVelocity, 1f, maximumScale);
+        var verticalMovementFactorOnScaleX = 1f + 1f - verticalMovementFactorOnScaleY;
 
         spriteRenderer.transform.localScale = new Vector3(
-            verticalMovementFactorX * horizontalMovementFactorX,
-            verticalMovementFactorY * horizontalMovementFactorY,
+            verticalMovementFactorOnScaleX * horizontalMovementFactorOnScaleX,
+            verticalMovementFactorOnScaleY * horizontalMovementFactorOnScaleY,
             1f
         );
     }

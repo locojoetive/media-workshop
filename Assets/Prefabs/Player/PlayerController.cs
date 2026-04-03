@@ -93,12 +93,12 @@ public class PlayerController : MonoBehaviour
 
             // horizontal
             var inputFactor = (Mathf.Abs(inputHorizontalMovement) + inputSprint) * 0.5f;
-            var horizontalMovementFactorY = MathHelper.Map(Mathf.Abs(inputFactor), 0f, 1f, 1f, 0.8f);
+            var horizontalMovementFactorY = MathHelper.ClampAndMap(Mathf.Abs(inputFactor), 0f, 1f, 1f, 0.8f);
             var horizontalMovementFactorX = 1f + 1f - horizontalMovementFactorY;
 
             // vertical
             var velocityFactor = Mathf.Abs(rigidbodyController.LinearVelocityY);
-            var verticalMovementFactorY = MathHelper.Map(velocityFactor, 0f, 20f, 1f, 1.2f);
+            var verticalMovementFactorY = MathHelper.ClampAndMap(velocityFactor, 0f, 20f, 1f, 1.2f);
             var verticalMovementFactorX = 1f + 1f - verticalMovementFactorY;
 
             _renderer.transform.localScale = new Vector3(
@@ -198,7 +198,6 @@ public class PlayerController : MonoBehaviour
         }
         else if (wasAttackingInLastFrame)
         {
-            Debug.Log("HIT");
             batController.Swing(lastAttackDirection);
         }
         

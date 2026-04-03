@@ -293,12 +293,12 @@ public class FlutterController : MonoBehaviour
         }
         // horizontal
         var velocityFactorX = Mathf.Abs(rigidbodyController.LinearVelocityX);
-        var horizontalMovementFactorY = MathHelper.Map(Mathf.Abs(velocityFactorX), 0f, maxVelocity, 1f, minimumScale);
+        var horizontalMovementFactorY = MathHelper.ClampAndMap(Mathf.Abs(velocityFactorX), 0f, maxVelocity, 1f, minimumScale);
         var horizontalMovementFactorX = 1f + 1f - horizontalMovementFactorY;
 
         // vertical
         var velocityFactorY = Mathf.Abs(rigidbodyController.LinearVelocityY);
-        var verticalMovementFactorY = MathHelper.Map(velocityFactorY, 0f, maxVelocity, 1f, maximumScale);
+        var verticalMovementFactorY = MathHelper.ClampAndMap(velocityFactorY, 0f, maxVelocity, 1f, maximumScale);
         var verticalMovementFactorX = 1f + 1f - verticalMovementFactorY;
 
         spriteRenderer.transform.localScale = new Vector3(

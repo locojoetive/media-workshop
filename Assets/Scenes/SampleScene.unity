@@ -2440,21 +2440,33 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2662782043486873694, guid: 7b88b557c3379df45b1b6f4908b8f830, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2662782043486873694, guid: 7b88b557c3379df45b1b6f4908b8f830, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7320056003135584779, guid: 7b88b557c3379df45b1b6f4908b8f830, type: 3}
+      propertyPath: groundMask.m_Bits
+      value: 961
+      objectReference: {fileID: 0}
     - target: {fileID: 8132856324387344924, guid: 7b88b557c3379df45b1b6f4908b8f830, type: 3}
       propertyPath: m_Name
       value: Jumper
       objectReference: {fileID: 0}
     - target: {fileID: 8132856324387344924, guid: 7b88b557c3379df45b1b6f4908b8f830, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8306882465731568517, guid: 7b88b557c3379df45b1b6f4908b8f830, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 52.75
+      value: 6.25
       objectReference: {fileID: 0}
     - target: {fileID: 8306882465731568517, guid: 7b88b557c3379df45b1b6f4908b8f830, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6.5
+      value: 6.75
       objectReference: {fileID: 0}
     - target: {fileID: 8306882465731568517, guid: 7b88b557c3379df45b1b6f4908b8f830, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2487,6 +2499,18 @@ PrefabInstance:
     - target: {fileID: 8306882465731568517, guid: 7b88b557c3379df45b1b6f4908b8f830, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9073238452616601535, guid: 7b88b557c3379df45b1b6f4908b8f830, type: 3}
+      propertyPath: m_Mass
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9073238452616601535, guid: 7b88b557c3379df45b1b6f4908b8f830, type: 3}
+      propertyPath: m_UseAutoMass
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9073238452616601535, guid: 7b88b557c3379df45b1b6f4908b8f830, type: 3}
+      propertyPath: m_GravityScale
+      value: 0.2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
