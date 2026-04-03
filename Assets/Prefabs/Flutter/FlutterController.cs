@@ -140,7 +140,10 @@ public class FlutterController : MonoBehaviour
         }
         else
         {
-            var moveDirection = playerDetectorController.target.position + Vector3.up * heightAbovePlayer - transform.position;
+            
+            var target = playerDetectorController.target;
+            var targetPosition = target.position + attackDisplacement * Mathf.Sign(target.localScale.x) * Vector3.right;
+            var moveDirection = targetPosition + Vector3.up * heightAbovePlayer - transform.position;
             if (Mathf.Sign(moveDirection.x) != Mathf.Sign(transform.localScale.x))
             {
                 FlipX(Mathf.Sign(moveDirection.x));
@@ -221,6 +224,7 @@ public class FlutterController : MonoBehaviour
     public float heightAbovePlayer = 3f;
     public AttackState attack;
     public float attackRange = 1f;
+    public float attackDisplacement = 1f;
     
     private void HandleAttack()
     {
@@ -239,7 +243,8 @@ public class FlutterController : MonoBehaviour
             attack.EnterAttackState();
         }
         
-        var distanceOnXAxis = Mathf.Abs(playerDetectorController.target.position.x - transform.position.x);
+        var targetPosition = playerDetectorController.target.position.x + playerDetectorController.target.localScale.x * attackDisplacement;
+        var distanceOnXAxis = Mathf.Abs(targetPosition - transform.position.x);
         attack.canAttack = distanceOnXAxis < attackRange;
         attack.Update(Time.deltaTime);
     }

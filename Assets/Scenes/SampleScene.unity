@@ -2537,6 +2537,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Jumper
       objectReference: {fileID: 0}
+    - target: {fileID: 8132856324387344924, guid: 7b88b557c3379df45b1b6f4908b8f830, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8306882465731568517, guid: 7b88b557c3379df45b1b6f4908b8f830, type: 3}
       propertyPath: m_LocalPosition.x
       value: 6.25
@@ -2650,6 +2654,10 @@ PrefabInstance:
     - target: {fileID: 2389975724509556722, guid: dbc2a58fe647fb544abc0f5fe268c051, type: 3}
       propertyPath: m_Name
       value: WalkerSpitter
+      objectReference: {fileID: 0}
+    - target: {fileID: 2389975724509556722, guid: dbc2a58fe647fb544abc0f5fe268c051, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6364477589810162864, guid: dbc2a58fe647fb544abc0f5fe268c051, type: 3}
       propertyPath: m_LocalPosition.x
