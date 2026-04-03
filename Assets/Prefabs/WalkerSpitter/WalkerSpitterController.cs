@@ -111,7 +111,8 @@ public class WalkerSpitterController : MonoBehaviour
             // end attack if player is lost
             if (attack.state != AttackStateType.Idle)
             {
-                attack.EnterAttackState();
+                attack.ExitAttackState();
+                animator.SetBool("Attack", false);
             }
             return;
         }
@@ -159,6 +160,7 @@ public class WalkerSpitterController : MonoBehaviour
         );
         StartCoroutine(IgnoreCollisionsTemporarily(projectile));
         projectile.Initialize(projectileShootDirection);
+        animator.SetBool("Attack", false);
     }
 
     private IEnumerator IgnoreCollisionsTemporarily(ProjectileController projectile)
@@ -171,7 +173,6 @@ public class WalkerSpitterController : MonoBehaviour
 
     private void OnRecovery()
     {
-        animator.SetBool("Attack", false);
     }
 
     private void OnIdle()
