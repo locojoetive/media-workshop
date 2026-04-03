@@ -5255,6 +5255,7 @@ GameObject:
   - component: {fileID: 28524716325919203}
   - component: {fileID: 743767997955167489}
   - component: {fileID: 6794093953797352270}
+  - component: {fileID: 2958887784194671521}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -5398,4 +5399,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MovementInfluenceController
   movementInfluence: 1
+  isFading: 0
   isStunned: 0
+  rb: {fileID: 0}
+--- !u!95 &2958887784194671521
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8711125403106772689}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8e465315fa034ac49ab8824ad8c12171, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
