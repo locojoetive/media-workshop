@@ -33,6 +33,12 @@ public class ProjectileController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        Debug.Log($"Projectile collided with {collision.collider.name}");
+        if (collision.collider.transform.parent != null)
+        {
+            Debug.Log($"Parent of collided object is {collision.collider.transform.parent.name}");
+        }
+        
         if (causedDamage)
         {
             return;

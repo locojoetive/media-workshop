@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(RigidbodyController))]
@@ -24,13 +26,11 @@ public class WalkerSpitterController : MonoBehaviour
     public bool isGroundAhead;
     public bool isStaying;
     public SpriteRenderer spriteRenderer;
-    public RigidbodyController movementInfluenceController;
-    public Rigidbody2D rb;
+    public RigidbodyController rigidbodyController;
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
-        movementInfluenceController = GetComponent<RigidbodyController>();
+        rigidbodyController = GetComponent<RigidbodyController>();
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
@@ -59,9 +59,7 @@ public class WalkerSpitterController : MonoBehaviour
             return;
         }
         var moveSpeed = speed * Mathf.Sign(transform.localScale.x);
-        var movementInfluence = movementInfluenceController.movementInfluence;
-        var horizontalVelocity = moveSpeed * movementInfluence + rb.linearVelocity.x * (1f - movementInfluence);
-        rb.linearVelocity = new Vector2(horizontalVelocity, rb.linearVelocity.y);
+        rigidbodyController.SetVelocityX(moveSpeed);
     }
 
     private void Update()
@@ -80,7 +78,7 @@ public class WalkerSpitterController : MonoBehaviour
 
         if (!isStaying)
         {
-            rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
+            rigidbodyController.SetVelocityX(0f);
             isStaying = true;
             stayTime = 0f;
         }
@@ -97,7 +95,6 @@ public class WalkerSpitterController : MonoBehaviour
     
     [Header("Attack Settings")]
     public GameObject projectilePrefab;
-    public Transform projectileSpawnPoint;
     public float projectileSpeed = 5f;
     public AttackState attack;
     public float attackRange = 12f;
@@ -122,14 +119,12 @@ public class WalkerSpitterController : MonoBehaviour
         }
 
         // move spawn point
-        var spawnPointDistance = Vector2.Distance(projectileSpawnPoint.position, transform.position);
-        var playerDirection = Vector3.ClampMagnitude(playerDetectorController.target.position - transform.position, spawnPointDistance);
+        var playerDirection = playerDetectorController.target.position - transform.position;
         if (playerDirection.x < 0 && transform.localScale.x > 0
             || playerDirection.x > 0 && transform.localScale.x < 0)
         {
             FlipX();
         }
-        projectileSpawnPoint.position = transform.position + playerDirection;
         
         var distance = Vector3.Distance(playerDetectorController.target.position, transform.position);
         attack.canAttack = distance < attackRange;
@@ -151,17 +146,25 @@ public class WalkerSpitterController : MonoBehaviour
         spriteRenderer.color = Color.red;
         var projectile = Instantiate(
             projectilePrefab,
-            projectileSpawnPoint.position,
-            projectileSpawnPoint.rotation
+            transform.position,
+            Quaternion.identity
         ).GetComponent<ProjectileController>();
         var projectileGravity = Physics2D.gravity.y * projectile.GetComponent<Rigidbody2D>().gravityScale;
         var projectileShootDirection = MathHelper.CalculateProjectileDirection(
-            projectileSpawnPoint.position,
-            playerDetectorController.target.position,
+            transform.position,
+            playerDetectorController.target.position + Vector3.up,
             projectileSpeed,
             projectileGravity
         );
+        StartCoroutine(IgnoreCollisionsTemporarily(projectile));
         projectile.Initialize(projectileShootDirection);
+    }
+
+    private IEnumerator IgnoreCollisionsTemporarily(ProjectileController projectile)
+    {
+        Physics2D.IgnoreCollision(projectile.GetComponent<Collider2D>(), GetComponent<Collider2D>());
+        yield return new WaitForSeconds(0.1f);
+        Physics2D.IgnoreCollision(projectile.GetComponent<Collider2D>(), GetComponent<Collider2D>(), false);
     }
 
     private void OnRecovery()

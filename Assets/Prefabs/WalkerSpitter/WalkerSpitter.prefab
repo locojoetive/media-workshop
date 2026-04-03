@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 639873353057148755}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.25, y: 0, z: 0}
+  m_LocalPosition: {x: 1.75, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -237,7 +237,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84b41f885329da948b249a31291d9bf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MovementInfluenceController
-  movementInfluence: 1
   isFading: 0
   isStunned: 0
   rb: {fileID: 0}
@@ -269,11 +268,9 @@ MonoBehaviour:
   isGroundAhead: 0
   isStaying: 0
   spriteRenderer: {fileID: 0}
-  movementInfluenceController: {fileID: 0}
-  rb: {fileID: 0}
+  rigidbodyController: {fileID: 0}
   projectilePrefab: {fileID: 1385509851013860191, guid: ab6db4d8fc0542f42921a5742191c0ac, type: 3}
-  projectileSpawnPoint: {fileID: 3659142033521218183}
-  projectileSpeed: 10
+  projectileSpeed: 12
   attack:
     state: 0
     coolDownDuration: 1

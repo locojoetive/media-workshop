@@ -5361,7 +5361,7 @@ MonoBehaviour:
   hitPoints: 3
   moveSpeed: 8
   sprintSpeed: 15
-  jumpForce: 20
+  jumpForce: 30
   knockbackForce: 15
   stunDuration: 0.5
   invincibilityDuration: 2
@@ -5371,9 +5371,8 @@ MonoBehaviour:
   groundCheck: {fileID: 2612245393260184844}
   wallCheck: {fileID: 4888325705992634985}
   checkRadius: 0.2
-  _rigidbody: {fileID: 0}
   _renderer: {fileID: 0}
-  movementInfluenceController: {fileID: 0}
+  rigidbodyController: {fileID: 0}
   particleSystem: {fileID: 0}
   damagePerHit: 0
   isGrounded: 0
@@ -5398,7 +5397,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84b41f885329da948b249a31291d9bf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MovementInfluenceController
-  movementInfluence: 1
   isFading: 0
   isStunned: 0
   rb: {fileID: 0}

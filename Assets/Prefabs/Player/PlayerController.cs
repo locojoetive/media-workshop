@@ -148,10 +148,7 @@ public class PlayerController : MonoBehaviour
             * inputSprint
             * (sprintSpeed - moveSpeed);
         var totalMoveSpeed = currentMoveSpeed + currentSprintSpeed;
-        var movementInfluence = rigidbodyController.movementInfluence;
-        var horizontalVelocity = totalMoveSpeed * movementInfluence + rigidbodyController.LinearVelocityX * (1f - movementInfluence);
-
-        rigidbodyController.SetVelocityX(horizontalVelocity);
+        rigidbodyController.SetVelocityX(totalMoveSpeed);
     }
 
     private void FlipX(bool flip)
@@ -247,7 +244,6 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(StunAndInvincibleCoroutine());
 
         // Knockback
-        Debug.Log($"Applying knockback with normal {collisionNormal.normalized}");
         var knockbackDirection = -collisionNormal.normalized - Mathf.Sign(transform.localScale.x) * Vector2.right;
         rigidbodyController.SetVelocityX(knockbackDirection.normalized.x * knockbackForce);
         rigidbodyController.SetVelocityY(knockbackDirection.normalized.y * knockbackForce);

@@ -116,7 +116,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84b41f885329da948b249a31291d9bf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MovementInfluenceController
-  movementInfluence: 1
   isFading: 0
   isStunned: 0
   rb: {fileID: 0}

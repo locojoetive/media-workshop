@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class RigidbodyController : MonoBehaviour
 {
-    public float movementInfluence = 1f;
+    private float movementInfluence = 1f;
     public bool isFading = false;
     public bool isStunned = false;
 
