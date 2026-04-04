@@ -1,7 +1,6 @@
-using System;
-using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(SpriteRenderer))]
 public class RendererController : MonoBehaviour
 {
     private SpriteRenderer spriteRenderer;
@@ -11,32 +10,35 @@ public class RendererController : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    public float flashInterval = 0.166f;
-    internal void Flash(float duration)
-    {
-        StartCoroutine(FlashRedCoroutine(duration));
-    }
-
-    private IEnumerator FlashRedCoroutine(float duration)
-    {
-        float elapsedTime = 0f;
-        spriteRenderer.material.SetColor("_OverlayColor", Color.white);
-        while (elapsedTime < duration)
-        {
-            spriteRenderer.material.SetFloat("_FillAmount", 1f);
-            yield return new WaitForSeconds(flashInterval);
-            elapsedTime += flashInterval;
-            spriteRenderer.material.SetFloat("_FillAmount", 0f);
-            yield return new WaitForSeconds(flashInterval);
-            elapsedTime += flashInterval;
-        }
-        spriteRenderer.color = Color.white;
-    }
-
-    internal void SetAlpha(float alpha)
+    public void SetAlpha(float alpha)
     {
         var color = spriteRenderer.material.color;
         color.a = alpha;
         spriteRenderer.material.color = color;
+    }
+
+    public void SetColor(Color color)
+    {
+        spriteRenderer.color = color;
+    }
+
+    public void SetOverlayColor(Color color)
+    {
+        spriteRenderer.material.SetColor("_OverlayColor", color);
+    }
+
+    public void SetFillAmount(float fillAmount)
+    {
+        spriteRenderer.material.SetFloat("_FillAmount", fillAmount);
+    }
+
+    public void SetScale(float scale)
+    {
+        transform.localScale = new Vector3(scale, scale, 1f);
+    }
+
+    public void SetScale(float scaleX, float scaleY)
+    {
+        transform.localScale = new Vector3(scaleX, scaleY, 1f);
     }
 }

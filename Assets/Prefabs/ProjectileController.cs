@@ -119,14 +119,8 @@ public class ProjectileController : MonoBehaviour
         }
         else if (collision.collider.TryGetComponent<HittableController>(out var hittable))
         {
-            hittable.TakeDamage();
-            Disable(collision.GetContact(0).normal);
-            return;
-        }
-        else if (collision.collider.TryGetComponent<PlayerController>(out var playerController))
-        {
             var normal = collision.GetContact(0).normal;
-            playerController.TakeDamage(normal);
+            hittable.TakeDamage(normal);
             Disable(normal);
             return;
         }

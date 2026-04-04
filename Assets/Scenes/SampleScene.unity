@@ -1069,7 +1069,7 @@ Transform:
   m_GameObject: {fileID: 880927147}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 68, y: 18.75, z: 0}
+  m_LocalPosition: {x: 68, y: 13.25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1765,7 +1765,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1454559166
 Transform:
   m_ObjectHideFlags: 0
@@ -2744,9 +2744,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6318758025436818698, guid: 5bcf7e4fb16567748b77a719641ecd92, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: e196758d64dfe474397a8e339aea14ef, type: 2}
     - target: {fileID: 7994973531800451977, guid: 5bcf7e4fb16567748b77a719641ecd92, type: 3}
       propertyPath: m_Name
       value: Razor
+      objectReference: {fileID: 0}
+    - target: {fileID: 7994973531800451977, guid: 5bcf7e4fb16567748b77a719641ecd92, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8163606814767252698, guid: 5bcf7e4fb16567748b77a719641ecd92, type: 3}
+      propertyPath: m_Name
+      value: Sprite
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

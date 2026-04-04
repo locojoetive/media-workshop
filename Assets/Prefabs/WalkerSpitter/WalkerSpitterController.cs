@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(RigidbodyController))]
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(HittableController))]
 public class WalkerSpitterController : MonoBehaviour
 {
     [Header("References")]
@@ -13,29 +14,34 @@ public class WalkerSpitterController : MonoBehaviour
     public Transform wallCheckAhead;
     public PlayerDetectorController playerDetectorController;
 
-    [Header("Settings")]
-    public float speed = 5f;
-    public float stayDuration = 0.5f;
-    public float stayTime = 0f;
-    
+    [Header("Settings")]    
     public float groundDistance = 0.2f;
     public LayerMask groundMask;
+
+    [Header("Self-Retrieved References")]
+    public SpriteRenderer spriteRenderer;
+    public RigidbodyController rigidbodyController;
+    public Animator animator;
+    public HittableController hittableController;
 
     [Header("Debug")]
     public bool isGrounded;
     public bool isWallAhead;
     public bool isGroundAhead;
-    public bool isStaying;
-    public SpriteRenderer spriteRenderer;
-    public RigidbodyController rigidbodyController;
-    public Animator animator;
 
+
+    #region Lifecycle
     private void Awake()
     {
         rigidbodyController = GetComponent<RigidbodyController>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        hittableController = GetComponent<HittableController>();
+        hittableController.onDeath += Die;
     }
+
+    private void Die()
+    { }
 
     private void Start()
     {
@@ -48,33 +54,57 @@ public class WalkerSpitterController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (hittableController.isDead || rigidbodyController.isStunned)
+        {
+            return;
+        }
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundDistance, groundMask);
         isGroundAhead = Physics2D.OverlapCircle(groundCheckAhead.position, groundDistance, groundMask);
         isWallAhead = Physics2D.OverlapCircle(wallCheckAhead.position, groundDistance, groundMask);
-
-        if (playerDetectorController.isPlayerDetected)
-        {
-            return;
-        }
-
-        if (isStaying || (!isGrounded && isWallAhead))
-        {
-            animator.SetFloat("Speed", 0f);
-            return;
-        }
-        var moveSpeed = speed * Mathf.Sign(transform.localScale.x);
-        rigidbodyController.SetVelocityX(moveSpeed);
-        animator.SetFloat("Speed", Mathf.Abs(moveSpeed));
+        
+        HandleMovement();
     }
 
     private void Update()
-    {   
+    {
+        if (hittableController.isDead || rigidbodyController.isStunned)
+        {
+            return;
+        }
+        
+        animator.SetFloat("Speed", Mathf.Abs(rigidbodyController.LinearVelocityX));
         HandleAttack();
         if (attack.state != AttackStateType.Idle)
         {
             return;
         }
+        HandleMovementState();
+    }
 
+    #endregion Lifecycle
+
+    #region Movement
+    [Header("Movement Settings")]
+    public float speed = 5f;
+    public float stayDuration = 0.5f;
+    public float stayTime = 0f;
+    public bool isStaying;
+
+    private void HandleMovement()
+    {
+        var moveSpeed = speed * Mathf.Sign(transform.localScale.x);
+        if (playerDetectorController.isPlayerDetected 
+            || isStaying 
+            || (!isGrounded && isWallAhead)
+        )
+        {
+            moveSpeed = 0f;
+        }
+        rigidbodyController.SetVelocityX(moveSpeed);
+    }
+
+    private void HandleMovementState()
+    {
         if (!isGrounded || isGroundAhead && !isWallAhead)
         {
             isStaying = false;
@@ -83,7 +113,6 @@ public class WalkerSpitterController : MonoBehaviour
 
         if (!isStaying)
         {
-            rigidbodyController.SetVelocityX(0f);
             isStaying = true;
             stayTime = 0f;
         }
@@ -97,12 +126,13 @@ public class WalkerSpitterController : MonoBehaviour
             isStaying = false;
         }
     }
-    
+    #endregion Movement
+
+    #region Attack
     [Header("Attack Settings")]
     public GameObject projectilePrefab;
     public float projectileSpeed = 5f;
     public AttackState attack;
-    public float attackRange = 12f;
 
     private void HandleAttack()
     {
@@ -130,14 +160,15 @@ public class WalkerSpitterController : MonoBehaviour
             FlipX();
         }
         
-        var distance = Vector3.Distance(playerDetectorController.target.position, transform.position);
-        attack.canAttack = distance < attackRange;
+        attack.canAttack = true;
         attack.Update(Time.deltaTime);
     }
 
-    private void OnCoolDown()
-    {
-    }
+    private void OnRecovery() { }
+
+    private void OnIdle() { }
+
+    private void OnCoolDown() { }
 
     private void OnAnticipation()
     {
@@ -170,14 +201,7 @@ public class WalkerSpitterController : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
         projectileCollider.enabled = true;
     }
-
-    private void OnRecovery()
-    {
-    }
-
-    private void OnIdle()
-    {
-    }
+    #endregion Attack
 
     private void FlipX()
     {

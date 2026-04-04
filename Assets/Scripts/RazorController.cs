@@ -65,10 +65,9 @@ public class RazorController : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        var playerController = collision.gameObject.GetComponent<PlayerController>();
-        if (playerController != null)
+        if (collision.gameObject.TryGetComponent<HittableController>(out var hittableController))
         {
-            playerController.TakeDamage(collision.GetContact(0).normal);
+            hittableController.TakeDamage(collision.GetContact(0).normal);
         }
     }
 }

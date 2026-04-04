@@ -3,29 +3,28 @@ using UnityEngine;
 
 public class HUDHitPoints : MonoBehaviour
 {
-    private PlayerController playerController;
+    private HittableController playerHittableController;
     public GameObject hitPointPrefab;
-    public List<HUDHitPointIconHide> hitPointIcons = new List<HUDHitPointIconHide>();
+    public List<HUDHitPointIconHide> hitPointIcons;
 
     private void Awake()
     {
-        playerController = FindFirstObjectByType<PlayerController>();
-        var hitPoints = playerController.hitPoints;
+        hitPointIcons = new List<HUDHitPointIconHide>();
+        playerHittableController = FindFirstObjectByType<PlayerController>().GetComponent<HittableController>();
+        
+        var hitPoints = playerHittableController.health;
         for (int i = 0; i < hitPoints; i++)
         {
             hitPointIcons.Add(Instantiate(hitPointPrefab, transform).GetComponent<HUDHitPointIconHide>());
         }
 
-        playerController.onTakeDamage += TakeDamage;
+        playerHittableController.onTakeDamage += TakeDamage;
     }
 
-    private void TakeDamage(int remainingHitPoints)
+    private void TakeDamage()
     {
-        if (remainingHitPoints < 0)
-        {
-            return;
-        }
-        if (hitPointIcons.Count < remainingHitPoints)
+        var remainingHitPoints = playerHittableController.health;
+        if (0 <= remainingHitPoints && remainingHitPoints < hitPointIcons.Count)
         {
             hitPointIcons[remainingHitPoints].HideIcon();
         }

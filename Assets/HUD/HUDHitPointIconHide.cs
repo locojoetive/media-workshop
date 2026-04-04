@@ -6,6 +6,7 @@ public class HUDHitPointIconHide : MonoBehaviour
 
     public void HideIcon()
     {
+        Debug.Log("Hiding hit point icon");
         hitPointIcon.SetActive(false);
     }
 

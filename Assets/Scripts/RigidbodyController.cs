@@ -69,4 +69,9 @@ public class RigidbodyController : MonoBehaviour
     {
         isStunned = false;
     }
+
+    internal void FreeFromConstraints()
+    {
+        rb.constraints = RigidbodyConstraints2D.None;
+    }
 }

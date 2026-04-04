@@ -15,8 +15,9 @@ public enum PatrolStateType
     Staying,
 }
 
-[RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(RigidbodyController))]
+[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(HittableController))]
 public class FlutterController : MonoBehaviour
 {
     
@@ -29,15 +30,19 @@ public class FlutterController : MonoBehaviour
     public bool isWallAhead;
 
     [Header("Debug")]
-    public SpriteRenderer spriteRenderer;
+    public RendererController rendererController;
     public RigidbodyController rigidbodyController;
+    public HittableController hittableController;
+
 
     #region LifeCycle
     private void Awake()
     {
-        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         rigidbodyController = GetComponent<RigidbodyController>();
         animator = GetComponent<Animator>();
+        hittableController = GetComponent<HittableController>();
+
+        rendererController = GetComponentInChildren<RendererController>();
     }
 
     private void Start()
@@ -52,28 +57,29 @@ public class FlutterController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (hittableController.isDead || rigidbodyController.isStunned)
+        {
+            return;
+        }
+
         isWallAhead = Physics2D.OverlapCircle(wallCheckAhead.position, wallDistance, wallMask);
 
         // horizontal movement
         HandleHorizontalMovement();
 
         // vertical movement
-        HandleFlyState();
+        HandleFlyMovement();
     }
 
     private void Update()
     {
-        HandlePatrolMovement();
-        HandleAnimation();
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        var playerController = collision.gameObject.GetComponent<PlayerController>();
-        if (playerController != null)
+        if (hittableController.isDead || rigidbodyController.isStunned)
         {
-            playerController.TakeDamage(collision.GetContact(0).normal);
+            return;
         }
+
+        HandlePatrolState();
+        HandleAnimation();
     }
     #endregion LifeCycle
 
@@ -85,7 +91,7 @@ public class FlutterController : MonoBehaviour
     public float moveDuration = 3f;
     public float moveTime = 0f;
 
-    private void HandlePatrolMovement()
+    private void HandlePatrolState()
     {
         switch (patrolState)
         {
@@ -168,7 +174,7 @@ public class FlutterController : MonoBehaviour
     public float idleMaximumFlutterForce = 10f;
     public float attackMaximumFlutterForce = 10f;
 
-    private void HandleFlyState()
+    private void HandleFlyMovement()
     {
         var isPlayerDetected = playerDetectorController.isPlayerDetected;
         var targetHeight = isPlayerDetected
@@ -278,7 +284,6 @@ public class FlutterController : MonoBehaviour
     }
     #endregion Attack
 
-
     #region Animation
     [Header("Animation Settings")]
     public Animator animator;
@@ -302,10 +307,9 @@ public class FlutterController : MonoBehaviour
         var verticalMovementFactorY = MathHelper.ClampAndMap(velocityFactorY, 0f, maxVelocity, 1f, maximumScale);
         var verticalMovementFactorX = 1f + 1f - verticalMovementFactorY;
 
-        spriteRenderer.transform.localScale = new Vector3(
+        rendererController.SetScale(
             verticalMovementFactorX * horizontalMovementFactorX,
-            verticalMovementFactorY * horizontalMovementFactorY,
-            1f
+            verticalMovementFactorY * horizontalMovementFactorY
         );
     }
     #endregion Animation

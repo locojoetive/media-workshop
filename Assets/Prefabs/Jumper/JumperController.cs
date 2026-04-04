@@ -9,6 +9,7 @@ public enum MoveStateType
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(RigidbodyController))]
 [RequireComponent(typeof(Collider2D))]
+[RequireComponent(typeof(HittableController))]
 public class JumperController : MonoBehaviour
 {
     [Header("References")]
@@ -28,8 +29,9 @@ public class JumperController : MonoBehaviour
     public bool isGrounded;
     public bool isWallAhead;
     public Collider2D col;
-    public SpriteRenderer spriteRenderer;
+    public RendererController rendererController;
     public RigidbodyController rigidbodyController;
+    public HittableController hittableController;
     public Animator animator;
 
     private void Awake()
@@ -37,8 +39,10 @@ public class JumperController : MonoBehaviour
         col = GetComponent<Collider2D>();
         rigidbodyController = GetComponent<RigidbodyController>();
         animator = GetComponent<Animator>();
+        hittableController = GetComponent<HittableController>();
 
-        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+
+        rendererController = GetComponentInChildren<RendererController>();
     }
 
     private void FixedUpdate()
@@ -94,10 +98,14 @@ public class JumperController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        var playerController = collision.gameObject.GetComponent<PlayerController>();
-        if (playerController != null)
+        if (hittableController.isDead)
         {
-            playerController.TakeDamage(collision.GetContact(0).normal);
+            return;
+        }
+        
+        if (collision.gameObject.TryGetComponent<HittableController>(out var otherHittableController))
+        {
+            otherHittableController.TakeDamage(collision.GetContact(0).normal);
         }
     }
     
@@ -123,10 +131,9 @@ public class JumperController : MonoBehaviour
         var verticalMovementFactorOnScaleY = MathHelper.ClampAndMap(velocityFactorY, 0f, maxVelocity, 1f, maximumScale);
         var verticalMovementFactorOnScaleX = 1f + 1f - verticalMovementFactorOnScaleY;
 
-        spriteRenderer.transform.localScale = new Vector3(
+        rendererController.SetScale(
             verticalMovementFactorOnScaleX * horizontalMovementFactorOnScaleX,
-            verticalMovementFactorOnScaleY * horizontalMovementFactorOnScaleY,
-            1f
+            verticalMovementFactorOnScaleY * horizontalMovementFactorOnScaleY
         );
     }
     #endregion Animation

@@ -1,3 +1,4 @@
+using System;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -43,5 +44,11 @@ public class ShakeCamera : MonoBehaviour
     public void Shake(float intensityX, float intensityY)
     {
         source.GenerateImpulse(new Vector3(intensityX, intensityY, 0f));
+    }
+
+    internal void ShakeForDuration(float intensity, float stunDuration, Vector3 sourcePosition)
+    {
+        source.ImpulseDefinition.ImpulseDuration = stunDuration;
+        source.GenerateImpulseAt(sourcePosition, new Vector3(intensity, intensity, 0f));
     }
 }

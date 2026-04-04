@@ -13,21 +13,18 @@ public enum PlayerActionType
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(RigidbodyController))]
+[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(HittableController))]
 public class PlayerController : MonoBehaviour
 {
     PlayerInputController playerInput => GameManager.Instance.PlayerInputController;
 
     public PlayerActionType[] playerActions;
 
-    public int hitPoints = 3;
-
     [Header("Movement Settings")]
     public float moveSpeed = 5f;
     public float sprintSpeed = 10f;
     public float jumpForce = 5f;
-    public float knockbackForce = 10f;
-    public float stunDuration = 0.5f;
-    public float invincibilityDuration = 1f;
 
     [Header("Ground Check Settings")]
     public LayerMask groundLayer;
@@ -41,18 +38,15 @@ public class PlayerController : MonoBehaviour
     public RigidbodyController rigidbodyController;
     public Animator animator;
     public ParticleSystem particles;
+    public HittableController hittableController;
 
 
     [Header("Debugging")]
-    public int damagePerHit = 1;
     public bool isGrounded;
     public bool isJumping;
     public bool jumpSpeedLow;
     public bool isOnWall;
-    public bool isInvincible;
-    public bool isDead;
     private bool wasInputJumpPressedInLastFrame = false;
-    public Action<int> onTakeDamage;
 
     private void Awake()
     {
@@ -60,11 +54,13 @@ public class PlayerController : MonoBehaviour
         _renderer = GetComponentInChildren<RendererController>();
         particles = GetComponentInChildren<ParticleSystem>();
         animator = GetComponent<Animator>();
+        hittableController = GetComponent<HittableController>();
+        hittableController.onDeath += Die;
     }
 
     private void Update()
     {
-        if (isDead || rigidbodyController.isStunned)
+        if (hittableController.isDead || rigidbodyController.isStunned)
         {
             return;
         }
@@ -212,51 +208,9 @@ public class PlayerController : MonoBehaviour
         
     }
 
-    private IEnumerator StunAndInvincibleCoroutine()
+    public void Die()
     {
-        rigidbodyController.Stun();
-        isInvincible = true;
-
-        _renderer.Flash(stunDuration);
-        var elapsedTime = 0f;
-        while (elapsedTime < stunDuration)
-        {
-            var factor = 2f * Mathf.PI * (elapsedTime / stunDuration);
-            var scale = 0.75f - 0.25f * Mathf.Cos(factor);
-            _renderer.transform.localScale = new Vector3(scale, scale, 1f);
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-        rigidbodyController.Unstun();
-
-        _renderer.SetAlpha(0.5f);
-        yield return new WaitForSeconds(invincibilityDuration - stunDuration);
-        _renderer.SetAlpha(1f);
-        isInvincible = false;
-    }
-
-    public void TakeDamage(Vector2 collisionNormal)
-    {
-        if (isInvincible || isDead)
-        {
-            return;
-        }
-        hitPoints -= damagePerHit;
-        onTakeDamage?.Invoke(hitPoints);
-        ShakeCamera.Instance.ShakeForDuration(0.5f, stunDuration);
-        StartCoroutine(StunAndInvincibleCoroutine());
-
-        // Knockback
-        var knockbackDirection = -collisionNormal.normalized - Mathf.Sign(transform.localScale.x) * Vector2.right;
-        rigidbodyController.SetVelocityX(knockbackDirection.normalized.x * knockbackForce);
-        rigidbodyController.SetVelocityY(knockbackDirection.normalized.y * knockbackForce);
-
-        // Kill
-        if (hitPoints <= 0)
-        {
-            isDead = true;
-            GameManager.Instance.LoadSceneManager.ReloadCurrentScene();
-        }
+        GameManager.Instance.LoadSceneManager.ReloadCurrentScene();
     }
 
     private void OnDrawGizmosSelected()

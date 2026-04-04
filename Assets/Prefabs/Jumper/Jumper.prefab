@@ -74,6 +74,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2662782043486873694}
   - component: {fileID: 3357155558368493839}
+  - component: {fileID: 1624640138384161517}
   m_Layer: 9
   m_Name: Sprite
   m_TagString: Untagged
@@ -122,7 +123,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: e196758d64dfe474397a8e339aea14ef, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -155,6 +156,18 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1624640138384161517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7525110456675609462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a48540a733d86a74fabc7ea6f450f1de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RendererController
 --- !u!1 &8132856324387344924
 GameObject:
   m_ObjectHideFlags: 0
@@ -166,10 +179,10 @@ GameObject:
   - component: {fileID: 8306882465731568517}
   - component: {fileID: 9073238452616601535}
   - component: {fileID: 692482227828667212}
+  - component: {fileID: 3845345652039522967}
+  - component: {fileID: 4892694486090842272}
   - component: {fileID: 8921155465000610304}
   - component: {fileID: 7320056003135584779}
-  - component: {fileID: 4892694486090842272}
-  - component: {fileID: 3845345652039522967}
   m_Layer: 9
   m_Name: Jumper
   m_TagString: Untagged
@@ -257,6 +270,48 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0.5}
   m_Radius: 0.5
+--- !u!95 &3845345652039522967
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8132856324387344924}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 589cb4e677f0d2e4b9494c109c3aa451, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4892694486090842272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8132856324387344924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b70792eb645ac1b409fe56218fef0399, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  health: 3
+  knockbackForce: 5
+  invincibilityDuration: 1
+  stunDuration: 0.5
+  flashInterval: 0.166
+  rigidbodyController: {fileID: 0}
+  isInvincible: 0
+  isDead: 0
 --- !u!114 &8921155465000610304
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -297,47 +352,13 @@ MonoBehaviour:
   isGrounded: 0
   isWallAhead: 0
   col: {fileID: 0}
-  spriteRenderer: {fileID: 0}
+  rendererController: {fileID: 0}
   rigidbodyController: {fileID: 0}
+  hittableController: {fileID: 0}
   animator: {fileID: 0}
   maxVelocity: 20
   minimumScale: 0.6
   maximumScale: 1.5
---- !u!114 &4892694486090842272
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8132856324387344924}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b70792eb645ac1b409fe56218fef0399, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  health: 3
---- !u!95 &3845345652039522967
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8132856324387344924}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 589cb4e677f0d2e4b9494c109c3aa451, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &8631459380571133169
 GameObject:
   m_ObjectHideFlags: 0

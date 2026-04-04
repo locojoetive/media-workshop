@@ -73,10 +73,10 @@ GameObject:
   - component: {fileID: 6364477589810162864}
   - component: {fileID: 4035042980755963460}
   - component: {fileID: 2315825266651015767}
+  - component: {fileID: 119441736966995065}
+  - component: {fileID: 5298534950793732714}
   - component: {fileID: 6377722256016730316}
   - component: {fileID: 5771521046624510543}
-  - component: {fileID: 5298534950793732714}
-  - component: {fileID: 119441736966995065}
   m_Layer: 9
   m_Name: WalkerSpitter
   m_TagString: Untagged
@@ -167,6 +167,48 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.5
+--- !u!95 &119441736966995065
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2389975724509556722}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0d9c241a40e2ae24394fbc103e238905, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5298534950793732714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2389975724509556722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b70792eb645ac1b409fe56218fef0399, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  health: 3
+  knockbackForce: 5
+  invincibilityDuration: 1
+  stunDuration: 0.5
+  flashInterval: 0.166
+  rigidbodyController: {fileID: 0}
+  isInvincible: 0
+  isDead: 0
 --- !u!114 &6377722256016730316
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,20 +240,21 @@ MonoBehaviour:
   groundCheckAhead: {fileID: 2801145287658979452}
   wallCheckAhead: {fileID: 7517331495922728956}
   playerDetectorController: {fileID: 9009241801945036570}
-  speed: 5
-  stayDuration: 0.5
-  stayTime: 0
   groundDistance: 0.2
   groundMask:
     serializedVersion: 2
     m_Bits: 1
-  isGrounded: 0
-  isWallAhead: 0
-  isGroundAhead: 0
-  isStaying: 0
   spriteRenderer: {fileID: 0}
   rigidbodyController: {fileID: 0}
   animator: {fileID: 0}
+  hittableController: {fileID: 0}
+  isGrounded: 0
+  isWallAhead: 0
+  isGroundAhead: 0
+  speed: 5
+  stayDuration: 0.5
+  stayTime: 0
+  isStaying: 0
   projectilePrefab: {fileID: 1385509851013860191, guid: ab6db4d8fc0542f42921a5742191c0ac, type: 3}
   projectileSpeed: 12
   attack:
@@ -225,42 +268,6 @@ MonoBehaviour:
     recoveryDuration: 0.5
     recoveryTime: 0
     canAttack: 1
-  attackRange: 12
---- !u!114 &5298534950793732714
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2389975724509556722}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b70792eb645ac1b409fe56218fef0399, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  health: 3
---- !u!95 &119441736966995065
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2389975724509556722}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 0d9c241a40e2ae24394fbc103e238905, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &2656612655279327514
 GameObject:
   m_ObjectHideFlags: 0
@@ -382,6 +389,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5644450689546684024}
   - component: {fileID: 4071139227245406391}
+  - component: {fileID: 175252300498586807}
   m_Layer: 9
   m_Name: Sprite
   m_TagString: Untagged
@@ -430,7 +438,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: e196758d64dfe474397a8e339aea14ef, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -463,6 +471,18 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &175252300498586807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4844950479240908472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a48540a733d86a74fabc7ea6f450f1de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RendererController
 --- !u!1 &5836330715299591417
 GameObject:
   m_ObjectHideFlags: 0

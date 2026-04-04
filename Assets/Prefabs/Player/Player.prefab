@@ -5002,7 +5002,7 @@ GameObject:
   - component: {fileID: 2527646508885516816}
   - component: {fileID: 7310066861380041162}
   m_Layer: 6
-  m_Name: Renderer
+  m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5094,7 +5094,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a48540a733d86a74fabc7ea6f450f1de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  flashInterval: 0.1
 --- !u!1 &5625187916363071468
 GameObject:
   m_ObjectHideFlags: 0
@@ -10181,9 +10180,10 @@ GameObject:
   - component: {fileID: 3530966009055620480}
   - component: {fileID: 430770408448957301}
   - component: {fileID: 28524716325919203}
-  - component: {fileID: 743767997955167489}
-  - component: {fileID: 6794093953797352270}
   - component: {fileID: 2958887784194671521}
+  - component: {fileID: 6794093953797352270}
+  - component: {fileID: 6055088416192272254}
+  - component: {fileID: 743767997955167489}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -10274,6 +10274,62 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0.5}
   m_Radius: 0.5
+--- !u!95 &2958887784194671521
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8711125403106772689}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8e465315fa034ac49ab8824ad8c12171, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6794093953797352270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8711125403106772689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84b41f885329da948b249a31291d9bf8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MovementInfluenceController
+  isFading: 0
+  isStunned: 0
+  rb: {fileID: 0}
+--- !u!114 &6055088416192272254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8711125403106772689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b70792eb645ac1b409fe56218fef0399, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HittableController
+  health: 3
+  knockbackForce: 15
+  isInvincible: 0
+  invincibilityDuration: 2
+  stunDuration: 0.5
+  flashInterval: 0.166
+  rigidbodyController: {fileID: 0}
 --- !u!114 &743767997955167489
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10315,40 +10371,3 @@ MonoBehaviour:
   wasAttackingInLastFrame: 0
   lastAttackDirection: {x: 0, y: 0}
   minimumSnapVelocity: 100
---- !u!114 &6794093953797352270
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8711125403106772689}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84b41f885329da948b249a31291d9bf8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MovementInfluenceController
-  isFading: 0
-  isStunned: 0
-  rb: {fileID: 0}
---- !u!95 &2958887784194671521
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8711125403106772689}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 8e465315fa034ac49ab8824ad8c12171, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0

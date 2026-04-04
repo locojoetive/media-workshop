@@ -4,11 +4,10 @@ public class HazardController : MonoBehaviour
 {
     private void OnCollisionStay2D(Collision2D collision)
     {
-        var playerController = collision.gameObject.GetComponent<PlayerController>();
-        if (playerController != null)
+        if (collision.gameObject.TryGetComponent<HittableController>(out var hittableController))
         {
             var collisionNormal = collision.GetContact(0).normal;
-            playerController.TakeDamage(collisionNormal);
+            hittableController.TakeDamage(collisionNormal);
         }
     }
 }
