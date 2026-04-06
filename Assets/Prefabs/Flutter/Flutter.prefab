@@ -180,8 +180,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   isWallAhead: 0
-  spriteRenderer: {fileID: 0}
+  rendererController: {fileID: 0}
   rigidbodyController: {fileID: 0}
+  hittableController: {fileID: 0}
   patrolState: 0
   stayDuration: 1
   stayTime: 0
@@ -229,6 +230,8 @@ GameObject:
   - component: {fileID: 5829913182096383399}
   - component: {fileID: 6903647489246922271}
   - component: {fileID: 4223849735472884728}
+  - component: {fileID: 6627370489126763836}
+  - component: {fileID: 5874415504839199689}
   m_Layer: 9
   m_Name: Sprite
   m_TagString: Untagged
@@ -322,6 +325,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a48540a733d86a74fabc7ea6f450f1de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RendererController
+--- !u!114 &6627370489126763836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1579933183457465723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c29cff538c195c249b69c6f2236de67b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteLibrary
+  m_Library: []
+  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: 8d0f5f10246641f44aa03b0714946fc3, type: 3}
+--- !u!114 &5874415504839199689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1579933183457465723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed8b1ae4e4e52b34ea557c1c11e076fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteResolver
+  m_CategoryHash: 2.6242494e-16
+  m_labelHash: 0.000005559611
+  m_SpriteKey: 0
+  m_SpriteHash: 663170312
 --- !u!1 &3848977517033035700
 GameObject:
   m_ObjectHideFlags: 0
@@ -643,10 +676,6 @@ PrefabInstance:
     - target: {fileID: 276666393471253814, guid: dc6662c9ac63a5547aa2452b0603f9f6, type: 3}
       propertyPath: m_Name
       value: FlutterProjectile
-      objectReference: {fileID: 0}
-    - target: {fileID: 276666393471253814, guid: dc6662c9ac63a5547aa2452b0603f9f6, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4446972553513394772, guid: dc6662c9ac63a5547aa2452b0603f9f6, type: 3}
       propertyPath: m_LocalPosition.x

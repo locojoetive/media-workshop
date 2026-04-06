@@ -15,7 +15,9 @@ public enum PlayerInputType
     LeftShoulder,
     RightShoulder,
     Select,
-    Pause
+    Pause,
+    MouseDelta,
+    MouseLeftButton,
 }
 
 public class PlayerInputController : MonoBehaviour
@@ -23,6 +25,7 @@ public class PlayerInputController : MonoBehaviour
     public Vector2 leftStickDirection;
     public Vector2 rightStickDirection;
     public Vector2Int dPadDirection;
+    public Vector2 mouseDelta;
 
     public float leftTriggerValue;
     public float rightTriggerValue;
@@ -35,6 +38,7 @@ public class PlayerInputController : MonoBehaviour
     public bool rightShoulderPressed;
     public bool selectPressed;
     public bool pausePressed;
+    public bool mouseLeftButtonPressed;
 
     public void OnLeftStick(InputValue inputValue)
     {
@@ -102,6 +106,16 @@ public class PlayerInputController : MonoBehaviour
     public void OnPause(InputValue inputValue)
     {
         pausePressed = inputValue.isPressed;
+    }
+
+    public void OnMouseDelta(InputValue inputValue)
+    {
+        mouseDelta = inputValue.Get<Vector2>();
+    }
+
+    public void OnMouseLeftButton(InputValue inputValue)
+    {
+        mouseLeftButtonPressed = inputValue.isPressed;
     }
 
     public T GetInputValue<T>(PlayerInputType inputType)

@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 2112294685113773140}
   - component: {fileID: 5939233297212508047}
   - component: {fileID: 3541146483235105944}
+  - component: {fileID: 7953168207626035047}
+  - component: {fileID: 9191027534624214380}
   m_Layer: 9
   m_Name: WalkerSpitterProjectile
   m_TagString: Untagged
@@ -170,8 +172,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3153fe198870a8e4e98a749978879944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ProjectileController
-  isNeutralized: 0
-  causedDamage: 0
+  canCauseDamage: 0
+  isDisabled: 0
+  lifetime: 5
+--- !u!114 &7953168207626035047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1385509851013860191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed8b1ae4e4e52b34ea557c1c11e076fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteResolver
+  m_CategoryHash: 3.6301493e-20
+  m_labelHash: 1.1758989e-11
+  m_SpriteKey: 0
+  m_SpriteHash: 9794296
+--- !u!114 &9191027534624214380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1385509851013860191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c29cff538c195c249b69c6f2236de67b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteLibrary
+  m_Library: []
+  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: 8d0f5f10246641f44aa03b0714946fc3, type: 3}
 --- !u!1 &8427808263881917307
 GameObject:
   m_ObjectHideFlags: 0

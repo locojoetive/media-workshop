@@ -1,0 +1,177 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &1
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5e6fedc2472449cead18ef23b5cb30d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteLibrarySourceAsset
+  m_Library:
+  - m_Name: Player
+    m_Hash: 531988307
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: Idle_0
+      m_Hash: 288431053
+      m_Sprite: {fileID: -8644889942409211090, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -8644889942409211090, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
+    - m_Name: Idle_1
+      m_Hash: 641084251
+      m_Sprite: {fileID: -1221033482, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -1221033482, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
+    - m_Name: Walk_0
+      m_Hash: 714332764
+      m_Sprite: {fileID: -666782720, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -666782720, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
+    - m_Name: Walk_1
+      m_Hash: 496298698
+      m_Sprite: {fileID: 1600000297, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 1600000297, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 4
+  - m_Name: Flutter
+    m_Hash: 630671126
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: flutter_fly
+      m_Hash: 918195378
+      m_Sprite: {fileID: -795994123, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -795994123, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
+    - m_Name: flutter_sink
+      m_Hash: 167042721
+      m_Sprite: {fileID: -208371861, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -208371861, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
+    - m_Name: flutter_projectile
+      m_Hash: 488053894
+      m_Sprite: {fileID: 1671253092, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 1671253092, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 3
+  - m_Name: Jumper
+    m_Hash: 353316714
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: jumper_idle
+      m_Hash: 279395188
+      m_Sprite: {fileID: -268469765, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -268469765, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
+    - m_Name: jumper_fly
+      m_Hash: 477329159
+      m_Sprite: {fileID: -384594686, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -384594686, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
+    - m_Name: jumper_sink
+      m_Hash: 844451929
+      m_Sprite: {fileID: -143149125, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -143149125, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 3
+  - m_Name: WalkerSpitter
+    m_Hash: 522939856
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: walker_spitter_idle_0
+      m_Hash: 1016268143
+      m_Sprite: {fileID: -275925497, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -275925497, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
+    - m_Name: walker_spitter_idle_1
+      m_Hash: 194262521
+      m_Sprite: {fileID: -282430404, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -282430404, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
+    - m_Name: walker_spitter_spit
+      m_Hash: 522116231
+      m_Sprite: {fileID: 634004790, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 634004790, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
+    - m_Name: walker_spitter_walk_0
+      m_Hash: 120702206
+      m_Sprite: {fileID: -275925497, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -275925497, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
+    - m_Name: walker_spitter_walk_1
+      m_Hash: 808907880
+      m_Sprite: {fileID: -1031746513, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -1031746513, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
+    - m_Name: walker_spitter_projectile
+      m_Hash: 760143303
+      m_Sprite: {fileID: -2033124418, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -2033124418, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 6
+  - m_Name: Razor
+    m_Hash: 40071470
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: Razor
+      m_Hash: 40071470
+      m_Sprite: {fileID: 391014363293730182, guid: 19eda531496274147883dcf4981ef766, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 391014363293730182, guid: 19eda531496274147883dcf4981ef766, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 1
+  - m_Name: Trampoline
+    m_Hash: 454078112
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: Trampoline
+      m_Hash: 454078112
+      m_Sprite: {fileID: -9061985282867633931, guid: 3394e565761400541ae3d1afd0774956, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -9061985282867633931, guid: 3394e565761400541ae3d1afd0774956, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 1
+  - m_Name: Hazard
+    m_Hash: 752494725
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: Hazard
+      m_Hash: 752494725
+      m_Sprite: {fileID: 4710946945041455737, guid: 0a4bf982c14b0064eb2859a5b47ce869, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 4710946945041455737, guid: 0a4bf982c14b0064eb2859a5b47ce869, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 1
+  - m_Name: Ground
+    m_Hash: 542344798
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: Ground
+      m_Hash: 542344798
+      m_Sprite: {fileID: 21300000, guid: ffb727c0856451a43932a6e947e2e4c9, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300000, guid: ffb727c0856451a43932a6e947e2e4c9, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 1
+  - m_Name: Bat
+    m_Hash: 668036991
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: Bat
+      m_Hash: 668036991
+      m_Sprite: {fileID: -811482840, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -811482840, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 1
+  m_PrimaryLibraryGUID: 
+  m_ModificationHash: 639109719047861884
+  m_Version: 1

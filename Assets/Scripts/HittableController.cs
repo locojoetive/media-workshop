@@ -38,7 +38,7 @@ public class HittableController : MonoBehaviour
         isInvincible = true;
         health--;
 
-        ShakeCamera.Instance.ShakeForDuration(0.5f, stunDuration);
+        ShakeCamera.Instance.ShakeForDuration(0.5f, stunDuration, transform.position);
         StartCoroutine(StunAndInvincibleCoroutine());
         onTakeDamage?.Invoke();
 

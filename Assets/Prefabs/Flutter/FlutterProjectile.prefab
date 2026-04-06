@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 1585676250650850511}
   - component: {fileID: 293911676048438544}
   - component: {fileID: 879292338453357668}
+  - component: {fileID: 388810369734683384}
+  - component: {fileID: 392674475837014439}
   m_Layer: 9
   m_Name: FlutterProjectile
   m_TagString: Untagged
@@ -91,7 +93,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.2, y: 0.2}
+  m_Size: {x: 2, y: 2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -207,8 +209,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3153fe198870a8e4e98a749978879944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FlutterProjectileController
-  isNeutralized: 0
-  causedDamage: 0
+  canCauseDamage: 0
+  isDisabled: 0
+  lifetime: 5
+--- !u!114 &388810369734683384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 276666393471253814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c29cff538c195c249b69c6f2236de67b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteLibrary
+  m_Library: []
+  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: 8d0f5f10246641f44aa03b0714946fc3, type: 3}
+--- !u!114 &392674475837014439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 276666393471253814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed8b1ae4e4e52b34ea557c1c11e076fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteResolver
+  m_CategoryHash: 2.6242494e-16
+  m_labelHash: 1.999943e-21
+  m_SpriteKey: 0
+  m_SpriteHash: 977699566
 --- !u!1 &1520886295931112104
 GameObject:
   m_ObjectHideFlags: 0

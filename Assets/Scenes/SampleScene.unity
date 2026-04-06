@@ -288,10 +288,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Trampoline (2)
       objectReference: {fileID: 0}
-    - target: {fileID: 7447331402692196231, guid: 542832e47dd2cac4ab81caa40e0fd725, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -437,6 +433,8 @@ GameObject:
   m_Component:
   - component: {fileID: 334902403}
   - component: {fileID: 334902404}
+  - component: {fileID: 334902406}
+  - component: {fileID: 334902405}
   m_Layer: 0
   m_Name: Boden
   m_TagString: Untagged
@@ -519,6 +517,36 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &334902405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 334902402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed8b1ae4e4e52b34ea557c1c11e076fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteResolver
+  m_CategoryHash: 1.7916854e-19
+  m_labelHash: 1.7916854e-19
+  m_SpriteKey: 0
+  m_SpriteHash: 280733932
+--- !u!114 &334902406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 334902402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c29cff538c195c249b69c6f2236de67b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteLibrary
+  m_Library: []
+  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: 8d0f5f10246641f44aa03b0714946fc3, type: 3}
 --- !u!4 &411452686 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3530966009055620480, guid: 34479da192a996a4fba2402d521b3f86, type: 3}
@@ -534,6 +562,8 @@ GameObject:
   m_Component:
   - component: {fileID: 525428458}
   - component: {fileID: 525428457}
+  - component: {fileID: 525428460}
+  - component: {fileID: 525428459}
   m_Layer: 0
   m_Name: Boden (1)
   m_TagString: Untagged
@@ -616,6 +646,36 @@ Transform:
   - {fileID: 1051786092}
   m_Father: {fileID: 958760023}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &525428459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 525428456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed8b1ae4e4e52b34ea557c1c11e076fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteResolver
+  m_CategoryHash: 1.7916854e-19
+  m_labelHash: 1.7916854e-19
+  m_SpriteKey: 0
+  m_SpriteHash: 280733932
+--- !u!114 &525428460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 525428456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c29cff538c195c249b69c6f2236de67b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteLibrary
+  m_Library: []
+  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: 8d0f5f10246641f44aa03b0714946fc3, type: 3}
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -718,6 +778,8 @@ GameObject:
   - component: {fileID: 667899371}
   - component: {fileID: 667899370}
   - component: {fileID: 667899369}
+  - component: {fileID: 667899373}
+  - component: {fileID: 667899372}
   m_Layer: 7
   m_Name: Lava
   m_TagString: Untagged
@@ -870,6 +932,36 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &667899372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 667899365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed8b1ae4e4e52b34ea557c1c11e076fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteResolver
+  m_CategoryHash: 0
+  m_labelHash: 0
+  m_SpriteKey: 0
+  m_SpriteHash: 1003754608
+--- !u!114 &667899373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 667899365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c29cff538c195c249b69c6f2236de67b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteLibrary
+  m_Library: []
+  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: 8d0f5f10246641f44aa03b0714946fc3, type: 3}
 --- !u!1001 &735136548
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -878,10 +970,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1454559166}
     m_Modifications:
-    - target: {fileID: 3062317503096212808, guid: 542832e47dd2cac4ab81caa40e0fd725, type: 3}
-      propertyPath: m_Mass
-      value: 0.7853982
-      objectReference: {fileID: 0}
     - target: {fileID: 4492370784332320731, guid: 542832e47dd2cac4ab81caa40e0fd725, type: 3}
       propertyPath: m_LocalPosition.x
       value: -40.7092
@@ -925,10 +1013,6 @@ PrefabInstance:
     - target: {fileID: 7447331402692196231, guid: 542832e47dd2cac4ab81caa40e0fd725, type: 3}
       propertyPath: m_Name
       value: Trampoline (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 7447331402692196231, guid: 542832e47dd2cac4ab81caa40e0fd725, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1053,6 +1137,8 @@ GameObject:
   m_Component:
   - component: {fileID: 880927148}
   - component: {fileID: 880927149}
+  - component: {fileID: 880927151}
+  - component: {fileID: 880927150}
   m_Layer: 0
   m_Name: Boden (4)
   m_TagString: Untagged
@@ -1135,6 +1221,36 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &880927150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 880927147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed8b1ae4e4e52b34ea557c1c11e076fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteResolver
+  m_CategoryHash: 1.7916854e-19
+  m_labelHash: 1.7916854e-19
+  m_SpriteKey: 0
+  m_SpriteHash: 280733932
+--- !u!114 &880927151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 880927147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c29cff538c195c249b69c6f2236de67b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteLibrary
+  m_Library: []
+  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: 8d0f5f10246641f44aa03b0714946fc3, type: 3}
 --- !u!1 &915144751
 GameObject:
   m_ObjectHideFlags: 0
@@ -1235,10 +1351,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1454559166}
     m_Modifications:
-    - target: {fileID: 3062317503096212808, guid: 542832e47dd2cac4ab81caa40e0fd725, type: 3}
-      propertyPath: m_Constraints
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 4492370784332320731, guid: 542832e47dd2cac4ab81caa40e0fd725, type: 3}
       propertyPath: m_LocalPosition.x
       value: -31.959202
@@ -1282,10 +1394,6 @@ PrefabInstance:
     - target: {fileID: 7447331402692196231, guid: 542832e47dd2cac4ab81caa40e0fd725, type: 3}
       propertyPath: m_Name
       value: Trampoline (4)
-      objectReference: {fileID: 0}
-    - target: {fileID: 7447331402692196231, guid: 542832e47dd2cac4ab81caa40e0fd725, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1389,10 +1497,6 @@ PrefabInstance:
     - target: {fileID: 7447331402692196231, guid: 542832e47dd2cac4ab81caa40e0fd725, type: 3}
       propertyPath: m_Name
       value: Trampoline (3)
-      objectReference: {fileID: 0}
-    - target: {fileID: 7447331402692196231, guid: 542832e47dd2cac4ab81caa40e0fd725, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1841,10 +1945,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Trampoline (7)
       objectReference: {fileID: 0}
-    - target: {fileID: 7447331402692196231, guid: 542832e47dd2cac4ab81caa40e0fd725, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2095,10 +2195,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Trampoline (5)
       objectReference: {fileID: 0}
-    - target: {fileID: 7447331402692196231, guid: 542832e47dd2cac4ab81caa40e0fd725, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2160,10 +2256,6 @@ PrefabInstance:
     - target: {fileID: 7447331402692196231, guid: 542832e47dd2cac4ab81caa40e0fd725, type: 3}
       propertyPath: m_Name
       value: Trampoline (6)
-      objectReference: {fileID: 0}
-    - target: {fileID: 7447331402692196231, guid: 542832e47dd2cac4ab81caa40e0fd725, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2744,21 +2836,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6318758025436818698, guid: 5bcf7e4fb16567748b77a719641ecd92, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: e196758d64dfe474397a8e339aea14ef, type: 2}
     - target: {fileID: 7994973531800451977, guid: 5bcf7e4fb16567748b77a719641ecd92, type: 3}
       propertyPath: m_Name
       value: Razor
       objectReference: {fileID: 0}
     - target: {fileID: 7994973531800451977, guid: 5bcf7e4fb16567748b77a719641ecd92, type: 3}
       propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8163606814767252698, guid: 5bcf7e4fb16567748b77a719641ecd92, type: 3}
-      propertyPath: m_Name
-      value: Sprite
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2816,10 +2900,6 @@ PrefabInstance:
     - target: {fileID: 7447331402692196231, guid: 542832e47dd2cac4ab81caa40e0fd725, type: 3}
       propertyPath: m_Name
       value: Trampoline
-      objectReference: {fileID: 0}
-    - target: {fileID: 7447331402692196231, guid: 542832e47dd2cac4ab81caa40e0fd725, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

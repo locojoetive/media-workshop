@@ -5001,6 +5001,8 @@ GameObject:
   - component: {fileID: 2998434080829599450}
   - component: {fileID: 2527646508885516816}
   - component: {fileID: 7310066861380041162}
+  - component: {fileID: 8058777375122579744}
+  - component: {fileID: 8755310224495489692}
   m_Layer: 6
   m_Name: Sprite
   m_TagString: Untagged
@@ -5094,6 +5096,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a48540a733d86a74fabc7ea6f450f1de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+--- !u!114 &8058777375122579744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2535478715567871886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed8b1ae4e4e52b34ea557c1c11e076fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteResolver
+  m_CategoryHash: 7.686712e-20
+  m_labelHash: 1.3971405e-28
+  m_SpriteKey: 0
+  m_SpriteHash: 1028638438
+--- !u!114 &8755310224495489692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2535478715567871886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c29cff538c195c249b69c6f2236de67b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteLibrary
+  m_Library: []
+  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: 8d0f5f10246641f44aa03b0714946fc3, type: 3}
 --- !u!1 &5625187916363071468
 GameObject:
   m_ObjectHideFlags: 0
@@ -9983,6 +10015,8 @@ GameObject:
   - component: {fileID: 4632525773463207501}
   - component: {fileID: 1701475972193612329}
   - component: {fileID: 6116253482916216612}
+  - component: {fileID: 5956091915761543209}
+  - component: {fileID: 4369236126020299428}
   m_Layer: 10
   m_Name: Bat
   m_TagString: Untagged
@@ -10000,7 +10034,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.25, y: 0.5, z: 0}
-  m_LocalScale: {x: 0.25, y: 1.5, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3530966009055620480}
@@ -10054,12 +10088,12 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 3883298416164446047, guid: 979e2cc68c7b2a44d88fa8fadfe821ca, type: 3}
+  m_Sprite: {fileID: -811482840, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 2, y: 2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -10125,17 +10159,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.5}
+  m_Offset: {x: 0, y: 0.75}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
+    pivot: {x: 0.42098618, y: 0.13653755}
+    oldSize: {x: 2, y: 2}
+    newSize: {x: 2, y: 2}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.6, y: 1.5}
   m_EdgeRadius: 0
 --- !u!114 &6116253482916216612
 MonoBehaviour:
@@ -10149,7 +10183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60bb7f1a29772cf4d8b5000b7d5ee02d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  originalAttackForce: 15
+  originalAttackForce: 20
   swingDuration: 0.05
   attackDuration: 0.1
   coolDownDuration: 0.05
@@ -10169,6 +10203,36 @@ MonoBehaviour:
   originalColor: {r: 0, g: 0, b: 0, a: 0}
   particles: {fileID: 6964260094685992776}
   targetDirection: {x: 0, y: 0}
+--- !u!114 &5956091915761543209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6433457114727892066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c29cff538c195c249b69c6f2236de67b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteLibrary
+  m_Library: []
+  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: 8d0f5f10246641f44aa03b0714946fc3, type: 3}
+--- !u!114 &4369236126020299428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6433457114727892066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed8b1ae4e4e52b34ea557c1c11e076fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteResolver
+  m_CategoryHash: 5.8130037e-15
+  m_labelHash: 5.8130037e-15
+  m_SpriteKey: 0
+  m_SpriteHash: 184322119
 --- !u!1 &8711125403106772689
 GameObject:
   m_ObjectHideFlags: 0
@@ -10325,11 +10389,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HittableController
   health: 3
   knockbackForce: 15
-  isInvincible: 0
   invincibilityDuration: 2
   stunDuration: 0.5
   flashInterval: 0.166
   rigidbodyController: {fileID: 0}
+  isInvincible: 0
+  isDead: 0
 --- !u!114 &743767997955167489
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10343,13 +10408,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   playerActions: 000000000100000002000000
-  hitPoints: 3
   moveSpeed: 8
   sprintSpeed: 15
   jumpForce: 30
-  knockbackForce: 15
-  stunDuration: 0.5
-  invincibilityDuration: 2
   groundLayer:
     serializedVersion: 2
     m_Bits: 129
@@ -10360,13 +10421,11 @@ MonoBehaviour:
   rigidbodyController: {fileID: 0}
   animator: {fileID: 0}
   particles: {fileID: 0}
-  damagePerHit: 0
+  hittableController: {fileID: 0}
   isGrounded: 0
   isJumping: 0
   jumpSpeedLow: 0
   isOnWall: 0
-  isInvincible: 0
-  isDead: 0
   batController: {fileID: 6116253482916216612}
   wasAttackingInLastFrame: 0
   lastAttackDirection: {x: 0, y: 0}

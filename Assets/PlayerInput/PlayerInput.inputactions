@@ -25,24 +25,6 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "LeftTrigger",
-                    "type": "PassThrough",
-                    "id": "972699dd-4434-41e0-8624-f19826f0a91a",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "RightTrigger",
-                    "type": "PassThrough",
-                    "id": "aceb986c-c5aa-4a29-bbef-13b04247a28a",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "DPad",
                     "type": "Value",
                     "id": "71fa2771-e024-4ba1-825c-e86778ecb928",
@@ -70,6 +52,33 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "LeftTrigger",
+                    "type": "PassThrough",
+                    "id": "972699dd-4434-41e0-8624-f19826f0a91a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "RightTrigger",
+                    "type": "PassThrough",
+                    "id": "aceb986c-c5aa-4a29-bbef-13b04247a28a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ButtonSouth",
+                    "type": "PassThrough",
+                    "id": "97ec1bcf-97db-4144-97b5-25fc624bed0f",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "ButtonNorth",
                     "type": "PassThrough",
                     "id": "82112a48-4082-48e8-b9d6-2a6f0e4f1116",
@@ -82,15 +91,6 @@
                     "name": "ButtonEast",
                     "type": "PassThrough",
                     "id": "e1dfa1e6-903b-4612-820a-1e2db8db1a02",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "ButtonSouth",
-                    "type": "PassThrough",
-                    "id": "97ec1bcf-97db-4144-97b5-25fc624bed0f",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -118,6 +118,24 @@
                     "name": "Pause",
                     "type": "PassThrough",
                     "id": "c997d26b-33bf-4883-8392-3037db626ebe",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "MouseDelta",
+                    "type": "PassThrough",
+                    "id": "5279c23e-7f2b-4a39-9597-4a0989196153",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "MouseLeftButton",
+                    "type": "Button",
+                    "id": "376d1e43-5ceb-4dbf-a637-5999ed3bffbe",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -256,61 +274,6 @@
                     "action": "RightStick",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "MouseDelta",
-                    "id": "af7c2f86-cc90-42d9-b4e4-a1916c68d59b",
-                    "path": "2DVector",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "RightStick",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "up",
-                    "id": "4bbbab8f-3297-4bb5-890e-0d3ad0a37338",
-                    "path": "<Mouse>/delta/up",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "RightStick",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "down",
-                    "id": "a8ad6c32-944a-4955-a6a0-1b42a2f5bc1d",
-                    "path": "<Mouse>/delta/down",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "RightStick",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "left",
-                    "id": "f920a248-9a08-46a1-8749-2daea62fb6c6",
-                    "path": "<Mouse>/delta/left",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "RightStick",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "right",
-                    "id": "2cdf6e01-1181-4e7e-a302-28201c8eb989",
-                    "path": "<Mouse>/delta/right",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "RightStick",
-                    "isComposite": false,
-                    "isPartOfComposite": true
                 },
                 {
                     "name": "",
@@ -479,8 +442,8 @@
                 },
                 {
                     "name": "",
-                    "id": "80cbe6b8-38b4-49a8-985f-50924af4163c",
-                    "path": "<Mouse>/rightButton",
+                    "id": "52f19c30-7405-4431-8ec6-0c9d91718215",
+                    "path": "<Keyboard>/alt",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
@@ -501,8 +464,8 @@
                 },
                 {
                     "name": "",
-                    "id": "44bd86be-0357-4abc-8f2b-833a7ff9ad48",
-                    "path": "<Mouse>/leftButton",
+                    "id": "8160df03-4646-49e0-bea4-5e15f12dafb1",
+                    "path": "<Keyboard>/c",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
@@ -545,8 +508,8 @@
                 },
                 {
                     "name": "",
-                    "id": "52f19c30-7405-4431-8ec6-0c9d91718215",
-                    "path": "<Keyboard>/c",
+                    "id": "5d1e20e7-f7c6-44e0-83df-63f8e6c8b029",
+                    "path": "<Keyboard>/f",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
@@ -595,6 +558,72 @@
                     "processors": "",
                     "groups": "",
                     "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "MouseDelta",
+                    "id": "af7c2f86-cc90-42d9-b4e4-a1916c68d59b",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MouseDelta",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "4bbbab8f-3297-4bb5-890e-0d3ad0a37338",
+                    "path": "<Mouse>/delta/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "MouseDelta",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "a8ad6c32-944a-4955-a6a0-1b42a2f5bc1d",
+                    "path": "<Mouse>/delta/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "MouseDelta",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "f920a248-9a08-46a1-8749-2daea62fb6c6",
+                    "path": "<Mouse>/delta/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "MouseDelta",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "2cdf6e01-1181-4e7e-a302-28201c8eb989",
+                    "path": "<Mouse>/delta/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "MouseDelta",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "44bd86be-0357-4abc-8f2b-833a7ff9ad48",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "MouseLeftButton",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
