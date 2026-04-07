@@ -16,7 +16,7 @@ public enum PlayerInputType
     RightShoulder,
     Select,
     Pause,
-    MouseDelta,
+    MousePosition,
     MouseLeftButton,
 }
 
@@ -25,7 +25,7 @@ public class PlayerInputController : MonoBehaviour
     public Vector2 leftStickDirection;
     public Vector2 rightStickDirection;
     public Vector2Int dPadDirection;
-    public Vector2 mouseDelta;
+    public Vector2 mousePosition;
 
     public float leftTriggerValue;
     public float rightTriggerValue;
@@ -108,9 +108,9 @@ public class PlayerInputController : MonoBehaviour
         pausePressed = inputValue.isPressed;
     }
 
-    public void OnMouseDelta(InputValue inputValue)
+    public void OnMousePosition(InputValue inputValue)
     {
-        mouseDelta = inputValue.Get<Vector2>();
+        mousePosition = inputValue.Get<Vector2>();
     }
 
     public void OnMouseLeftButton(InputValue inputValue)
@@ -135,6 +135,8 @@ public class PlayerInputController : MonoBehaviour
             PlayerInputType.RightShoulder => (T)(object)rightShoulderPressed,
             PlayerInputType.Select => (T)(object)selectPressed,
             PlayerInputType.Pause => (T)(object)pausePressed,
+            PlayerInputType.MousePosition => (T)(object)mousePosition,
+            PlayerInputType.MouseLeftButton => (T)(object)mouseLeftButtonPressed,
             _ => throw new System.ArgumentException($"Unsupported input type: {inputType}")
         };
     }

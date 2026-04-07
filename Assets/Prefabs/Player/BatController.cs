@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Unity.Cinemachine;
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
@@ -35,6 +36,8 @@ public class BatController : MonoBehaviour
 
     private void Awake()
     {
+        cinemachineBrain = FindFirstObjectByType<CinemachineBrain>();
+
         col = GetComponent<Collider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         originalColor = spriteRenderer.color;
@@ -197,5 +200,65 @@ public class BatController : MonoBehaviour
         spriteRenderer.color = originalColor;
         col.enabled = true;
         transform.localScale = originalScale * aimScale;
+    }
+    
+
+    public CinemachineBrain cinemachineBrain;
+    public LineRenderer mouseAimLineRenderer;
+
+    internal void StartAimMouse(Vector2 originalMousePosition)
+    {
+        mouseAimLineRenderer.gameObject.SetActive(true);
+        mouseAimLineRenderer.positionCount = 2;
+        var originalMousePositionWorld = cinemachineBrain.OutputCamera.ScreenToWorldPoint(originalMousePosition);
+        originalMousePositionWorld.z = 0f;
+        mouseAimLineRenderer.SetPosition(0, originalMousePositionWorld);
+    }
+
+    internal void SetRotationFromDirectionForMouse(Vector2 latestMousePosition, Vector2 originalMousePosition)
+    {
+        var mouseDelta = latestMousePosition - originalMousePosition;
+        var lastMouseAimDirection = Vector2.Normalize(mouseDelta);
+        SetRotationFromDirection(-lastMouseAimDirection);
+        
+        var originalMousePositionWorld = cinemachineBrain.OutputCamera.ScreenToWorldPoint(originalMousePosition);
+        originalMousePositionWorld.z = 0f;
+        mouseAimLineRenderer.SetPosition(0, originalMousePositionWorld);
+
+        var mousePositionWorld = cinemachineBrain.OutputCamera.ScreenToWorldPoint(latestMousePosition);
+        mousePositionWorld.z = 0f;
+        mouseAimLineRenderer.SetPosition(1, mousePositionWorld);
+    }
+
+    public void SwingForMouse(Vector2 latestMouseAimDirection)
+    {
+        if (isSwinging)
+        {
+            return;
+        }
+        isSwinging = true;
+        isAiming = false;
+        targetDirection = latestMouseAimDirection;
+        StartCoroutine(SwingCoroutine());
+        StartCoroutine(DisableLineRendererCoroutine());
+    }
+
+    private IEnumerator DisableLineRendererCoroutine()
+    {
+        var duration = swingDuration;
+        var time = 0f;
+        var position0 = mouseAimLineRenderer.GetPosition(0);
+        var position1 = mouseAimLineRenderer.GetPosition(1);
+        var distance = Vector3.Distance(position0, position1);
+        while (time < duration)
+        {
+            var factor = 1f - AnimationHelper.EaseOutQubic(time / duration);
+            var currentDistance = Mathf.Lerp(distance, 0f, factor);
+            var direction = (position1 - position0).normalized;
+            mouseAimLineRenderer.SetPosition(1, position0 + direction * currentDistance);
+            time += Time.deltaTime;
+            yield return null;
+        }
+        mouseAimLineRenderer.gameObject.SetActive(false);
     }
 }

@@ -124,7 +124,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "MouseDelta",
+                    "name": "MousePosition",
                     "type": "PassThrough",
                     "id": "5279c23e-7f2b-4a39-9597-4a0989196153",
                     "expectedControlType": "Vector2",
@@ -134,7 +134,7 @@
                 },
                 {
                     "name": "MouseLeftButton",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "376d1e43-5ceb-4dbf-a637-5999ed3bffbe",
                     "expectedControlType": "",
                     "processors": "",
@@ -523,7 +523,7 @@
                     "path": "<Gamepad>/select",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Gamepad",
                     "action": "Select",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -545,7 +545,7 @@
                     "path": "<Gamepad>/start",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Gamepad",
                     "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -562,59 +562,15 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "MouseDelta",
-                    "id": "af7c2f86-cc90-42d9-b4e4-a1916c68d59b",
-                    "path": "2DVector",
+                    "name": "",
+                    "id": "89510584-9175-4ee7-95bd-8323ad708a57",
+                    "path": "<Mouse>/position",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "MouseDelta",
-                    "isComposite": true,
+                    "groups": ";Keyboard&Mouse",
+                    "action": "MousePosition",
+                    "isComposite": false,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "up",
-                    "id": "4bbbab8f-3297-4bb5-890e-0d3ad0a37338",
-                    "path": "<Mouse>/delta/up",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "MouseDelta",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "down",
-                    "id": "a8ad6c32-944a-4955-a6a0-1b42a2f5bc1d",
-                    "path": "<Mouse>/delta/down",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "MouseDelta",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "left",
-                    "id": "f920a248-9a08-46a1-8749-2daea62fb6c6",
-                    "path": "<Mouse>/delta/left",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "MouseDelta",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "right",
-                    "id": "2cdf6e01-1181-4e7e-a302-28201c8eb989",
-                    "path": "<Mouse>/delta/right",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "MouseDelta",
-                    "isComposite": false,
-                    "isPartOfComposite": true
                 },
                 {
                     "name": "",

@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Linq;
 using UnityEngine;
 
@@ -178,15 +177,41 @@ public class PlayerController : MonoBehaviour
     public Vector2 lastAttackDirection;
     public float minimumSnapVelocity = 100f;
 
+    public bool isAttackingWithMouse = false;
+    public bool wasAttackingWithMouseInLastFrame = false;
+    public Vector2 originalMousePosition;
+    public Vector2 lastMouseAimDirection;
+    public float minimumMouseSnapVelocity = 100f;
+
     private void HandleAttack()
     {
         if (batController.isSwinging)
         {
             return;
         }
+        
+
+        // Either use mouse inputs
+        var isAttackingWithMouse = playerInput.mouseLeftButtonPressed;
+        var latestMousePosition = playerInput.mousePosition;
+        if (isAttackingWithMouse && !wasAttackingWithMouseInLastFrame)
+        {
+            originalMousePosition = latestMousePosition;
+            batController.StartAimMouse(originalMousePosition);
+        }
+        else if (isAttackingWithMouse && wasAttackingWithMouseInLastFrame)
+        {
+            batController.SetRotationFromDirectionForMouse(latestMousePosition, originalMousePosition);
+        }
+        else if (wasAttackingWithMouseInLastFrame)
+        {
+            batController.SwingForMouse(-lastMouseAimDirection);
+        }
+        wasAttackingWithMouseInLastFrame = isAttackingWithMouse;
+        
+        // Or use gamepad inputs
         var attackDirection = playerInput.rightStickDirection;
         var isAttacking = attackDirection != Vector2.zero;
-
         if (isAttacking && !wasAttackingInLastFrame)
         {
             batController.StartAim();
@@ -199,13 +224,11 @@ public class PlayerController : MonoBehaviour
         {
             batController.Swing(lastAttackDirection);
         }
-        
         if (isAttacking)
         {
             lastAttackDirection = attackDirection;
         }
         wasAttackingInLastFrame = isAttacking;
-        
     }
 
     public void Die()
