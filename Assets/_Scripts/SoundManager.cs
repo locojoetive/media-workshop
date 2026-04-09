@@ -8,14 +8,24 @@ public class SoundManager : MonoBehaviour
 
     public Dictionary<string, AudioResolver> audioResolversDictionary;
 
-    private void Awake()
+    private void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, UnityEngine.SceneManagement.LoadSceneMode mode)
     {
-
+        // Rebuild the dictionary of audio resolvers when a new scene is loaded
         audioResolversDictionary = new Dictionary<string, AudioResolver>();
         foreach (var resolver in FindObjectsByType<AudioResolver>(FindObjectsSortMode.None))
         {
             audioResolversDictionary[resolver.entryName] = resolver;
         }
+    }
+
+    private void OnEnable()
+    {
+        UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        UnityEngine.SceneManagement.SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     private void Start()

@@ -187,6 +187,10 @@ public class PlayerController : MonoBehaviour
     
     private void HandleJump()
     {
+        if (rigidbodyController.isFading)
+        {
+            return;
+        }
         var inputJump = playerInput.buttonSouthPressed;
         jumpSpeedLow = Mathf.Abs(rigidbodyController.LinearVelocityY) <= 0.5f;
         if (isJumping && jumpSpeedLow)

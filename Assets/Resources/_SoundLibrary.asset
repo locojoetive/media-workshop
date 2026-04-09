@@ -21,3 +21,5 @@ MonoBehaviour:
     audioClip: {fileID: 8300000, guid: 86b0bcb1677f0b44dbb08e2377c15a1c, type: 3}
   - entryName: trampoline
     audioClip: {fileID: 8300000, guid: 535e66a6b580f6d4eb1e49ae6d7c033a, type: 3}
+  - entryName: bat_attack
+    audioClip: {fileID: 8300000, guid: 59e49610e765b374fa8e473a33f827bd, type: 3}

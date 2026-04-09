@@ -74,4 +74,10 @@ public class RigidbodyController : MonoBehaviour
     {
         rb.constraints = RigidbodyConstraints2D.None;
     }
+
+    internal void SetVelocityInRespectToMass(Vector2 velocity)
+    {
+        var velocityInRespectToMass = velocity / (rb.mass * rb.mass);
+        rb.linearVelocity = rb.linearVelocity * (1f - movementInfluence) + velocityInRespectToMass * movementInfluence;
+    }
 }

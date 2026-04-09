@@ -64,17 +64,33 @@ public class BatController : MonoBehaviour
             return;
         }
 
+        var trajectoryDirection = (Vector2)transform.up;
+        trajectoryDirection.x = AnimationHelper.EaseInQuint(trajectoryDirection.x);
+        trajectoryDirection = trajectoryDirection.normalized;
+
+        Debug.Log($"Trajectory Direction: {trajectoryDirection}");
+
         if (collision.gameObject.TryGetComponent<RigidbodyController>(out var rigidbodyController))
         {
-            rigidbodyController.SetVelocity(transform.up * attackForce);
+            rigidbodyController.SetVelocityInRespectToMass(trajectoryDirection * attackForce);
             rigidbodyController.FadeMovementForDuration(1f);;
             PlayEffects(attackForce, collision.GetContact(0).point);
+            StartCoroutine(IgnoreCollisionsTemporarilyCoroutine(collision.otherCollider));
+            
         }
         else if (collision.gameObject.TryGetComponent<Rigidbody2D>(out var rigidbody))
         {
-            rigidbody.linearVelocity = transform.up * attackForce;
+            rigidbody.linearVelocity = trajectoryDirection * attackForce / (rigidbody.mass * rigidbody.mass);
             PlayEffects(attackForce, collision.GetContact(0).point);
+            StartCoroutine(IgnoreCollisionsTemporarilyCoroutine(collision.otherCollider));
         }
+    }
+
+    private IEnumerator IgnoreCollisionsTemporarilyCoroutine(Collider2D otherCollider)
+    {
+        Physics2D.IgnoreCollision(col, otherCollider, true);
+        yield return new WaitForSeconds(0.5f);
+        Physics2D.IgnoreCollision(col, otherCollider, false);
     }
 
     private void PlayEffects(float attackForce, Vector2 point)

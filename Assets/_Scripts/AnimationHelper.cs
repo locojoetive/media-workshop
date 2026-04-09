@@ -1,3 +1,5 @@
+using System;
+
 public static class AnimationHelper
 {
     public static float EaseInQubic(float t)
@@ -8,5 +10,10 @@ public static class AnimationHelper
     public static float EaseOutQubic(float t)
     {
         return EaseInQubic(1f - t);
+    }
+
+    internal static float EaseInQuint(float x)
+    {
+        return x * x * x * x * x;
     }
 }

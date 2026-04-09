@@ -4,8 +4,7 @@ using UnityEngine;
 public class TrampolineController : MonoBehaviour
 {   
     [Header("Bounce Settings")]
-    public float upBounceForce = 10f;
-    public float horizontalBounceForce = 5f;
+    public float bounceForce = 10f;
     public float releaseDuration = 0.1f;
     public float maxScale = 1.2f;
     public float fadeMovementDuration = 1f;
@@ -22,7 +21,6 @@ public class TrampolineController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Trampoline hit: " + collision.gameObject.name);
         if (!collision.gameObject.TryGetComponent<Rigidbody2D>(out var rigidbody)
             || rigidbody.bodyType != RigidbodyType2D.Dynamic
         ) {
@@ -30,23 +28,10 @@ public class TrampolineController : MonoBehaviour
         }
 
         GameManager.Instance.SoundManager.PlayAudioClipByEntryNameWithRandomPitch("trampoline", 0.8f, 1.2f);
-
-        // Apply bounce force
-        // var normal = -collision.GetContact(0).normal;
-        // var bounceDirection = new Vector2(
-        //     normal.x,
-        //     normal.y < 0 ? 0f : normal.y
-        // ).normalized;
-        // rigidbody.linearVelocity = 1f / (rigidbody.mass * rigidbody.mass) * new Vector2(
-        //     bounceDirection.x * horizontalBounceForce,
-        //     bounceDirection.y * upBounceForce
-        // );
-        // rigidbody.linearVelocity = Vector2.ClampMagnitude(rigidbody.linearVelocity, upBounceForce);
-        
         
         var normal = -collision.GetContact(0).normal;
         var bounceDirection = normal.normalized;
-        rigidbody.linearVelocity = 1f / (rigidbody.mass * rigidbody.mass) * bounceDirection * upBounceForce;
+        rigidbody.linearVelocity = 1f / (rigidbody.mass * rigidbody.mass) * bounceDirection * bounceForce;
 
         if (collision.gameObject.TryGetComponent<RigidbodyController>(out var movementInfluenceController))
         {
