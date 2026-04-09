@@ -63,6 +63,7 @@ public class BatController : MonoBehaviour
         {
             return;
         }
+
         if (collision.gameObject.TryGetComponent<RigidbodyController>(out var rigidbodyController))
         {
             rigidbodyController.SetVelocity(transform.up * attackForce);
@@ -71,7 +72,7 @@ public class BatController : MonoBehaviour
         }
         else if (collision.gameObject.TryGetComponent<Rigidbody2D>(out var rigidbody))
         {
-            rigidbody.linearVelocity = transform.up * attackForce / rigidbody.mass;
+            rigidbody.linearVelocity = transform.up * attackForce;
             PlayEffects(attackForce, collision.GetContact(0).point);
         }
     }
@@ -88,6 +89,7 @@ public class BatController : MonoBehaviour
 
         float shakeIntensity = MathHelper.ClampAndMap(attackForce / originalAttackForce, 0f, 1f, 0f, 0.5f);
         ShakeCamera.Instance.Shake(shakeIntensity, -transform.up);
+        GameManager.Instance.SoundManager.PlayAudioClipByEntryNameWithRandomPitch("bat_attack", 0.8f, 1.2f);
     }
 
     private IEnumerator TurnOffParticlesCoroutine()
@@ -117,9 +119,9 @@ public class BatController : MonoBehaviour
     }
     private IEnumerator SwingCoroutine()
     {
-
         // Swinging
         {
+            col.enabled = true;
             swingTime = 0f;
             var sourceScale = originalScale * aimScale;
             var targetScale = originalScale * swingScale;

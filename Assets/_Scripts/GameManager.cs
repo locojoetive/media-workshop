@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
     public PlayerInputController PlayerInputController { get; private set; }
     public LoadSceneManager LoadSceneManager { get; private set; }
+    public SoundManager SoundManager { get; private set; }
 
     private void Awake()
     {
@@ -20,5 +21,6 @@ public class GameManager : MonoBehaviour
 
         PlayerInputController = GetComponentInChildren<PlayerInputController>();
         LoadSceneManager = GetComponentInChildren<LoadSceneManager>();
+        SoundManager = GetComponentInChildren<SoundManager>();
     }
 }

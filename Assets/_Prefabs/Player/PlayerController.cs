@@ -17,6 +17,7 @@ public enum PlayerActionType
 public class PlayerController : MonoBehaviour
 {
     PlayerInputController playerInput => GameManager.Instance.PlayerInputController;
+    private SoundManager SoundManager => GameManager.Instance.SoundManager;
 
     public PlayerActionType[] playerActions;
 
@@ -78,6 +79,36 @@ public class PlayerController : MonoBehaviour
         }
 
         HandleAnimation();
+        HandleSound();
+    }
+
+    private const string PlayerStepsEntryName = "player_steps";
+    private const string PlayerJumpEntryName = "player_jump";
+
+    private void HandleSound()
+    {
+        if (isGrounded && Mathf.Abs(rigidbodyController.LinearVelocityX) > 0.1f)
+        {
+            if (!SoundManager.IsClipPlaying(PlayerStepsEntryName))
+            {
+                SoundManager.PlayAudioClipByEntryName(PlayerStepsEntryName);
+            }
+        }
+        else
+        {
+            if (SoundManager.IsClipPlaying(PlayerStepsEntryName))
+            {
+                SoundManager.StopAudioClipByEntryName(PlayerStepsEntryName);
+            }
+        }
+
+        if (isJumping && isGrounded)
+        {
+            if (!SoundManager.IsClipPlaying(PlayerJumpEntryName))
+            {
+                SoundManager.PlayAudioClipByEntryNameWithRandomPitch(PlayerJumpEntryName, 0.8f, 1.2f);
+            }
+        }
     }
 
     private void HandleAnimation()

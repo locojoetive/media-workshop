@@ -22,11 +22,14 @@ public class TrampolineController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        Debug.Log("Trampoline hit: " + collision.gameObject.name);
         if (!collision.gameObject.TryGetComponent<Rigidbody2D>(out var rigidbody)
             || rigidbody.bodyType != RigidbodyType2D.Dynamic
         ) {
             return;
         }
+
+        GameManager.Instance.SoundManager.PlayAudioClipByEntryNameWithRandomPitch("trampoline", 0.8f, 1.2f);
 
         // Apply bounce force
         // var normal = -collision.GetContact(0).normal;
