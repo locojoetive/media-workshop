@@ -37,6 +37,10 @@ public class WalkerSpitterController : MonoBehaviour
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         hittableController = GetComponent<HittableController>();
+        hittableController.onTakeDamage += () =>
+        {
+            GameManager.Instance.SoundManager.PlayAudioClipByEntryNameWithRandomPitch("walker_spitter_damage", 0.8f, 1.2f);
+        };
         hittableController.onDeath += Die;
     }
 
@@ -177,6 +181,7 @@ public class WalkerSpitterController : MonoBehaviour
 
     private void OnAttack()
     {
+        GameManager.Instance.SoundManager.PlayAudioClipByEntryNameWithRandomPitch("walker_spitter_spit", 0.8f, 1.2f);
         var projectile = Instantiate(
             projectilePrefab,
             transform.position,

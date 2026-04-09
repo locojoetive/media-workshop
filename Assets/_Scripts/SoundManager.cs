@@ -12,7 +12,7 @@ public class SoundManager : MonoBehaviour
     {
         // Rebuild the dictionary of audio resolvers when a new scene is loaded
         audioResolversDictionary = new Dictionary<string, AudioResolver>();
-        foreach (var resolver in FindObjectsByType<AudioResolver>(FindObjectsSortMode.None))
+        foreach (var resolver in FindObjectsByType<AudioResolver>(FindObjectsInactive.Include, FindObjectsSortMode.None))
         {
             audioResolversDictionary[resolver.entryName] = resolver;
         }
@@ -71,5 +71,15 @@ public class SoundManager : MonoBehaviour
             return;
         }
         Debug.LogWarning($"No AudioResolver found for entry name: {entryName}");
+    }
+
+    internal void SetPlaybackSpeed(string playerStepsEntryName, float speedFactor)
+    {
+        if (audioResolversDictionary.TryGetValue(playerStepsEntryName, out var resolver))
+        {
+            resolver.SetPlaybackSpeed(speedFactor);
+            return;
+        }
+        Debug.LogWarning($"No AudioResolver found for entry name: {playerStepsEntryName}");
     }
 }

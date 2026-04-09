@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class RazorController : MonoBehaviour
 {
     [Header("References")]
@@ -23,6 +24,11 @@ public class RazorController : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+    }
+
+    private void Start()
+    {
+        GameManager.Instance.SoundManager.PlayAudioClipByEntryName("razor_move", true);
     }
 
     private void FixedUpdate()

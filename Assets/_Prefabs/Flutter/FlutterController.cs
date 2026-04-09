@@ -53,6 +53,11 @@ public class FlutterController : MonoBehaviour
         attack.onAnticipation = OnAnticipation;
         attack.onAttack = OnAttack;
         attack.onRecovery = OnRecovery;
+
+        hittableController.onTakeDamage += () =>
+        {
+            GameManager.Instance.SoundManager.PlayAudioClipByEntryNameWithRandomPitch("flutter_damage", 0.8f, 1.2f);
+        };
     }
 
     private void FixedUpdate()
@@ -212,6 +217,10 @@ public class FlutterController : MonoBehaviour
                 rigidbodyController.SetVelocityY(maxFlutterSpeed);
                 if (rigidbodyController.Position.y > targetHeight || rigidbodyController.LinearVelocityY >= targetMaximumFlutterSpeed)
                 {
+                    if (!GameManager.Instance.SoundManager.IsClipPlaying("flutter_fly"))
+                    {
+                        GameManager.Instance.SoundManager.PlayAudioClipByEntryNameWithRandomPitch("flutter_fly", 1f, 1.1f);
+                    }
                     flyState = FlyStateType.Flying;
                 }
                 break;
@@ -265,6 +274,7 @@ public class FlutterController : MonoBehaviour
 
     private void OnAttack()
     {
+        GameManager.Instance.SoundManager.PlayAudioClipByEntryNameWithRandomPitch("flutter_attack", 1f, 1.1f);
         rigidbodyController.SetVelocity(new Vector2(0.75f * rigidbodyController.LinearVelocityX, recoilForce));
         rigidbodyController.FadeMovementForDuration(1f);
         var projectile = Instantiate(

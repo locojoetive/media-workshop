@@ -40,9 +40,15 @@ public class JumperController : MonoBehaviour
         rigidbodyController = GetComponent<RigidbodyController>();
         animator = GetComponent<Animator>();
         hittableController = GetComponent<HittableController>();
-
-
         rendererController = GetComponentInChildren<RendererController>();
+    }
+
+    private void Start()
+    {
+        hittableController.onTakeDamage += () =>
+        {
+            GameManager.Instance.SoundManager.PlayAudioClipByEntryNameWithRandomPitch("jumper_damage", 0.8f, 1.2f);
+        };
     }
 
     private void FixedUpdate()
@@ -70,6 +76,7 @@ public class JumperController : MonoBehaviour
         idleTime = 0f;
         var horizontalJumpDirection = Mathf.Sign(transform.localScale.x) * jumpLength;
         rigidbodyController.SetVelocity(new Vector2(horizontalJumpDirection, jumpHeight));
+        GameManager.Instance.SoundManager.PlayAudioClipByEntryNameWithRandomPitch("jumper_jump", 0.8f, 1.2f);
     }
 
     private void Update()

@@ -68,8 +68,6 @@ public class BatController : MonoBehaviour
         trajectoryDirection.x = AnimationHelper.EaseInQuint(trajectoryDirection.x);
         trajectoryDirection = trajectoryDirection.normalized;
 
-        Debug.Log($"Trajectory Direction: {trajectoryDirection}");
-
         if (collision.gameObject.TryGetComponent<RigidbodyController>(out var rigidbodyController))
         {
             rigidbodyController.SetVelocityInRespectToMass(trajectoryDirection * attackForce);
@@ -122,7 +120,7 @@ public class BatController : MonoBehaviour
     }
 
     public Vector2 targetDirection;
-    public void Swing(Vector2 targetDirection)
+    public void SwingForController(Vector2 targetDirection)
     {
         if (isSwinging)
         {
@@ -135,6 +133,7 @@ public class BatController : MonoBehaviour
     }
     private IEnumerator SwingCoroutine()
     {
+        GameManager.Instance.SoundManager.PlayAudioClipByEntryNameWithRandomPitch("bat_swoosh", 0.8f, 1.2f);
         // Swinging
         {
             col.enabled = true;

@@ -55,6 +55,10 @@ public class PlayerController : MonoBehaviour
         particles = GetComponentInChildren<ParticleSystem>();
         animator = GetComponent<Animator>();
         hittableController = GetComponent<HittableController>();
+        hittableController.onTakeDamage += () =>
+        {
+            SoundManager.PlayAudioClipByEntryNameWithRandomPitch("player_damage", 0.8f, 1.2f);
+        };
         hittableController.onDeath += Die;
     }
 
@@ -79,37 +83,10 @@ public class PlayerController : MonoBehaviour
         }
 
         HandleAnimation();
-        HandleSound();
     }
 
     private const string PlayerStepsEntryName = "player_steps";
     private const string PlayerJumpEntryName = "player_jump";
-
-    private void HandleSound()
-    {
-        if (isGrounded && Mathf.Abs(rigidbodyController.LinearVelocityX) > 0.1f)
-        {
-            if (!SoundManager.IsClipPlaying(PlayerStepsEntryName))
-            {
-                SoundManager.PlayAudioClipByEntryName(PlayerStepsEntryName);
-            }
-        }
-        else
-        {
-            if (SoundManager.IsClipPlaying(PlayerStepsEntryName))
-            {
-                SoundManager.StopAudioClipByEntryName(PlayerStepsEntryName);
-            }
-        }
-
-        if (isJumping && isGrounded)
-        {
-            if (!SoundManager.IsClipPlaying(PlayerJumpEntryName))
-            {
-                SoundManager.PlayAudioClipByEntryNameWithRandomPitch(PlayerJumpEntryName, 0.8f, 1.2f);
-            }
-        }
-    }
 
     private void HandleAnimation()
     {
@@ -178,6 +155,17 @@ public class PlayerController : MonoBehaviour
             * (sprintSpeed - moveSpeed);
         var totalMoveSpeed = currentMoveSpeed + currentSprintSpeed;
         rigidbodyController.SetVelocityX(totalMoveSpeed);
+
+        if (!Mathf.Approximately(totalMoveSpeed, 0f) && !SoundManager.IsClipPlaying(PlayerStepsEntryName))
+        {
+            SoundManager.PlayAudioClipByEntryName(PlayerStepsEntryName);
+            // // set clip speed based on movement speed
+            // float 
+            // float speedRatio = Mathf.Clamp01((moveSpeed + Mathf.Abs(totalMoveSpeed)) / sprintSpeed);
+            // float speedFactor = MathHelper.ClampAndMap(speedRatio, moveSpeed / sprintSpeed, 1f, 1f, 2f);
+            // SoundManager.SetPlaybackSpeed(PlayerStepsEntryName, speedFactor);
+        }
+        animator.SetFloat("Speed", Mathf.Abs(totalMoveSpeed));
     }
 
     private void FlipX(bool flip)
@@ -201,6 +189,10 @@ public class PlayerController : MonoBehaviour
         {
             var force = jumpForce;
             rigidbodyController.SetVelocityY(force);
+            if (!SoundManager.IsClipPlaying(PlayerJumpEntryName))
+            {
+                SoundManager.PlayAudioClipByEntryNameWithRandomPitch(PlayerJumpEntryName, 0.8f, 1.2f);
+            }
             isJumping = true;
         }    
         wasInputJumpPressedInLastFrame = inputJump;
@@ -257,7 +249,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (wasAttackingInLastFrame)
         {
-            batController.Swing(lastAttackDirection);
+            batController.SwingForController(lastAttackDirection);
         }
         if (isAttacking)
         {
@@ -269,6 +261,7 @@ public class PlayerController : MonoBehaviour
     public void Die()
     {
         GameManager.Instance.LoadSceneManager.ReloadCurrentScene();
+        GameManager.Instance.SoundManager.PlayAudioClipByEntryName("player_dead");
     }
 
     private void OnDrawGizmosSelected()

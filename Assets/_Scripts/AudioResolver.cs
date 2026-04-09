@@ -47,4 +47,9 @@ public class AudioResolver : MonoBehaviour
         _audioSource.pitch = UnityEngine.Random.Range(minPitch, maxPitch);
         PlayClip(false);
     }
+
+    internal void SetPlaybackSpeed(float speedFactor)
+    {
+        _audioSource.pitch = speedFactor;
+    }
 }
