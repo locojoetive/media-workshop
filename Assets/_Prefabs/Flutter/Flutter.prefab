@@ -180,7 +180,7 @@ MonoBehaviour:
   stunDuration: 0.5
   flashInterval: 0.166
   rigidbodyController: {fileID: 0}
-  isInvincible: 0
+  isInvincible: 1
   isDead: 0
 --- !u!114 &4696793947532094756
 MonoBehaviour:
@@ -223,7 +223,7 @@ MonoBehaviour:
   stayTime: 0
   moveDuration: 3
   moveTime: 0
-  speed: 5
+  speed: 8
   flyState: 0
   idleCatchFallForce: 2
   attackCatchFallForce: 5
