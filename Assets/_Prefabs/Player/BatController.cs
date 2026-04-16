@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Unity.Cinemachine;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
@@ -22,6 +24,7 @@ public class BatController : MonoBehaviour
     public float swingTime;
     public float attackTime;
     public float coolDownTime;
+    public List<Rigidbody2D> hitObjectsThisSwing;
 
 
     [Header("Self-Retrieved References")]
@@ -43,6 +46,7 @@ public class BatController : MonoBehaviour
         originalColor = spriteRenderer.color;
         originalScale = transform.localScale;
         particles.gameObject.SetActive(false);
+        hitObjectsThisSwing = new List<Rigidbody2D>();
     }
 
     void Start()
@@ -64,8 +68,14 @@ public class BatController : MonoBehaviour
             return;
         }
 
+        var otherRigidbody = collision.rigidbody;
+        if (otherRigidbody == null)
+        {
+            return;
+        }
+
         var trajectoryDirection = (Vector2)transform.up;
-        trajectoryDirection.x = AnimationHelper.EaseInQuint(trajectoryDirection.x);
+        // trajectoryDirection.x = AnimationHelper.EaseInQuint(trajectoryDirection.x);
         trajectoryDirection = trajectoryDirection.normalized;
 
         if (collision.gameObject.TryGetComponent<RigidbodyController>(out var rigidbodyController))
@@ -73,22 +83,35 @@ public class BatController : MonoBehaviour
             rigidbodyController.SetVelocityInRespectToMass(trajectoryDirection * attackForce);
             rigidbodyController.FadeMovementForDuration(1f);;
             PlayEffects(attackForce, collision.GetContact(0).point);
-            StartCoroutine(IgnoreCollisionsTemporarilyCoroutine(collision.otherCollider));
-            
         }
-        else if (collision.gameObject.TryGetComponent<Rigidbody2D>(out var rigidbody))
-        {
-            rigidbody.linearVelocity = trajectoryDirection * attackForce / (rigidbody.mass * rigidbody.mass);
+        // Fixed Position XY and free rotation (like a door)
+        else if (otherRigidbody.constraints.HasFlag(RigidbodyConstraints2D.FreezePositionX)
+            && otherRigidbody.constraints.HasFlag(RigidbodyConstraints2D.FreezePositionY)
+            && !otherRigidbody.constraints.HasFlag(RigidbodyConstraints2D.FreezeRotation)
+        ) {
+            var impulse = attackForce * otherRigidbody.mass * trajectoryDirection;
+            var centerToContactPoint = collision.GetContact(0).point - otherRigidbody.worldCenterOfMass;
+            var cross = centerToContactPoint.x * impulse.y - centerToContactPoint.y * impulse.x;
+            var angularImpulse = cross > 0 ? impulse.magnitude : -impulse.magnitude;
+            otherRigidbody.AddTorque(angularImpulse, ForceMode2D.Impulse);
             PlayEffects(attackForce, collision.GetContact(0).point);
-            StartCoroutine(IgnoreCollisionsTemporarilyCoroutine(collision.otherCollider));
         }
+        else
+        {
+            otherRigidbody.linearVelocity = trajectoryDirection * attackForce;
+            Debug.DrawRay(collision.GetContact(0).point, otherRigidbody.linearVelocity, Color.red, 1f);
+            PlayEffects(attackForce, collision.GetContact(0).point);
+        }
+        hitObjectsThisSwing.Add(otherRigidbody);
+        IgnoreCollisions(otherRigidbody, true);
     }
 
-    private IEnumerator IgnoreCollisionsTemporarilyCoroutine(Collider2D otherCollider)
+    private void IgnoreCollisions(Rigidbody2D otherRigidbody, bool ignore = true)
     {
-        Physics2D.IgnoreCollision(col, otherCollider, true);
-        yield return new WaitForSeconds(0.5f);
-        Physics2D.IgnoreCollision(col, otherCollider, false);
+        foreach (var collider in otherRigidbody.GetComponentsInChildren<Collider2D>())
+        {
+            Physics2D.IgnoreCollision(col, collider, ignore);
+        }
     }
 
     private void PlayEffects(float attackForce, Vector2 point)
@@ -209,6 +232,11 @@ public class BatController : MonoBehaviour
         }
 
         isSwinging = false;
+        foreach (var hitObject in hitObjectsThisSwing)
+        {
+            IgnoreCollisions(hitObject, false);
+        }
+        hitObjectsThisSwing.Clear();
     }
 
     public void StartAim()

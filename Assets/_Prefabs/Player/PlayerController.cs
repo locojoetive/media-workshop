@@ -159,11 +159,6 @@ public class PlayerController : MonoBehaviour
         if (!Mathf.Approximately(totalMoveSpeed, 0f) && !SoundManager.IsClipPlaying(PlayerStepsEntryName))
         {
             SoundManager.PlayAudioClipByEntryName(PlayerStepsEntryName);
-            // // set clip speed based on movement speed
-            // float 
-            // float speedRatio = Mathf.Clamp01((moveSpeed + Mathf.Abs(totalMoveSpeed)) / sprintSpeed);
-            // float speedFactor = MathHelper.ClampAndMap(speedRatio, moveSpeed / sprintSpeed, 1f, 1f, 2f);
-            // SoundManager.SetPlaybackSpeed(PlayerStepsEntryName, speedFactor);
         }
         animator.SetFloat("Speed", Mathf.Abs(totalMoveSpeed));
     }
