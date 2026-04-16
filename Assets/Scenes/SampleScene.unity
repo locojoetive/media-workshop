@@ -147,7 +147,7 @@ Transform:
   m_GameObject: {fileID: 92771468}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 80.375, y: -28.125, z: 0}
+  m_LocalPosition: {x: 66.75, y: -28.125, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -208,7 +208,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 70.25, y: 50}
+  m_Size: {x: 43, y: 50}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -1390,6 +1390,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4d0d34eb3feab34cab7297ce6186d2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  impactThreshold: 10
+  shakeIntensity: 0.5
 --- !u!1 &492354753
 GameObject:
   m_ObjectHideFlags: 0
@@ -3707,7 +3709,7 @@ Transform:
   m_GameObject: {fileID: 1716063630}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 124.5, y: -2.5, z: 0}
+  m_LocalPosition: {x: 94.5, y: -2.75, z: 0}
   m_LocalScale: {x: 4.5, y: 0.499975, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4557,7 +4559,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 698958379842943143, guid: f72324e057d84b544a31dce9755d798f, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5007915208263757641, guid: f72324e057d84b544a31dce9755d798f, type: 3}
       propertyPath: speed
@@ -4864,6 +4866,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 743767997955167489, guid: 34479da192a996a4fba2402d521b3f86, type: 3}
+      propertyPath: hangTime
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 743767997955167489, guid: 34479da192a996a4fba2402d521b3f86, type: 3}
+      propertyPath: jumpHeight
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 743767997955167489, guid: 34479da192a996a4fba2402d521b3f86, type: 3}
+      propertyPath: fallDuration
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 743767997955167489, guid: 34479da192a996a4fba2402d521b3f86, type: 3}
+      propertyPath: timeToReachApex
+      value: 0.4
+      objectReference: {fileID: 0}
     - target: {fileID: 3530966009055620480, guid: 34479da192a996a4fba2402d521b3f86, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.99857724

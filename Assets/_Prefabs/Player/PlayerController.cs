@@ -2,14 +2,6 @@ using System;
 using System.Linq;
 using UnityEngine;
 
-public enum PlayerActionType
-{
-    Move,
-    Jump,
-    Attack,
-    Interact
-}
-
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(RigidbodyController))]
 [RequireComponent(typeof(Animator))]
@@ -19,6 +11,7 @@ public class PlayerController : MonoBehaviour
     PlayerInputController playerInput => GameManager.Instance.PlayerInputController;
     private SoundManager SoundManager => GameManager.Instance.SoundManager;
 
+    public enum PlayerActionType { Move, Jump, Attack, Interact }
     public PlayerActionType[] playerActions;
 
     [Header("Movement Settings")]
@@ -168,29 +161,73 @@ public class PlayerController : MonoBehaviour
         transform.localScale = new Vector3(flip ? -1 : 1, 1, 1);
     }
     
+    [Header("Jump Tuning")]
+    public float jumpHeight = 4f;       // Total units to rise
+    public float timeToReachApex = 0.4f; // How fast he elevates
+    public float hangTime = 0.1f;       // How long he stays at peak
+    public float fallDuration = 0.3f;   // How fast he falls back down
+
+    public float jumpTimer;
+    public enum JumpState { Grounded, Rising, Hanging, Falling }
+    public JumpState currentJumpState = JumpState.Grounded;
+
     private void HandleJump()
     {
-        if (rigidbodyController.isFading)
+        bool inputJumpPressed = playerInput.buttonSouthPressed;
+
+        switch (currentJumpState)
         {
-            return;
+            case JumpState.Grounded:
+                if (isGrounded && inputJumpPressed && !wasInputJumpPressedInLastFrame)
+                {
+                    jumpTimer = 0;
+                    currentJumpState = JumpState.Rising;
+                    SoundManager.PlayAudioClipByEntryNameWithRandomPitch(PlayerJumpEntryName, 0.8f, 1.2f);
+                }
+                break;
+
+            case JumpState.Rising:
+                jumpTimer += Time.deltaTime;
+                float risingProgress = jumpTimer / timeToReachApex;
+
+                if (!inputJumpPressed)
+                {
+                    currentJumpState = JumpState.Falling;
+                    break;
+                }
+                if (risingProgress >= 1.0f)
+                {
+                    jumpTimer = 0;
+                    currentJumpState = JumpState.Hanging;
+                    break;
+                }
+
+                float ease = AnimationHelper.EaseOutSquare(risingProgress);
+                float upVelocity = jumpHeight * ease;
+                rigidbodyController.SetVelocityY(upVelocity);
+                break;
+
+            case JumpState.Hanging:
+                jumpTimer += Time.deltaTime;
+                if (!inputJumpPressed || jumpTimer >= hangTime)
+                {
+                    jumpTimer = 0;
+                    currentJumpState = JumpState.Falling;
+                    break;
+                }
+                // Maintain slight hover or zero Y velocity here
+                rigidbodyController.SetVelocityY(0);
+                break;
+
+            case JumpState.Falling:
+                if (isGrounded) 
+                {
+                    currentJumpState = JumpState.Grounded;
+                }
+                break;
         }
-        var inputJump = playerInput.buttonSouthPressed;
-        jumpSpeedLow = Mathf.Abs(rigidbodyController.LinearVelocityY) <= 0.5f;
-        if (isJumping && jumpSpeedLow)
-        {
-            isJumping = false;
-        }
-        else if (!isJumping && isGrounded && inputJump && !wasInputJumpPressedInLastFrame)
-        {
-            var force = jumpForce;
-            rigidbodyController.SetVelocityY(force);
-            if (!SoundManager.IsClipPlaying(PlayerJumpEntryName))
-            {
-                SoundManager.PlayAudioClipByEntryNameWithRandomPitch(PlayerJumpEntryName, 0.8f, 1.2f);
-            }
-            isJumping = true;
-        }    
-        wasInputJumpPressedInLastFrame = inputJump;
+
+        wasInputJumpPressedInLastFrame = inputJumpPressed;
     }
 
     [Header("Attack")]

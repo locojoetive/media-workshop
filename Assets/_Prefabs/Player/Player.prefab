@@ -11017,13 +11017,14 @@ MonoBehaviour:
   attackDuration: 0.1
   coolDownDuration: 0.05
   aimScale: 1
-  swingScale: 2
+  swingScale: 4
   isSwinging: 0
   isAiming: 0
   attackForce: 0
   swingTime: 0
   attackTime: 0
   coolDownTime: 0
+  hitObjectsThisSwing: []
   col: {fileID: 0}
   spriteRenderer: {fileID: 0}
   originalRotation: {x: 0, y: 0, z: 0, w: 0}
@@ -11410,6 +11411,12 @@ MonoBehaviour:
   isJumping: 0
   jumpSpeedLow: 0
   isOnWall: 0
+  jumpHeight: 40
+  timeToReachApex: 0.4
+  hangTime: 0
+  fallDuration: 0
+  jumpTimer: 0
+  currentJumpState: 0
   batController: {fileID: 6116253482916216612}
   wasAttackingInLastFrame: 0
   lastAttackDirection: {x: 0, y: 0}

@@ -16,4 +16,15 @@ public static class AnimationHelper
     {
         return x * x * x * x * x;
     }
+
+    internal static float EaseInSquare(float x)
+    {
+        return x * x;
+    }
+
+    internal static float EaseOutSquare(float x)
+    {
+        return EaseInSquare(1f - x);
+    }
+
 }
