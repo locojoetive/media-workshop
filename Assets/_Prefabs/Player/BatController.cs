@@ -108,7 +108,13 @@ public class BatController : MonoBehaviour
 
     private void IgnoreCollisions(Rigidbody2D otherRigidbody, bool ignore = true)
     {
-        foreach (var collider in otherRigidbody.GetComponentsInChildren<Collider2D>())
+        // if otherRigidbody is not destroyed
+        if (!otherRigidbody.gameObject.activeInHierarchy)
+        {
+            return;
+        }
+        var colliders = otherRigidbody.GetComponentsInChildren<Collider2D>();
+        foreach (var collider in colliders)
         {
             Physics2D.IgnoreCollision(col, collider, ignore);
         }
