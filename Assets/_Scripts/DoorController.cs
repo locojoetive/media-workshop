@@ -13,6 +13,9 @@ public class DoorController : MonoBehaviour
     public float doorTime = 0f;
     public float doorDuration = 1f;
 
+    private Coroutine openDoorCoroutine;
+    private Coroutine closeDoorCoroutine;
+
     
     public void OpenDoor()
     {
@@ -20,9 +23,15 @@ public class DoorController : MonoBehaviour
         {
             return;
         }
+
+        if (doorState == DoorState.Closing)
+        {
+            StopCoroutine(closeDoorCoroutine);
+        }
+
         doorState = DoorState.Opening;
 
-        StartCoroutine(OpenDoorCoroutine());
+        openDoorCoroutine = StartCoroutine(OpenDoorCoroutine());
     }
 
     private IEnumerator OpenDoorCoroutine()
@@ -48,9 +57,15 @@ public class DoorController : MonoBehaviour
         {
             return;
         }
+
+        if (doorState == DoorState.Opening)
+        {
+            StopCoroutine(openDoorCoroutine);
+        }
+
         doorState = DoorState.Closing;
 
-        StartCoroutine(CloseDoorCoroutine());
+        closeDoorCoroutine = StartCoroutine(CloseDoorCoroutine());
     }
 
     private IEnumerator CloseDoorCoroutine()

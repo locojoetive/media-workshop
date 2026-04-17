@@ -3,12 +3,12 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(SpriteRenderer))]
-public class SwitchController : MonoBehaviour
+public class ToggleSwitchController : MonoBehaviour
 {
     public SpriteRenderer spriteRenderer;
     public Color active;
     public Color inactive;
-    public bool isActive = true;
+    public bool isActive = false;
     public UnityEvent onSwitchActive;
     public UnityEvent onSwitchInactive;
 
@@ -16,6 +16,7 @@ public class SwitchController : MonoBehaviour
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        isActive = false;
         spriteRenderer.color = inactive;
     }
 
@@ -31,7 +32,7 @@ public class SwitchController : MonoBehaviour
 
 
 
-        if (isActive)
+        if (!isActive)
         {
             onSwitchActive.Invoke();
             spriteRenderer.color = active;
