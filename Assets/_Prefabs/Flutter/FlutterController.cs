@@ -34,6 +34,8 @@ public class FlutterController : MonoBehaviour
     public RigidbodyController rigidbodyController;
     public HittableController hittableController;
 
+    public string audioResolverId;
+
 
     #region LifeCycle
     private void Awake()
@@ -47,6 +49,7 @@ public class FlutterController : MonoBehaviour
 
     private void Start()
     {
+        audioResolverId = GetComponentInChildren<AudioResolver>().objectId;
         originalHeight = transform.position.y;
         attack.onIdle = OnIdle;
         attack.onCoolDown = OnCoolDown;
@@ -56,7 +59,7 @@ public class FlutterController : MonoBehaviour
 
         hittableController.onTakeDamage += () =>
         {
-            GameManager.Instance.SoundManager.PlayAudioClipByEntryNameWithRandomPitch("flutter_damage", 0.8f, 1.2f);
+            GameManager.Instance.SoundManager.PlayAudioClipByEntryNameWithRandomPitch(audioResolverId, "flutter_damage", 0.8f, 1.2f);
         };
     }
 
@@ -217,9 +220,9 @@ public class FlutterController : MonoBehaviour
                 rigidbodyController.SetVelocityY(maxFlutterSpeed);
                 if (rigidbodyController.Position.y > targetHeight || rigidbodyController.LinearVelocityY >= targetMaximumFlutterSpeed)
                 {
-                    if (!GameManager.Instance.SoundManager.IsClipPlaying("flutter_fly"))
+                    if (!GameManager.Instance.SoundManager.IsClipPlaying(audioResolverId, "flutter_fly"))
                     {
-                        GameManager.Instance.SoundManager.PlayAudioClipByEntryNameWithRandomPitch("flutter_fly", 1f, 1.1f);
+                        GameManager.Instance.SoundManager.PlayAudioClipByEntryNameWithRandomPitch(audioResolverId, "flutter_fly", 1f, 1.1f);
                     }
                     flyState = FlyStateType.Flying;
                 }
@@ -274,7 +277,7 @@ public class FlutterController : MonoBehaviour
 
     private void OnAttack()
     {
-        GameManager.Instance.SoundManager.PlayAudioClipByEntryNameWithRandomPitch("flutter_attack", 1f, 1.1f);
+        GameManager.Instance.SoundManager.PlayAudioClipByEntryNameWithRandomPitch(audioResolverId, "flutter_attack", 1f, 1.1f);
         rigidbodyController.SetVelocity(new Vector2(0.75f * rigidbodyController.LinearVelocityX, recoilForce));
         rigidbodyController.FadeMovementForDuration(1f);
         var projectile = Instantiate(

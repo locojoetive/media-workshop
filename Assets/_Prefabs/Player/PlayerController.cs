@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using UnityEngine;
+using UnityHelper;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(RigidbodyController))]
@@ -40,6 +41,7 @@ public class PlayerController : MonoBehaviour
     public bool jumpSpeedLow;
     public bool isOnWall;
     private bool wasInputJumpPressedInLastFrame = false;
+    public string audioResolverId;
 
     private void Awake()
     {
@@ -48,11 +50,18 @@ public class PlayerController : MonoBehaviour
         particles = GetComponentInChildren<ParticleSystem>();
         animator = GetComponent<Animator>();
         hittableController = GetComponent<HittableController>();
+        
+    }
+
+    private void Start()
+    {
+        audioResolverId = UnityComponentExtension.GetComponentInChildren<AudioResolver>(gameObject, 2).objectId;
         hittableController.onTakeDamage += () =>
         {
-            SoundManager.PlayAudioClipByEntryNameWithRandomPitch("player_damage", 0.8f, 1.2f);
+            SoundManager.PlayAudioClipByEntryNameWithRandomPitch(audioResolverId, "player_damage", 0.8f, 1.2f);
         };
         hittableController.onDeath += Die;
+        
     }
 
     private void Update()
@@ -149,9 +158,9 @@ public class PlayerController : MonoBehaviour
         var totalMoveSpeed = currentMoveSpeed + currentSprintSpeed;
         rigidbodyController.SetVelocityX(totalMoveSpeed);
 
-        if (!Mathf.Approximately(totalMoveSpeed, 0f) && !SoundManager.IsClipPlaying(PlayerStepsEntryName))
+        if (!Mathf.Approximately(totalMoveSpeed, 0f) && !SoundManager.IsClipPlaying(audioResolverId, PlayerStepsEntryName))
         {
-            SoundManager.PlayAudioClipByEntryName(PlayerStepsEntryName);
+            SoundManager.PlayAudioClipByEntryName(audioResolverId, PlayerStepsEntryName);
         }
         animator.SetFloat("Speed", Mathf.Abs(totalMoveSpeed));
     }
@@ -182,7 +191,7 @@ public class PlayerController : MonoBehaviour
                 {
                     jumpTimer = 0;
                     currentJumpState = JumpState.Rising;
-                    SoundManager.PlayAudioClipByEntryNameWithRandomPitch(PlayerJumpEntryName, 0.8f, 1.2f);
+                    SoundManager.PlayAudioClipByEntryNameWithRandomPitch(audioResolverId, PlayerJumpEntryName, 0.8f, 1.2f);
                 }
                 break;
 
@@ -293,7 +302,7 @@ public class PlayerController : MonoBehaviour
     public void Die()
     {
         GameManager.Instance.LoadSceneManager.ReloadCurrentScene();
-        GameManager.Instance.SoundManager.PlayAudioClipByEntryName("player_dead");
+        GameManager.Instance.SoundManager.PlayAudioClipByEntryName(audioResolverId, "player_dead");
     }
 
     private void OnDrawGizmosSelected()

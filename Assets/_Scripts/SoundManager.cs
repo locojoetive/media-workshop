@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SoundManager : MonoBehaviour
@@ -14,7 +15,8 @@ public class SoundManager : MonoBehaviour
         audioResolversDictionary = new Dictionary<string, AudioResolver>();
         foreach (var resolver in FindObjectsByType<AudioResolver>(FindObjectsInactive.Include, FindObjectsSortMode.None))
         {
-            audioResolversDictionary[resolver.entryName] = resolver;
+            resolver.Init();
+            audioResolversDictionary[resolver.id] = resolver;
         }
     }
 
@@ -30,56 +32,51 @@ public class SoundManager : MonoBehaviour
 
     private void Start()
     {
-        PlayAudioClipByEntryName("music", true);
+        var gameManagerInstanceId = transform.parent.gameObject.GetInstanceID().ToString();
+        PlayAudioClipByEntryName(gameManagerInstanceId, "music", true);
     }
 
-    public void StopAudioClipByEntryName(string entryName)
+    public void StopAudioClipByEntryName(string objectId, string entryName)
     {
-        if (audioResolversDictionary.TryGetValue(entryName, out var resolver))
+        var resolverId = objectId + "_" + entryName;
+        if (audioResolversDictionary.TryGetValue(resolverId, out var resolver))
         {
             resolver.StopClip();
             return;
         }
-        Debug.LogWarning($"No AudioResolver found for entry name: {entryName}");
+        Debug.LogWarning($"No AudioResolver found for entry name: {resolverId}");
     }
 
-    public void PlayAudioClipByEntryName(string entryName, bool loop = false)
+    public void PlayAudioClipByEntryName(string objectId, string entryName, bool loop = false)
     {
-        if (audioResolversDictionary.TryGetValue(entryName, out var resolver))
+        var resolverId = objectId + "_" + entryName;
+        if (audioResolversDictionary.TryGetValue(resolverId, out var resolver))
         {
             resolver.PlayClip(loop);
             return;
         }
-        Debug.LogWarning($"No AudioResolver found for entry name: {entryName}");
+        Debug.LogWarning($"No AudioResolver found for entry name: {resolverId}");
     }
 
-    public bool IsClipPlaying(string entryName)
+    public bool IsClipPlaying(string objectId, string entryName)
     {
-        if (audioResolversDictionary.TryGetValue(entryName, out var resolver))
+        var resolverId = objectId + "_" + entryName;
+        if (audioResolversDictionary.TryGetValue(resolverId, out var resolver))
         {
             return resolver.IsPlaying();
         }
-        Debug.LogWarning($"No AudioResolver found for entry name: {entryName}");
+        Debug.LogWarning($"No AudioResolver found for entry name: {resolverId}");
         return false;
     }
 
-    internal void PlayAudioClipByEntryNameWithRandomPitch(string entryName, float minPitch, float maxPitch)
+    internal void PlayAudioClipByEntryNameWithRandomPitch(string objectId, string entryName, float minPitch, float maxPitch)
     {
-        if (audioResolversDictionary.TryGetValue(entryName, out var resolver))
+        var resolverId = objectId + "_" + entryName;
+        if (audioResolversDictionary.TryGetValue(resolverId, out var resolver))
         {
             resolver.PlayAudioClipByEntryNameWithRandomPitch(minPitch, maxPitch);
             return;
         }
-        Debug.LogWarning($"No AudioResolver found for entry name: {entryName}");
-    }
-
-    internal void SetPlaybackSpeed(string playerStepsEntryName, float speedFactor)
-    {
-        if (audioResolversDictionary.TryGetValue(playerStepsEntryName, out var resolver))
-        {
-            resolver.SetPlaybackSpeed(speedFactor);
-            return;
-        }
-        Debug.LogWarning($"No AudioResolver found for entry name: {playerStepsEntryName}");
+        Debug.LogWarning($"No AudioResolver found for entry name: {resolverId}");
     }
 }

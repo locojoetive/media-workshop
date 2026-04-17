@@ -34,6 +34,8 @@ public class JumperController : MonoBehaviour
     public HittableController hittableController;
     public Animator animator;
 
+    public string audioResolverId;
+
     private void Awake()
     {
         col = GetComponent<Collider2D>();
@@ -45,9 +47,11 @@ public class JumperController : MonoBehaviour
 
     private void Start()
     {
+
+        audioResolverId = GetComponentInChildren<AudioResolver>().objectId;
         hittableController.onTakeDamage += () =>
         {
-            GameManager.Instance.SoundManager.PlayAudioClipByEntryNameWithRandomPitch("jumper_damage", 0.8f, 1.2f);
+            GameManager.Instance.SoundManager.PlayAudioClipByEntryNameWithRandomPitch(audioResolverId, "jumper_damage", 0.8f, 1.2f);
         };
     }
 
@@ -76,7 +80,7 @@ public class JumperController : MonoBehaviour
         idleTime = 0f;
         var horizontalJumpDirection = Mathf.Sign(transform.localScale.x) * jumpLength;
         rigidbodyController.SetVelocity(new Vector2(horizontalJumpDirection, jumpHeight));
-        GameManager.Instance.SoundManager.PlayAudioClipByEntryNameWithRandomPitch("jumper_jump", 0.8f, 1.2f);
+        GameManager.Instance.SoundManager.PlayAudioClipByEntryNameWithRandomPitch(audioResolverId, "jumper_jump", 0.8f, 1.2f);
     }
 
     private void Update()

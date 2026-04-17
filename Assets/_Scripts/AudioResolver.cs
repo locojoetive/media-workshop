@@ -8,8 +8,21 @@ public class AudioResolver : MonoBehaviour
     private SoundLibrary _soundLibrary;
     public string entryName;
 
-    private void Awake()
+    [Header("Debug")]
+    public string objectId;
+    public string id;
+
+    public void Init()
     {
+        if (transform.parent != null)
+        {
+            objectId = transform.parent.gameObject.GetInstanceID().ToString();
+        }
+        else
+        {
+            objectId = gameObject.GetInstanceID().ToString();
+        }
+        id = objectId + "_" + entryName;
         _audioSource = GetComponent<AudioSource>();
         _soundLibrary = GameManager.Instance.SoundManager.soundLibrary;
         if (string.IsNullOrEmpty(entryName))

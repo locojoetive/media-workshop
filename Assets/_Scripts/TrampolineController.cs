@@ -13,9 +13,11 @@ public class TrampolineController : MonoBehaviour
     public Vector2 originalScale;
     private Coroutine bounceCoroutine;
     public bool isResetting;
+    public string audioResolverId;
 
     private void Start()
     {
+        audioResolverId = GetComponentInChildren<AudioResolver>().objectId;
         originalScale = transform.localScale;
     }
 
@@ -27,7 +29,7 @@ public class TrampolineController : MonoBehaviour
             return;
         }
 
-        GameManager.Instance.SoundManager.PlayAudioClipByEntryNameWithRandomPitch("trampoline", 0.8f, 1.2f);
+        GameManager.Instance.SoundManager.PlayAudioClipByEntryNameWithRandomPitch(audioResolverId, "trampoline", 0.8f, 1.2f);
         
         var normal = -collision.GetContact(0).normal;
         var bounceDirection = normal.normalized;

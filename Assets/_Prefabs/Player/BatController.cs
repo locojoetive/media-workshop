@@ -36,6 +36,9 @@ public class BatController : MonoBehaviour
     public Color originalColor;
     public ParticleSystem particles;
 
+    public string audioResolverId;
+
+
 
     private void Awake()
     {
@@ -51,6 +54,7 @@ public class BatController : MonoBehaviour
 
     void Start()
     {
+        audioResolverId = GetComponentInChildren<AudioResolver>().objectId;
         originalRotation = transform.rotation;
         aimBaseRotation = Quaternion.Euler(0, 0, 90f);
         
@@ -132,7 +136,7 @@ public class BatController : MonoBehaviour
 
         float shakeIntensity = MathHelper.ClampAndMap(attackForce / originalAttackForce, 0f, 1f, 0f, 0.5f);
         ShakeCamera.Instance.Shake(shakeIntensity, -transform.up);
-        GameManager.Instance.SoundManager.PlayAudioClipByEntryNameWithRandomPitch("bat_attack", 0.8f, 1.2f);
+        GameManager.Instance.SoundManager.PlayAudioClipByEntryNameWithRandomPitch(audioResolverId, "bat_attack", 0.8f, 1.2f);
     }
 
     private IEnumerator TurnOffParticlesCoroutine()
@@ -162,7 +166,7 @@ public class BatController : MonoBehaviour
     }
     private IEnumerator SwingCoroutine()
     {
-        GameManager.Instance.SoundManager.PlayAudioClipByEntryNameWithRandomPitch("bat_swoosh", 0.8f, 1.2f);
+        GameManager.Instance.SoundManager.PlayAudioClipByEntryNameWithRandomPitch(audioResolverId, "bat_swoosh", 0.8f, 1.2f);
         // Swinging
         {
             col.enabled = true;

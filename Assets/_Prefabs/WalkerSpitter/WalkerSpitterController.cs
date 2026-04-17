@@ -28,6 +28,8 @@ public class WalkerSpitterController : MonoBehaviour
     public bool isGrounded;
     public bool isWallAhead;
     public bool isGroundAhead;
+    public string audioResolverId;
+
 
 
     #region Lifecycle
@@ -37,24 +39,25 @@ public class WalkerSpitterController : MonoBehaviour
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         hittableController = GetComponent<HittableController>();
-        hittableController.onTakeDamage += () =>
-        {
-            GameManager.Instance.SoundManager.PlayAudioClipByEntryNameWithRandomPitch("walker_spitter_damage", 0.8f, 1.2f);
-        };
-        hittableController.onDeath += Die;
     }
-
-    private void Die()
-    { }
 
     private void Start()
     {
+        audioResolverId = GetComponentInChildren<AudioResolver>().objectId;
+        hittableController.onTakeDamage += () =>
+        {
+            GameManager.Instance.SoundManager.PlayAudioClipByEntryNameWithRandomPitch(audioResolverId, "walker_spitter_damage", 0.8f, 1.2f);
+        };
+        hittableController.onDeath += Die;
         attack.onIdle = OnIdle;
         attack.onCoolDown = OnCoolDown;
         attack.onAnticipation = OnAnticipation;
         attack.onAttack = OnAttack;
-        attack.onRecovery = OnRecovery;
+        attack.onRecovery = OnRecovery; 
     }
+
+    private void Die()
+    { }
 
     private void FixedUpdate()
     {
@@ -181,7 +184,7 @@ public class WalkerSpitterController : MonoBehaviour
 
     private void OnAttack()
     {
-        GameManager.Instance.SoundManager.PlayAudioClipByEntryNameWithRandomPitch("walker_spitter_spit", 0.8f, 1.2f);
+        GameManager.Instance.SoundManager.PlayAudioClipByEntryNameWithRandomPitch(audioResolverId, "walker_spitter_spit", 0.8f, 1.2f);
         var projectile = Instantiate(
             projectilePrefab,
             transform.position,

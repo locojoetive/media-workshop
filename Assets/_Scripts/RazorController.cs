@@ -21,6 +21,8 @@ public class RazorController : MonoBehaviour
     public bool isGroundAhead;
     public Rigidbody2D rb;
 
+    public string audioResolverId;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -28,7 +30,8 @@ public class RazorController : MonoBehaviour
 
     private void Start()
     {
-        GameManager.Instance.SoundManager.PlayAudioClipByEntryName("razor_move", true);
+        audioResolverId = GetComponentInChildren<AudioResolver>().objectId;
+        GameManager.Instance.SoundManager.PlayAudioClipByEntryName(audioResolverId, "razor_move", true);
     }
 
     private void FixedUpdate()
