@@ -7,6 +7,13 @@ public class RestartFromCheckpointController : MonoBehaviour
         if (collision.TryGetComponent<PlayerController>(out var _))
         {
             GameManager.Instance.LoadSceneManager.ReloadCurrentScene();
+            return;
+        }
+
+        if (collision.TryGetComponent<ProjectileController>(out var _))
+        {
+            Destroy(gameObject);
+            return;
         }
     }
 }

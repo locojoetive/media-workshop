@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -13,6 +14,7 @@ public class ProjectileController : MonoBehaviour
     private Collider2D col;
     private SpriteRenderer spriteRenderer;
     private Coroutine lifetimeCoroutine;
+    public Action onEndOfLifetime;
 
     private void Awake()
     {
@@ -35,7 +37,7 @@ public class ProjectileController : MonoBehaviour
     internal void Initialize(Vector3 projectileShootDirection)
     {
         rb.linearVelocity = projectileShootDirection;
-        rb.angularVelocity = Random.Range(-200f, 200f);
+        rb.angularVelocity = UnityEngine.Random.Range(-200f, 200f);
     }
 
     private IEnumerator LifetimeCoroutine()
@@ -138,6 +140,7 @@ public class ProjectileController : MonoBehaviour
         transform.localScale = transform.localScale * 0.5f;
         col.enabled = false;
         spriteRenderer.color = Color.gray;
+        onEndOfLifetime?.Invoke();
         StartCoroutine(DissolveCoroutine());
     }
 

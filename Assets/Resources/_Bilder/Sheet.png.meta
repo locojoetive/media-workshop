@@ -48,7 +48,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 32
@@ -900,7 +900,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 192
-        y: 1920
+        y: 1919
         width: 64
         height: 64
       alignment: 9
@@ -2942,13 +2942,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sheet_128
+      name: projectile_egg
       rect:
         serializedVersion: 2
-        x: 2
-        y: 1728
+        x: 0
+        y: 1733
         width: 64
-        height: 64
+        height: 59
       alignment: 9
       pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -2964,7 +2964,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sheet_129
+      name: projectile_mud_ball
       rect:
         serializedVersion: 2
         x: 64
@@ -2986,7 +2986,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sheet_130
+      name: projectile_bomb
       rect:
         serializedVersion: 2
         x: 128
@@ -3008,7 +3008,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sheet_131
+      name: projectile_bounce
       rect:
         serializedVersion: 2
         x: 192
@@ -3646,7 +3646,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sheet_160
+      name: brick_wall
       rect:
         serializedVersion: 2
         x: 0
@@ -3654,7 +3654,7 @@ TextureImporter:
         width: 64
         height: 64
       alignment: 9
-      pivot: {x: 0.5, y: 0.25}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -5054,16 +5054,16 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sheet_224
+      name: pipe
       rect:
         serializedVersion: 2
         x: 0
-        y: 1536
-        width: 64
-        height: 64
+        y: 1408
+        width: 128
+        height: 192
       alignment: 9
-      pivot: {x: 0.5, y: 0.25}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 14, z: 0, w: 26}
       customData: 
       outline: []
       physicsShape: []
@@ -5071,28 +5071,6 @@ TextureImporter:
       bones: []
       spriteID: 812bfbcc3e339544b9105b1573198fc6
       internalID: 1123630339
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Sheet_225
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 1536
-        width: 64
-        height: 64
-      alignment: 9
-      pivot: {x: 0.5, y: 0.25}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 36e6d49fb9b873b47abbb8b8fbc5467c
-      internalID: -2117897616
       vertices: []
       indices: 
       edges: []
@@ -5758,50 +5736,6 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sheet_256
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 1472
-        width: 64
-        height: 64
-      alignment: 9
-      pivot: {x: 0.5, y: 0.25}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2a24a2a98eb426741be4d25b76dc08a5
-      internalID: -1914329160
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Sheet_257
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 1472
-        width: 64
-        height: 64
-      alignment: 9
-      pivot: {x: 0.5, y: 0.25}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b7825235613863444b722b9fb29e1457
-      internalID: -217550714
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: Sheet_258
       rect:
         serializedVersion: 2
@@ -6457,50 +6391,6 @@ TextureImporter:
       bones: []
       spriteID: dd0e1c1ab6c74234eb909c89d7d5e1df
       internalID: -1881143175
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Sheet_288
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 1408
-        width: 64
-        height: 64
-      alignment: 9
-      pivot: {x: 0.5, y: 0.25}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7a25ff1879ba4a8489d837122ad1ffa2
-      internalID: -727041738
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Sheet_289
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 1408
-        width: 64
-        height: 64
-      alignment: 9
-      pivot: {x: 0.5, y: 0.25}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f50fe1d1bef4d6d41a05489cfabcbb69
-      internalID: 1594530954
       vertices: []
       indices: 
       edges: []
@@ -7870,16 +7760,16 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sheet_352
+      name: bridge
       rect:
         serializedVersion: 2
         x: 0
         y: 1280
-        width: 64
+        width: 256
         height: 64
       alignment: 9
-      pivot: {x: 0.5, y: 0.25}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 53, y: 0, z: 19, w: 0}
       customData: 
       outline: []
       physicsShape: []
@@ -7887,50 +7777,6 @@ TextureImporter:
       bones: []
       spriteID: 2ce67679db137124f87ccf7a344b3be6
       internalID: 1667725799
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Sheet_353
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 1280
-        width: 64
-        height: 64
-      alignment: 9
-      pivot: {x: 0.5, y: 0.25}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c063ac1943d5abb428ea226b54dc1f65
-      internalID: -1023312953
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Sheet_354
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 1280
-        width: 64
-        height: 64
-      alignment: 9
-      pivot: {x: 0.5, y: 0.25}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 5b3657f4ff8ff74438b871ee16035814
-      internalID: 764427536
       vertices: []
       indices: 
       edges: []
@@ -22724,11 +22570,7 @@ TextureImporter:
       Sheet_125: -1668957763
       Sheet_126: -237525260
       Sheet_127: -1875701124
-      Sheet_128: -1348852514
-      Sheet_129: -1783461571
       Sheet_13: 1473481683
-      Sheet_130: -2028566184
-      Sheet_131: -503021474
       Sheet_132: -1530812644
       Sheet_133: -1448257761
       Sheet_134: 928696967
@@ -22760,7 +22602,6 @@ TextureImporter:
       Sheet_158: 1535762583
       Sheet_159: -1678569178
       Sheet_16: -906080165
-      Sheet_160: -280581999
       Sheet_161: 1793448649
       Sheet_162: -1713623434
       Sheet_163: 31163062
@@ -22830,7 +22671,6 @@ TextureImporter:
       Sheet_221: -1145045996
       Sheet_222: 2050503129
       Sheet_223: -2107325668
-      Sheet_224: 1123630339
       Sheet_225: -2117897616
       Sheet_226: -1258976454
       Sheet_227: -1130694325
@@ -22968,7 +22808,6 @@ TextureImporter:
       Sheet_35: -2097471253
       Sheet_350: 554611644
       Sheet_351: -1509308435
-      Sheet_352: 1667725799
       Sheet_353: -1023312953
       Sheet_354: 764427536
       Sheet_355: -1351610701
@@ -23678,17 +23517,24 @@ TextureImporter:
       Sheet_997: 1459372948
       Sheet_998: 2117174406
       Sheet_999: 568653692
+      brick_wall: -280581999
+      bridge: 1667725799
       flutter_fly: -795994123
       flutter_projectile: 1671253092
       flutter_sink: -208371861
       jumper_fly: -384594686
       jumper_idle: -268469765
       jumper_sink: -143149125
+      pipe: 1123630339
       player_bat: -811482840
       player_idle_0: -8644889942409211090
       player_idle_1: -1221033482
       player_walk_0: -666782720
       player_walk_1: 1600000297
+      projectile_bomb: -2028566184
+      projectile_bounce: -503021474
+      projectile_egg: -1348852514
+      projectile_mud_ball: -1783461571
       walker_spitter_idle: -275925497
       walker_spitter_idle_1: -282430404
       walker_spitter_projectile: -2033124418
