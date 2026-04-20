@@ -3,9 +3,9 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(Animator))]
 public class StaySwitchController : MonoBehaviour
 {
-    public SpriteRenderer spriteRenderer;
     public List<Collider2D> stayingColliders;
     public Color active;
     public Color inactive;
@@ -13,11 +13,17 @@ public class StaySwitchController : MonoBehaviour
     public UnityEvent onSwitchActive;
     public UnityEvent onSwitchInactive;
 
+    [Header("Self-retrieved References")]
+    public SpriteRenderer spriteRenderer;
+    public Animator animator;
+
 
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
         spriteRenderer.color = inactive;
+        isActive = false;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -34,7 +40,8 @@ public class StaySwitchController : MonoBehaviour
         {
             onSwitchActive.Invoke();
             spriteRenderer.color = active;
-            isActive = false;
+            isActive = true;
+            animator.SetBool("isActive", isActive);
         }
         stayingColliders.Add(other);
     }
@@ -54,7 +61,8 @@ public class StaySwitchController : MonoBehaviour
         {
             onSwitchInactive.Invoke();
             spriteRenderer.color = inactive;
-            isActive = true;
+            isActive = false;
+            animator.SetBool("isActive", isActive);
         }
     }
 }

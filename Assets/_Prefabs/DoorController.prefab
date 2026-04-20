@@ -93,10 +93,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4633319157926931981}
+  - component: {fileID: 830691312413839096}
+  - component: {fileID: 5933554451512318260}
   - component: {fileID: 5982168316547106928}
   - component: {fileID: 3517483479227794375}
-  - component: {fileID: 5933554451512318260}
-  - component: {fileID: 830691312413839096}
   m_Layer: 3
   m_Name: Door
   m_TagString: Untagged
@@ -119,6 +119,36 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7772707926681648027}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &830691312413839096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2283573996112029245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c29cff538c195c249b69c6f2236de67b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteLibrary
+  m_Library: []
+  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: 8d0f5f10246641f44aa03b0714946fc3, type: 3}
+--- !u!114 &5933554451512318260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2283573996112029245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed8b1ae4e4e52b34ea557c1c11e076fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteResolver
+  m_CategoryHash: 1.4218165e-22
+  m_labelHash: 6.2083315e-27
+  m_SpriteKey: 0
+  m_SpriteHash: 898438967
 --- !u!212 &5982168316547106928
 SpriteRenderer:
   serializedVersion: 2
@@ -224,36 +254,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 7}
   m_EdgeRadius: 0
---- !u!114 &5933554451512318260
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2283573996112029245}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed8b1ae4e4e52b34ea557c1c11e076fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteResolver
-  m_CategoryHash: 1.4218165e-22
-  m_labelHash: 6.2083315e-27
-  m_SpriteKey: 0
-  m_SpriteHash: 898438967
---- !u!114 &830691312413839096
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2283573996112029245}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c29cff538c195c249b69c6f2236de67b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteLibrary
-  m_Library: []
-  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: 8d0f5f10246641f44aa03b0714946fc3, type: 3}
 --- !u!1 &8551792565710529578
 GameObject:
   m_ObjectHideFlags: 0

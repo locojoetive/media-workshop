@@ -28,8 +28,6 @@ public class TimerSwitchController : MonoBehaviour
         {
             return;
         }
-        Debug.Log("Something entered the Timer Switch");
-
         if (!other.TryGetComponent<PlayerController>(out var _)
             && !other.TryGetComponent<BatController>(out var _)
             && !other.TryGetComponent<ProjectileController>(out var _)
@@ -38,7 +36,6 @@ public class TimerSwitchController : MonoBehaviour
             return;
         }
 
-        Debug.Log("Activate Timer Switch");
         isActive = true;
         StartCoroutine(DeactivateAfterTimeLimit());
     }
@@ -48,6 +45,7 @@ public class TimerSwitchController : MonoBehaviour
         onSwitchActive.Invoke();
         Debug.Log("onswitchactive invoked");
         spriteRenderer.color = active;
+        transform.rotation = Quaternion.Euler(0f, 0f, 180f);
 
         float elapsedTime = 0f;
         float toggleTime = 0f;
@@ -64,10 +62,12 @@ public class TimerSwitchController : MonoBehaviour
                 toggleAfterSeconds = 0.125f * (activeDuration - elapsedTime);
                 spriteRenderer.color = toggle ? active : inactive;
             }
+            transform.rotation = Quaternion.Euler(0f, 0f, 180f * (1f - elapsedTime / activeDuration));
             yield return null;
         }
         onSwitchInactive.Invoke();
         spriteRenderer.color = inactive;
         isActive = false;
+        transform.rotation = Quaternion.Euler(0f, 0f, 0f);
     }
 }

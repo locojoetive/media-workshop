@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Ground Check Settings")]
     public LayerMask groundLayer;
+    public LayerMask wallLayer;
 
     public Transform groundCheck;
     public Transform wallCheck;
@@ -130,7 +131,7 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, groundLayer) != null;
-        isOnWall = Physics2D.OverlapCircle(wallCheck.position, checkRadius, groundLayer) != null;
+        isOnWall = Physics2D.OverlapCircle(wallCheck.position, checkRadius, wallLayer) != null;
     }
 
     private void HandleMovement()

@@ -5142,6 +5142,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioResolver
   entryName: bat_swoosh
+  objectId: 
+  id: 
 --- !u!1 &2535478715567871886
 GameObject:
   m_ObjectHideFlags: 0
@@ -5614,6 +5616,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioResolver
   entryName: player_jump
+  objectId: 
+  id: 
 --- !u!1 &4740931538079431509
 GameObject:
   m_ObjectHideFlags: 0
@@ -10677,6 +10681,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioResolver
   entryName: player_dead
+  objectId: 
+  id: 
 --- !u!1 &6349242058648898863
 GameObject:
   m_ObjectHideFlags: 0
@@ -10829,6 +10835,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioResolver
   entryName: player_damage
+  objectId: 
+  id: 
 --- !u!1 &6433457114727892066
 GameObject:
   m_ObjectHideFlags: 0
@@ -11032,6 +11040,7 @@ MonoBehaviour:
   originalScale: {x: 0, y: 0, z: 0}
   originalColor: {r: 0, g: 0, b: 0, a: 0}
   particles: {fileID: 6964260094685992776}
+  audioResolverId: 
   targetDirection: {x: 0, y: 0}
   cinemachineBrain: {fileID: 0}
   mouseAimLineRenderer: {fileID: 8152961285144047291}
@@ -11217,6 +11226,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioResolver
   entryName: bat_attack
+  objectId: 
+  id: 
 --- !u!1 &8711125403106772689
 GameObject:
   m_ObjectHideFlags: 0
@@ -11372,7 +11383,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b70792eb645ac1b409fe56218fef0399, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HittableController
-  health: 3
+  health: 6
   knockbackForce: 15
   invincibilityDuration: 2
   stunDuration: 0.5
@@ -11398,7 +11409,10 @@ MonoBehaviour:
   jumpForce: 30
   groundLayer:
     serializedVersion: 2
-    m_Bits: 129
+    m_Bits: 649
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 1
   groundCheck: {fileID: 2612245393260184844}
   wallCheck: {fileID: 4888325705992634985}
   checkRadius: 0.2
@@ -11411,6 +11425,7 @@ MonoBehaviour:
   isJumping: 0
   jumpSpeedLow: 0
   isOnWall: 0
+  audioResolverId: 
   jumpHeight: 40
   timeToReachApex: 0.4
   hangTime: 0
@@ -11578,3 +11593,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioResolver
   entryName: player_steps
+  objectId: 
+  id: 

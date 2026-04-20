@@ -3,19 +3,24 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(Animator))]
 public class ToggleSwitchController : MonoBehaviour
 {
-    public SpriteRenderer spriteRenderer;
     public Color active;
     public Color inactive;
     public bool isActive = false;
     public UnityEvent onSwitchActive;
     public UnityEvent onSwitchInactive;
 
+    [Header("Self-retrieved References")]
+    public SpriteRenderer spriteRenderer;
+    public Animator animator;
+
 
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
         isActive = false;
         spriteRenderer.color = inactive;
     }
@@ -32,17 +37,14 @@ public class ToggleSwitchController : MonoBehaviour
 
 
 
-        if (!isActive)
+
+        if (isActive)
         {
-            onSwitchActive.Invoke();
-            spriteRenderer.color = active;
-            isActive = false;
+            return;
         }
-        else
-        {
-            onSwitchInactive.Invoke();
-            spriteRenderer.color = inactive;
-            isActive = true;
-        }
+        onSwitchActive.Invoke();
+        spriteRenderer.color = active;
+        isActive = true;
+        animator.SetBool("isActive", isActive);
     }
 }

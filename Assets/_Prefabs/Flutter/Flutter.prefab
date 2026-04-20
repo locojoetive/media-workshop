@@ -218,6 +218,7 @@ MonoBehaviour:
   rendererController: {fileID: 0}
   rigidbodyController: {fileID: 0}
   hittableController: {fileID: 0}
+  audioResolverId: 
   patrolState: 0
   stayDuration: 1
   stayTime: 0
@@ -533,6 +534,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioResolver
   entryName: flutter_fly
+  objectId: 
+  id: 
 --- !u!1 &3848977517033035700
 GameObject:
   m_ObjectHideFlags: 0
@@ -708,6 +711,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioResolver
   entryName: flutter_damage
+  objectId: 
+  id: 
 --- !u!1 &6001144083530019029
 GameObject:
   m_ObjectHideFlags: 0
@@ -1129,6 +1134,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioResolver
   entryName: flutter_attack
+  objectId: 
+  id: 
 --- !u!1001 &9209272805671567987
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -143,6 +143,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioResolver
   entryName: razor_move
+  objectId: 
+  id: 
 --- !u!1 &697843776863876246
 GameObject:
   m_ObjectHideFlags: 0
@@ -428,6 +430,7 @@ MonoBehaviour:
   isWallAhead: 0
   isGroundAhead: 0
   rb: {fileID: 0}
+  audioResolverId: 
 --- !u!1 &8163606814767252698
 GameObject:
   m_ObjectHideFlags: 0
