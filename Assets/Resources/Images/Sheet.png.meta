@@ -10540,7 +10540,7 @@ TextureImporter:
         width: 64
         height: 64
       alignment: 9
-      pivot: {x: 0.5, y: 0.25}
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -11236,7 +11236,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sheet_512
+      name: flag_0
       rect:
         serializedVersion: 2
         x: 0
@@ -11244,7 +11244,7 @@ TextureImporter:
         width: 64
         height: 64
       alignment: 9
-      pivot: {x: 0.5, y: 0.25}
+      pivot: {x: 0.37390503, y: 0.071}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -11258,7 +11258,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sheet_513
+      name: flag_1
       rect:
         serializedVersion: 2
         x: 64
@@ -11266,7 +11266,7 @@ TextureImporter:
         width: 64
         height: 64
       alignment: 9
-      pivot: {x: 0.5, y: 0.25}
+      pivot: {x: 0.2762835, y: 0.071}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -11940,7 +11940,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sheet_544
+      name: particle_dust
       rect:
         serializedVersion: 2
         x: 0
@@ -11948,7 +11948,7 @@ TextureImporter:
         width: 64
         height: 64
       alignment: 9
-      pivot: {x: 0.5, y: 0.25}
+      pivot: {x: 0.444938, y: 0.43941402}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -11962,7 +11962,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sheet_545
+      name: particle_hit
       rect:
         serializedVersion: 2
         x: 64
@@ -11970,7 +11970,7 @@ TextureImporter:
         width: 64
         height: 64
       alignment: 9
-      pivot: {x: 0.5, y: 0.25}
+      pivot: {x: 0.49559534, y: 0.4988804}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -22973,8 +22973,6 @@ TextureImporter:
       Sheet_51: 1429191483
       Sheet_510: -618002124
       Sheet_511: 661132535
-      Sheet_512: 2097777988
-      Sheet_513: -1838919349
       Sheet_514: -86829571
       Sheet_515: -937188689
       Sheet_516: -185109303
@@ -23008,8 +23006,6 @@ TextureImporter:
       Sheet_541: -1779784217
       Sheet_542: -417000698
       Sheet_543: -158326370
-      Sheet_544: 1989093668
-      Sheet_545: 2137081647
       Sheet_546: -839692261
       Sheet_547: -1519115718
       Sheet_548: -455433820
@@ -23508,6 +23504,8 @@ TextureImporter:
       Sheet_999: 568653692
       brick_wall: -280581999
       bridge: 1667725799
+      flag_0: 2097777988
+      flag_1: -1838919349
       flutter_fly: -795994123
       flutter_projectile: 1671253092
       flutter_sink: -208371861
@@ -23516,6 +23514,8 @@ TextureImporter:
       jumper_fly: -384594686
       jumper_idle: -268469765
       jumper_sink: -143149125
+      particle_dust: 1989093668
+      particle_hit: 2137081647
       pipe: 1123630339
       player_bat: -811482840
       player_idle_0: -8644889942409211090

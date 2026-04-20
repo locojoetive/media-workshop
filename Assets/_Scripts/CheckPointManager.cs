@@ -47,4 +47,9 @@ public class CheckPointManager : MonoBehaviour
     {
         currentCheckPoint = Mathf.Max(currentCheckPoint, id);
     }
+
+    public void SetCheckPoint(int id)
+    {
+        currentCheckPoint = id;
+    }
 }

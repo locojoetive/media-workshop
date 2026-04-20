@@ -169,13 +169,23 @@ MonoBehaviour:
       m_Sprite: {fileID: -1713623434, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
       m_FromMain: 0
       m_SpriteOverride: {fileID: -1713623434, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
-    - m_Name: New Label
-      m_Hash: 259326342
+    - m_Name: flag_0
+      m_Hash: 643165020
+      m_Sprite: {fileID: 2097777988, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 2097777988, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
+    - m_Name: flag_1
+      m_Hash: 290642890
+      m_Sprite: {fileID: -1838919349, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -1838919349, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
+    - m_Name: hinge
+      m_Hash: 1013185925
       m_Sprite: {fileID: -1153068997, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
       m_FromMain: 0
       m_SpriteOverride: {fileID: -1153068997, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
     m_FromMain: 0
-    m_EntryOverrideCount: 6
+    m_EntryOverrideCount: 8
   - m_Name: Bat
     m_Hash: 668036991
     m_CategoryList: []
@@ -256,5 +266,5 @@ MonoBehaviour:
     m_FromMain: 0
     m_EntryOverrideCount: 1
   m_PrimaryLibraryGUID: 
-  m_ModificationHash: 639122945047668445
+  m_ModificationHash: 639123000258108453
   m_Version: 1

@@ -8,6 +8,7 @@ public class PlayerDetectorController : MonoBehaviour
 
     public bool isPlayerDetected;
     public bool wasPlayerDetectedInLastFrame;
+    public LayerMask visionBlockingLayerMask;
     public bool isPlayerInReach;
     public Transform target;
 
@@ -44,10 +45,10 @@ public class PlayerDetectorController : MonoBehaviour
         {
             return;
         }
-        var sourcePosition = transform.parent.position;
+        var sourcePosition = transform.position;
         Debug.DrawLine(sourcePosition, target.position, Color.red);
 
-        RaycastHit2D hit = Physics2D.Linecast(sourcePosition, target.position, LayerMask.GetMask("Default"));
+        RaycastHit2D hit = Physics2D.Linecast(sourcePosition, target.position, visionBlockingLayerMask);
         if (hit.collider == null)
         {
             isPlayerDetected = true;
