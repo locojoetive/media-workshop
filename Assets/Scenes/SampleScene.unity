@@ -6326,7 +6326,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03705ec0638d5784c89b8e1459a499a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  currentCheckPoint: 4
+  currentCheckPoint: 0
 --- !u!1 &1681868955
 GameObject:
   m_ObjectHideFlags: 0
