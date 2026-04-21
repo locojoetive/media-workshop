@@ -11,6 +11,11 @@ public class AudioResolver : MonoBehaviour
     [Header("Debug")]
     public string objectId;
     public string id;
+    void Awake()
+    {
+        Init();
+        GameManager.Instance.SoundManager.RegisterAudioResolver(this);
+    }
 
     public void Init()
     {
@@ -33,7 +38,7 @@ public class AudioResolver : MonoBehaviour
         var clip = _soundLibrary.GetClipByEntryName(entryName);
         if (clip == null)
         {
-            Debug.LogError($"No AudioClip found for entry name: {entryName}", this);
+            Debug.LogWarning($"No AudioClip found for entry name: {entryName}", this);
             return;
         }
         _audioSource.clip = clip;

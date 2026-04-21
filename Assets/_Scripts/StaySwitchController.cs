@@ -16,6 +16,7 @@ public class StaySwitchController : MonoBehaviour
     [Header("Self-retrieved References")]
     public SpriteRenderer spriteRenderer;
     public Animator animator;
+    private string audioResolverId;
 
 
     private void Awake()
@@ -25,12 +26,18 @@ public class StaySwitchController : MonoBehaviour
         spriteRenderer.color = inactive;
         isActive = false;
     }
+    private void Start()
+    {
+        audioResolverId = GetComponentInChildren<AudioResolver>().objectId;
+    }
+
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (!other.TryGetComponent<PlayerController>(out var _)
             && !other.TryGetComponent<BatController>(out var _)
             && !other.TryGetComponent<ProjectileController>(out var _)
+            && !other.TryGetComponent<HittableController>(out var _)
         )
         {
             return;
@@ -42,6 +49,7 @@ public class StaySwitchController : MonoBehaviour
             spriteRenderer.color = active;
             isActive = true;
             animator.SetBool("isActive", isActive);
+            GameManager.Instance.SoundManager.PlayAudioClipByEntryName(audioResolverId, "switch_activate");
         }
         stayingColliders.Add(other);
     }
@@ -51,6 +59,7 @@ public class StaySwitchController : MonoBehaviour
         if (!other.TryGetComponent<PlayerController>(out var _)
             && !other.TryGetComponent<BatController>(out var _)
             && !other.TryGetComponent<ProjectileController>(out var _)
+            && !other.TryGetComponent<HittableController>(out var _)
         )
         {
             return;
@@ -63,6 +72,7 @@ public class StaySwitchController : MonoBehaviour
             spriteRenderer.color = inactive;
             isActive = false;
             animator.SetBool("isActive", isActive);
+            GameManager.Instance.SoundManager.PlayAudioClipByEntryName(audioResolverId, "switch_deactivate");
         }
     }
 }

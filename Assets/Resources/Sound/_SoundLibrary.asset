@@ -45,3 +45,17 @@ MonoBehaviour:
     audioClip: {fileID: 8300000, guid: 13f1eaf7a8be1ec468276945678e91f1, type: 3}
   - entryName: jumper_damage
     audioClip: {fileID: 8300000, guid: 1efe87ba0f6b7c1448b1a3a0589507ce, type: 3}
+  - entryName: switch_activate
+    audioClip: {fileID: 0}
+  - entryName: switch_deactivate
+    audioClip: {fileID: 0}
+  - entryName: door_open
+    audioClip: {fileID: 0}
+  - entryName: door_close
+    audioClip: {fileID: 0}
+  - entryName: projectile_explode
+    audioClip: {fileID: 0}
+  - entryName: projectile_bounce
+    audioClip: {fileID: 0}
+  - entryName: level_cleared
+    audioClip: {fileID: 0}

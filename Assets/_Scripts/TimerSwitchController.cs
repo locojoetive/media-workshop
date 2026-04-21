@@ -14,12 +14,18 @@ public class TimerSwitchController : MonoBehaviour
     public int toggleCount;
     public UnityEvent onSwitchActive;
     public UnityEvent onSwitchInactive;
+    private string audioResolverId;
 
 
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.color = inactive;
+    }
+
+    private void Start()
+    {
+        audioResolverId = GetComponentInChildren<AudioResolver>().objectId;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -31,12 +37,14 @@ public class TimerSwitchController : MonoBehaviour
         if (!other.TryGetComponent<PlayerController>(out var _)
             && !other.TryGetComponent<BatController>(out var _)
             && !other.TryGetComponent<ProjectileController>(out var _)
+            && !other.TryGetComponent<HittableController>(out var _)
         )
         { 
             return;
         }
 
         isActive = true;
+        GameManager.Instance.SoundManager.PlayAudioClipByEntryName(audioResolverId, "switch_activate");
         StartCoroutine(DeactivateAfterTimeLimit());
     }
 
@@ -69,5 +77,6 @@ public class TimerSwitchController : MonoBehaviour
         spriteRenderer.color = inactive;
         isActive = false;
         transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+        GameManager.Instance.SoundManager.PlayAudioClipByEntryName(audioResolverId, "switch_deactivate");
     }
 }

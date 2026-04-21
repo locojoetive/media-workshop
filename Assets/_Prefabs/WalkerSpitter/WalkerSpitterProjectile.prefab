@@ -174,7 +174,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ProjectileController
   canCauseDamage: 0
   isDisabled: 0
-  lifetime: 5
+  lifetime: 15
 --- !u!114 &7953168207626035047
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,8 +187,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed8b1ae4e4e52b34ea557c1c11e076fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteResolver
-  m_CategoryHash: 3.6301493e-20
-  m_labelHash: 1.1758989e-11
+  m_CategoryHash: 7.896702e-11
+  m_labelHash: 1.7145524e-28
   m_SpriteKey: 0
   m_SpriteHash: 609322065
 --- !u!114 &9191027534624214380

@@ -9,25 +9,20 @@ public class SoundManager : MonoBehaviour
 
     public Dictionary<string, AudioResolver> audioResolversDictionary;
 
-    private void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, UnityEngine.SceneManagement.LoadSceneMode mode)
+    public void RegisterAudioResolver(AudioResolver resolver)
     {
-        // Rebuild the dictionary of audio resolvers when a new scene is loaded
-        audioResolversDictionary = new Dictionary<string, AudioResolver>();
-        foreach (var resolver in FindObjectsByType<AudioResolver>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+        if (audioResolversDictionary == null)
         {
-            resolver.Init();
-            audioResolversDictionary[resolver.id] = resolver;
+            audioResolversDictionary = new Dictionary<string, AudioResolver>();
         }
-    }
-
-    private void OnEnable()
-    {
-        UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-    private void OnDisable()
-    {
-        UnityEngine.SceneManagement.SceneManager.sceneLoaded -= OnSceneLoaded;
+        if (!audioResolversDictionary.ContainsKey(resolver.objectId))
+        {
+            audioResolversDictionary.Add(resolver.id, resolver);
+        }
+        else
+        {
+            Debug.LogWarning($"AudioResolver with objectId {resolver.objectId} is already registered.");
+        }
     }
 
     private void Start()

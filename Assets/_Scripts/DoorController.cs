@@ -16,6 +16,13 @@ public class DoorController : MonoBehaviour
     private Coroutine openDoorCoroutine;
     private Coroutine closeDoorCoroutine;
 
+    private string audioResolverId;
+
+    private void Start()
+    {
+        audioResolverId = GetComponentInChildren<AudioResolver>().objectId;
+    }
+
     
     public void OpenDoor()
     {
@@ -32,6 +39,7 @@ public class DoorController : MonoBehaviour
         doorState = DoorState.Opening;
 
         openDoorCoroutine = StartCoroutine(OpenDoorCoroutine());
+        GameManager.Instance.SoundManager.PlayAudioClipByEntryName(audioResolverId, "door_open");
     }
 
     private IEnumerator OpenDoorCoroutine()
@@ -66,6 +74,7 @@ public class DoorController : MonoBehaviour
         doorState = DoorState.Closing;
 
         closeDoorCoroutine = StartCoroutine(CloseDoorCoroutine());
+        GameManager.Instance.SoundManager.PlayAudioClipByEntryName(audioResolverId, "door_close");
     }
 
     private IEnumerator CloseDoorCoroutine()

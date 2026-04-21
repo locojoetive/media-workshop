@@ -39,6 +39,17 @@ MonoBehaviour:
       m_SpriteOverride: {fileID: 1600000297, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
     m_FromMain: 0
     m_EntryOverrideCount: 4
+  - m_Name: Bat
+    m_Hash: 668036991
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: Bat
+      m_Hash: 668036991
+      m_Sprite: {fileID: -811482840, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -811482840, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 1
   - m_Name: Flutter
     m_Hash: 630671126
     m_CategoryList: []
@@ -124,9 +135,9 @@ MonoBehaviour:
     m_OverrideEntries:
     - m_Name: Trampoline
       m_Hash: 454078112
-      m_Sprite: {fileID: -9061985282867633931, guid: 3394e565761400541ae3d1afd0774956, type: 3}
+      m_Sprite: {fileID: -1689186950, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
       m_FromMain: 0
-      m_SpriteOverride: {fileID: -9061985282867633931, guid: 3394e565761400541ae3d1afd0774956, type: 3}
+      m_SpriteOverride: {fileID: -1689186950, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
     m_FromMain: 0
     m_EntryOverrideCount: 1
   - m_Name: Hazard
@@ -186,17 +197,6 @@ MonoBehaviour:
       m_SpriteOverride: {fileID: -1153068997, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
     m_FromMain: 0
     m_EntryOverrideCount: 8
-  - m_Name: Bat
-    m_Hash: 668036991
-    m_CategoryList: []
-    m_OverrideEntries:
-    - m_Name: Bat
-      m_Hash: 668036991
-      m_Sprite: {fileID: -811482840, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
-      m_FromMain: 0
-      m_SpriteOverride: {fileID: -811482840, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
-    m_FromMain: 0
-    m_EntryOverrideCount: 1
   - m_Name: Projectiles
     m_Hash: 783132283
     m_CategoryList: []
@@ -266,5 +266,5 @@ MonoBehaviour:
     m_FromMain: 0
     m_EntryOverrideCount: 1
   m_PrimaryLibraryGUID: 
-  m_ModificationHash: 639123000258108453
+  m_ModificationHash: 639123869525544002
   m_Version: 1
