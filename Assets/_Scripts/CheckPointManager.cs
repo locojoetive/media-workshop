@@ -37,10 +37,13 @@ public class CheckPointManager : MonoBehaviour
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         Init();
-        var spawnPlayerAt = checkPoints[currentCheckPoint].transform;
-        var player = FindFirstObjectByType<PlayerController>();
-        player.transform.position = spawnPlayerAt.position;
-        player.transform.rotation = spawnPlayerAt.rotation;
+        if (checkPoints.TryGetValue(currentCheckPoint, out var checkPoint))
+        {
+            var spawnPlayerAt = checkPoint.transform;
+            var player = FindFirstObjectByType<PlayerController>();
+            player.transform.position = spawnPlayerAt.position;
+            player.transform.rotation = spawnPlayerAt.rotation;
+        }
     }
 
     public void UpdateCheckPoint(int id)
