@@ -46,9 +46,9 @@ MonoBehaviour:
   - entryName: jumper_damage
     audioClip: {fileID: 8300000, guid: 1efe87ba0f6b7c1448b1a3a0589507ce, type: 3}
   - entryName: switch_activate
-    audioClip: {fileID: 0}
+    audioClip: {fileID: 8300000, guid: cdb17563413d89249add64c1f60467bc, type: 3}
   - entryName: switch_deactivate
-    audioClip: {fileID: 0}
+    audioClip: {fileID: 8300000, guid: cdb17563413d89249add64c1f60467bc, type: 3}
   - entryName: door_open
     audioClip: {fileID: 0}
   - entryName: door_close

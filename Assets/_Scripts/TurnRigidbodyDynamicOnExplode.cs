@@ -4,18 +4,17 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class TurnRigidbodyDynamicOnExplode : MonoBehaviour
 {
-    public Rigidbody2D rigidbody;
+    public Rigidbody2D rb;
 
     private void Awake()
     {
-        rigidbody = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     public void Explode(Vector2 explisionForce)
     {
-        Debug.Log("BOOM");
-        rigidbody.bodyType = RigidbodyType2D.Dynamic;
-        var position = rigidbody.position;
-        rigidbody.AddForce(explisionForce, ForceMode2D.Impulse);
+        rb.bodyType = RigidbodyType2D.Dynamic;
+        var position = rb.position;
+        rb.AddForce(explisionForce, ForceMode2D.Impulse);
     }
 }
