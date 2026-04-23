@@ -118,6 +118,30 @@ public class PlayerInputController : MonoBehaviour
         mouseLeftButtonPressed = inputValue.isPressed;
     }
 
+    #region Mobile Inputs
+    public void OnMobileLeftStick(float value)
+    {
+        rightTriggerValue = Mathf.Approximately(value, 0f) ? 0f :  1f;
+        leftStickDirection.x = value;
+    }
+
+    public void OnMobileSouthButton(bool value)
+    {
+        buttonSouthPressed = value;
+    }
+
+    public void OnMobileMousePosition(Vector2 value)
+    {
+        mousePosition = value;
+    }
+
+    public void OnMobileMouseLeftButton(bool value)
+    {
+        mouseLeftButtonPressed = value;
+    }
+
+    #endregion Mobile Inputs
+
     public T GetInputValue<T>(PlayerInputType inputType)
     {
         return inputType switch
