@@ -11,10 +11,15 @@ public class TurnRigidbodyDynamicOnExplode : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-    public void Explode(Vector2 explisionForce)
+    public void Explode(Vector2 explosionForce)
     {
         rb.bodyType = RigidbodyType2D.Dynamic;
-        var position = rb.position;
-        rb.AddForce(explisionForce, ForceMode2D.Impulse);
+        rb.AddForce(explosionForce, ForceMode2D.Impulse);
+
+        // Randomize the spin so every object reacts differently
+        float rotationIntensity = 5f; 
+        float randomSpin = Random.Range(-rotationIntensity, rotationIntensity);
+        
+        rb.AddTorque(randomSpin, ForceMode2D.Impulse);
     }
 }

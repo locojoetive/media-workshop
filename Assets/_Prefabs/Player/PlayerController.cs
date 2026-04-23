@@ -159,9 +159,16 @@ public class PlayerController : MonoBehaviour
         var totalMoveSpeed = currentMoveSpeed + currentSprintSpeed;
         rigidbodyController.SetVelocityX(totalMoveSpeed);
 
-        if (!Mathf.Approximately(totalMoveSpeed, 0f) && !SoundManager.IsClipPlaying(audioResolverId, PlayerStepsEntryName))
+        if (!Mathf.Approximately(totalMoveSpeed, 0f))
         {
-            SoundManager.PlayAudioClipByEntryName(audioResolverId, PlayerStepsEntryName);
+            if (!SoundManager.IsClipPlaying(audioResolverId, PlayerStepsEntryName))
+            {
+                SoundManager.PlayAudioClipByEntryName(audioResolverId, PlayerStepsEntryName);
+            }
+        }
+        else  
+        {
+            SoundManager.StopAudioClipByEntryName(audioResolverId, PlayerStepsEntryName);
         }
         animator.SetFloat("Speed", Mathf.Abs(totalMoveSpeed));
     }

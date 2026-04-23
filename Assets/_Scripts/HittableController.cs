@@ -44,15 +44,25 @@ public class HittableController : MonoBehaviour
 
         if (health <= 0)
         {
-            isDead = true;
-            rigidbodyController.FreeFromConstraints();
-            onDeath?.Invoke();
+            Die();
+            return;
         }
         
         // Knockback
         var knockbackDirection = -collisionNormal.normalized - Mathf.Sign(transform.localScale.x) * Vector2.right;
         rigidbodyController.SetVelocityX(knockbackDirection.normalized.x * knockbackForce);
         rigidbodyController.SetVelocityY(knockbackDirection.normalized.y * knockbackForce);
+    }
+
+    public void Die()
+    {
+        if (isDead)
+        {
+            return;
+        }
+        isDead = true;
+        rigidbodyController.FreeFromConstraints();
+        onDeath?.Invoke();
     }
 
     private IEnumerator StunAndInvincibleCoroutine()

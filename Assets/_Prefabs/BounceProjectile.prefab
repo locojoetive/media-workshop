@@ -89,7 +89,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -2028566184, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
+  m_Sprite: {fileID: -1689186950, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -189,9 +189,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteResolver
   m_CategoryHash: 7.896702e-11
-  m_labelHash: 3.7286405e-34
+  m_labelHash: 3.7433533e-25
   m_SpriteKey: 0
-  m_SpriteHash: 188100388
+  m_SpriteHash: 878685841
 --- !u!114 &-5056307540866476274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -206,7 +206,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ProjectileController
   canCauseDamage: 0
   isDisabled: 0
-  lifetime: 20
+  lifetime: 6
 --- !u!114 &7425877731389694524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,6 +219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9bdd200a10ac5f469ccdb80e8cbd12d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  audioResolverId: 
 --- !u!1 &1705011133284854960
 GameObject:
   m_ObjectHideFlags: 0
@@ -448,7 +449,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 0
   Mute: 0

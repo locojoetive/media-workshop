@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SoundLibrary
   entries:
   - entryName: music
-    audioClip: {fileID: 8300000, guid: 1f59c9ef804dca74d8f04bbf03211ae3, type: 3}
+    audioClip: {fileID: 8300000, guid: dc3a69f48ea8b0a4984557fe3c347cf5, type: 3}
   - entryName: player_steps
     audioClip: {fileID: 8300000, guid: 2e149dd4446587744b1742bfb51a61ee, type: 3}
   - entryName: player_jump
@@ -54,8 +54,8 @@ MonoBehaviour:
   - entryName: door_close
     audioClip: {fileID: 0}
   - entryName: projectile_explode
-    audioClip: {fileID: 0}
+    audioClip: {fileID: 8300000, guid: 9b441478712d8af4fbf03f30250cc538, type: 3}
   - entryName: projectile_bounce
-    audioClip: {fileID: 0}
+    audioClip: {fileID: 8300000, guid: 535e66a6b580f6d4eb1e49ae6d7c033a, type: 3}
   - entryName: level_cleared
     audioClip: {fileID: 0}

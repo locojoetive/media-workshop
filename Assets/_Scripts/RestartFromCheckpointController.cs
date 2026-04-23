@@ -4,9 +4,9 @@ public class RestartFromCheckpointController : MonoBehaviour
 {
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.TryGetComponent<PlayerController>(out var _))
+        if (collision.TryGetComponent<HittableController>(out var hittableController))
         {
-            GameManager.Instance.LoadSceneManager.ReloadCurrentScene();
+            hittableController.Die();
             return;
         }
 

@@ -218,9 +218,9 @@ MonoBehaviour:
       m_SpriteOverride: {fileID: -2028566184, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
     - m_Name: projectile_bounce
       m_Hash: 384283597
-      m_Sprite: {fileID: -503021474, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
+      m_Sprite: {fileID: -1689186950, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
       m_FromMain: 0
-      m_SpriteOverride: {fileID: -503021474, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
+      m_SpriteOverride: {fileID: -1689186950, guid: 41538188f6fb6dd40973261933c1f1d1, type: 3}
     m_FromMain: 0
     m_EntryOverrideCount: 4
   - m_Name: Switches
@@ -266,5 +266,5 @@ MonoBehaviour:
     m_FromMain: 0
     m_EntryOverrideCount: 1
   m_PrimaryLibraryGUID: 
-  m_ModificationHash: 639124683470847368
+  m_ModificationHash: 639125363822826612
   m_Version: 1
